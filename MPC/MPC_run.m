@@ -138,11 +138,19 @@ data.dat.run_starttime(1, Run_num) = GetSecs;
 data.dat.between_fmri_run_start_time(1, Run_num) = data.dat.run_starttime(1, Run_num) - data.dat.fmri_start_time(1, Run_num);
 
 %% Trial start
-if Stimulus_type(1,Run_num) == "heat"
-    data = MPC_trial_heat(window_info, line_parameters, color_values, Trials_num, Stimulus_type, Run_num, Pathway, data, heat_intensity_table);
+
+if Stimulus_type(1, Run_num) == "heat"
+    data = MPC_trial_heat(window_info, line_parameters, color_values, Trials_num, Run_num, Pathway, data, heat_intensity_table);
 else
-    data = MPC_trial_caps(window_info, line_parameters, color_values, Stimulus_type, Run_num, data);
+    data = MPC_trial_caps(window_info, line_parameters, color_values, Run_num, data);
 end
+
+
+% if Stimulus_type(1,Run_num) == "heat"
+%     data = MPC_trial_heat(window_info, line_parameters, color_values, Trials_num, Stimulus_type, Run_num, Pathway, data, heat_intensity_table);
+% else
+%     data = MPC_trial_caps(window_info, line_parameters, color_values, Stimulus_type, Run_num, data);
+% end
 
 
 %% Shutdown eyelink, Saving Biopack end time

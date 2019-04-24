@@ -33,8 +33,6 @@ jitter_1 = [3,6,7];
 jitter_2 = [6,5,3];
 jitter_3 = [4,2,3];
 
-% low_intensity = [40,41,42]; 
-% high_intensity = [45,46,47];
 
 low_intensity = transpose(heat_intensity_table(:,1));
 high_intensity = transpose(heat_intensity_table(:,2));
@@ -67,26 +65,8 @@ end
 %% Trial starts
 for trial= 1 : Trials_num
     %% Random generation for stimulus parameters and jittering
-    rng("shuffle")
-    cue_type_rand = rand();
-    cue_prob_rand = rand();
-    
-    if cue_type_rand > 0.5
-        cue_type = "high";
-        if cue_prob_rand < 0.8
-            cue_prob = "high";
-        else
-            cue_prob = "low";
-        end
-    else
-        cue_type = "low";
-        if cue_prob_rand < 0.8
-            cue_prob = "high";
-        else
-            cue_prob = "low";
-        end
-    end
-    
+    rng("shuffle")    
+    prob_rand = rand();
     jitter_index_rand = rand();
     intensity_index_rand = rand();
     
@@ -108,8 +88,7 @@ for trial= 1 : Trials_num
     
     
     %% Interval wait secs
-    wait_after_cue = 2.5;
-    wait_after_jitter_1 = wait_after_cue + jitter_1(jitter_index); %jitter_1 = [3,6,7]
+    wait_after_jitter_1 = jitter_1(jitter_index); %jitter_1 = [3,6,7]
     wait_after_stimulus = wait_after_jitter_1 + 12;
     wait_after_jitter_2 = wait_after_stimulus + jitter_2(jitter_index); %jitter_2 = [6,5,3];
     wait_after_rating = wait_after_jitter_2 + 5;
@@ -129,48 +108,21 @@ for trial= 1 : Trials_num
     data.dat.trial_starttime(trial, Run_num) = GetSecs;
     data.dat.between_run_trial_starttime(trial, Run_num) = data.dat.trial_starttime(trial, Run_num) - data.dat.run_starttime(1, Run_num);
     
-    %% Cue
+    %% Data recording
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
-    if cue_type == "high" % if cue type is high
-        cue_img = imread('high_cue','jpg');
-        %[s1, s2, s3] = size(cue_img);
-        Screen('PutImage', theWindow, cue_img); %show the overall rating scale
-        Screen('Flip', theWindow);
-                
-    else % if cue type is low    
-        cue_img = imread('low_cue','jpg');
-        %[s1, s2, s3] = size(cue_img);
-        Screen('PutImage', theWindow, cue_img); %show the overall rating scale
-        Screen('Flip', theWindow);
-        
-    end
-    data.dat.cue_time(trial, Run_num) =  GetSecs;
-    data.dat.between_trial_start_cue_time(trial, Run_num) = data.dat.cue_time(trial, Run_num) - data.dat.trial_starttime(trial, Run_num);
-    
-    data.dat.cue_type(trial, Run_num) = cue_type;
-    data.dat.cue_prob(trial, Run_num) = cue_prob;
+
+    data.dat.stim_prob(trial, Run_num) = prob_rand;
     data.dat.jitter_index(trial, Run_num) = jitter_index;
     data.dat.intensity_index(trial, Run_num) = intensity_index;
 
 
     %% Setting stimulus intensity
-    if cue_type == "high" % if cue type is high
-        if cue_prob == "high" % if cue probability is 80%
-            intensity_program = high_intensity_program(intensity_index);
-            stimulus_intensity = high_intensity(intensity_index);
-        else  % if cue probability is 20%
-            intensity_program = low_intensity_program(intensity_index);
-            stimulus_intensity = low_intensity(intensity_index);
-        end
-        
-    else % if cue type is low
-        if cue_prob == "high"  % if cue probability is 80%
-            intensity_program = low_intensity_program(intensity_index);
-            stimulus_intensity = low_intensity(intensity_index);
-        else  % if cue probability is 20%
-            intensity_program = high_intensity_program(intensity_index);
-            stimulus_intensity = high_intensity(intensity_index);
-        end
+    if prob_rand > 0.5
+        intensity_program = high_intensity_program(intensity_index);
+        stimulus_intensity = high_intensity(intensity_index);
+    else
+        intensity_program = low_intensity_program(intensity_index);
+        stimulus_intensity = low_intensity(intensity_index);
     end
     data.dat.stimulus_intensity(trial, Run_num) = stimulus_intensity;
 
@@ -179,11 +131,7 @@ for trial= 1 : Trials_num
     if Pathway
         main(ip,port,1, intensity_program);     % select the program 
     end
-    
-    % Adjusting cue time
-    % wait_after_cue = 2.5;
-    waitsec_fromstarttime(data.dat.trial_starttime(trial, Run_num), wait_after_cue)
-        
+  
 
     %% Jittering1
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
@@ -195,15 +143,17 @@ for trial= 1 : Trials_num
         main(ip,port,2); %ready to pre-start
     end 
     
-    % Adjusting jitter time
-    % wait_after_jitter_1 = wait_after_cue + jitter_1(jitter_index);
     waitsec_fromstarttime(data.dat.trial_starttime(trial, Run_num), wait_after_jitter_1)
 
     
     %% Heat pain stimulus
     if ~Pathway
         Screen(theWindow, 'FillRect', bgcolor, window_rect);
-        DrawFormattedText(theWindow, double('Stimulus'), 'center', 'center', white, [], [], [], 1.2);
+        if prob_rand > 0.5
+            DrawFormattedText(theWindow, double('High Stimulus'), 'center', 'center', white, [], [], [], 1.2);
+        else
+            DrawFormattedText(theWindow, double('Low Stimulus'), 'center', 'center', white, [], [], [], 1.2);
+        end
         Screen('Flip', theWindow);
     end
     
@@ -219,7 +169,6 @@ for trial= 1 : Trials_num
     
     
     %% stimulus time adjusting
-    % wait_after_stimulus = wait_after_jitter_1 + 12;
     waitsec_fromstarttime(data.dat.trial_starttime(trial, Run_num), wait_after_stimulus)
     
     
