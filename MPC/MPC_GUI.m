@@ -354,9 +354,11 @@ Stimulus_type = Stimulus_type(randperm(length(Stimulus_type)));
 data.dat.stimulus_type = Stimulus_type;
 
 %% Start runs
+is_finished_caps = false;
+
 if run
     for Run_num = 1:how_many_runs
-        data = MPC_run(window_info, line_parameters, color_values, how_many_trials, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, ...
+        data = MPC_run(window_info, line_parameters, color_values, how_many_trials, Run_num, Stimulus_type, is_finished_caps, Pathway, USE_BIOPAC, USE_EYELINK, ...
             dofmri, data, heat_intensity_table);
     end
 end
