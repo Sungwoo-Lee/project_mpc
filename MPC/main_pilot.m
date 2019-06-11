@@ -34,7 +34,7 @@ data.dat.pilot_start_time = GetSecs;
 MPC_explain(window_info, line_parameters, color_values);
 MPC_practice(window_info, line_parameters, color_values);
 
-Stimulus_type = ["no_movie_heat", "movie_heat", "movie_heat", "movie_heat", "movie_heat", "movie_heat", "no_movie_heat", "CAPS"];
+Stimulus_type = {'no_movie_heat', 'movie_heat', 'movie_heat', 'movie_heat', 'movie_heat', 'movie_heat', 'no_movie_heat', 'CAPS'};
 
 for Run_num = 1:Run_nums
     data = MPC_run(window_info, line_parameters, color_values, Trials_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table);

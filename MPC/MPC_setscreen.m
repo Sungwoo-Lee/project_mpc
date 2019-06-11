@@ -1,8 +1,8 @@
 function [window_info, line_parameters, color_values] = MPC_setscreen(screen_mode)
 
     screens = Screen('Screens');
-    window_num = screens(1);
-    Screen('Preference', 'SkipSyncTests', 1);
+    window_num = screens(2);
+    Screen('Preference', 'SkipSyncTests', 0);
     window_info = Screen('Resolution', window_num);
     
     switch screen_mode

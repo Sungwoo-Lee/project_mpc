@@ -102,7 +102,7 @@ for trial= 1 : Trials_num
     endtime = GetSecs;
 
     %% Random generation for stimulus parameters and jittering
-    rng("shuffle")    
+    rng('shuffle')    
     prob_rand = rand();
     jitter_index_rand = rand();
     intensity_index_rand = rand();
