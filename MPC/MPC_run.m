@@ -37,7 +37,7 @@ if USE_EYELINK
     edf_filename = 'FILE_NAME_HERE'; % name should be equal or less than 8
     %edf_filename = ['M_' new_SID '_' num2str(runNbr)];
     edfFile = sprintf('%s.EDF', edf_filename);
-    eyelink_main(edfFile, 'Init');
+    eyelink_main(edfFile, window_info, 'Init');
     
     status = Eyelink('Initialize');
     if status
@@ -152,7 +152,7 @@ end
 %% Shutdown eyelink, Saving Biopack end time
 if USE_EYELINK
     Eyelink('Message','Run ends');
-    eyelink_main(edfFile, 'Shutdown');
+    eyelink_main(edfFile, window_info, 'Shutdown');
 end
 
 if USE_BIOPAC %end BIOPAC

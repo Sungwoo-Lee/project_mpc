@@ -9,9 +9,11 @@ basedir = pwd;
 SID = 'sungwoo';
 SubjNum = 001   ; 
 screen_mode = 'Testmode';
+%screen_mode = 'Full';
+
 heat_intensity_table = [40, 45; 41, 46; 42, 47]; % stimulus intensity
  
-Trials_nums = 3;
+Trials_nums = 2;
 Run_nums = 2;
 
 Pathway = false;
