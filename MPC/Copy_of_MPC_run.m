@@ -1,4 +1,4 @@
-function [data] = MPC_run(window_info, line_parameters, color_values, Trials_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table)  
+function [data] = MPC_run(window_info, line_parameters, color_values, Trials_num, Run_num, Stimulus_type, is_finished_caps, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table)  
 
 %Assign variables
 font = window_info.font ;
@@ -50,7 +50,7 @@ end
 
 %% Ready for start run
 while true % To Start, Push Space
-    msgtxt = '\n모두 준비되었으면, a 를 눌러주세요.\n\n (Check Eyelink, Biopack, etc...)\n\n';
+    msgtxt = '\n모두 준비되었으면, a 를 눌러주세요.\n\n (Check Eyelink, Biopack, etc...)\n\n  Push a';
     DrawFormattedText(theWindow, double(msgtxt), 'center', 'center', white, [], [], [], 2);
     Screen('Flip', theWindow);
     
@@ -133,20 +133,24 @@ end
 
 waitsec_fromstarttime(data.dat.fmri_start_time(1, Run_num), 9); % waitting for 9 second from fmri started time
 
-
 %% Saving Run start time
 data.dat.run_starttime(1, Run_num) = GetSecs;
 data.dat.between_fmri_run_start_time(1, Run_num) = data.dat.run_starttime(1, Run_num) - data.dat.fmri_start_time(1, Run_num);
 
-
 %% Trial start
-if Stimulus_type(1, Run_num) == "no_movie_heat"
-    data = MPC_trial_heat(window_info, line_parameters, color_values, Trials_nums, Run_num, Pathway, data, heat_intensity_table);
-elseif Stimulus_type(1, Run_num) == "movie_heat"
-    data = MPC_trial_movie_heat(window_info, line_parameters, color_values, Trials_nums, Run_num, Pathway, data, heat_intensity_table);
+if Stimulus_type(1, Run_num) == "heat"
+    data = MPC_trial_movie_heat(window_info, line_parameters, color_values, Trials_num, Run_num, Pathway, data, heat_intensity_table);
 else
     data = MPC_trial_caps(window_info, line_parameters, color_values, Run_num, data);
+    is_finished_caps=true;
 end
+
+
+% if Stimulus_type(1,Run_num) == "heat"
+%     data = MPC_trial_heat(window_info, line_parameters, color_values, Trials_num, Stimulus_type, Run_num, Pathway, data, heat_intensity_table);
+% else
+%     data = MPC_trial_caps(window_info, line_parameters, color_values, Stimulus_type, Run_num, data);
+% end
 
 
 %% Shutdown eyelink, Saving Biopack end time
@@ -162,7 +166,6 @@ if USE_BIOPAC %end BIOPAC
     waitsec_fromstarttime(bio_t, 0.1); % it should be adjusted
     BIOPAC_trigger(ljHandle, biopac_channel, 'off');
 end
-
 
 %% Saving Data
 data.dat.run_end_time(1, Run_num) = GetSecs;

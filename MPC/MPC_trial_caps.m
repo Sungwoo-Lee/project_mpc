@@ -73,12 +73,12 @@ while true
     
     rec_i = rec_i + 1;
     
-    if button(1)
-        while button(1)
-            [~,~,button] = GetMouse(theWindow);
-        end
-        break
-    end
+%     if button(1)
+%         while button(1)
+%             [~,~,button] = GetMouse(theWindow);
+%         end
+%         break
+%     end
     
     [~,~,keyCode] = KbCheck;
     if keyCode(KbName('q')) == 1
