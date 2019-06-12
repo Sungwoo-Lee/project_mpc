@@ -50,7 +50,7 @@ end
 
 %% Ready for start run
 while true % To Start, Push Space
-    msgtxt = '\n???? ????????????, a ?? ??????????.\n\n (Check Eyelink, Biopack, etc...)\n\n';
+    msgtxt = '\n모두 준비되었으면, a를 눌러주세요.\n\n (Check Eyelink, Biopack, etc...)\n\n';
     DrawFormattedText(theWindow, double(msgtxt), 'center', 'center', white, [], [], [], 2);
     Screen('Flip', theWindow);
     
@@ -66,7 +66,7 @@ end
 
 %% Waitting for 's' or 't' key
 while (1)
-    msgtxt = '\n????(s) \n\n ??????(t)';
+    msgtxt = '\n스캔(s) \n\n 테스트(t)';
     DrawFormattedText(theWindow, double(msgtxt), 'center', 'center', white, [], [], [], 2);
     Screen('Flip', theWindow);
     
@@ -95,7 +95,7 @@ if dofmri
     % gap between 5 key push and the first stimuli (disdaqs: data.disdaq_sec)
     % 5 seconds:
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
-    DrawFormattedText(theWindow, double('?????? ??????????.'), 'center', 'center', white, [], [], [], 1.2);
+    DrawFormattedText(theWindow, double('스캔이 시작됩니다.'), 'center', 'center', white, [], [], [], 1.2);
     Screen('Flip', theWindow);
     waitsec_fromstarttime(data.dat.fmri_start_time(1, Run_num), 5); % ADJUST THIS
 end
