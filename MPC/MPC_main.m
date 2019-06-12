@@ -7,7 +7,7 @@ close all;
 
 basedir = pwd;
 SID = 'sungwoo';
-SubjNum = 008   ; 
+SubjNum = 009; 
 screen_mode = 'Testmode';
 %screen_mode = 'Full';
 
