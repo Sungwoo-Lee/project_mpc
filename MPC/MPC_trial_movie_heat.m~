@@ -1,4 +1,4 @@
-function [data] = MPC_trial_heat(window_info, line_parameters, color_values, Trials_num, Run_num, Pathway, data, heat_intensity_table)
+function [data] = MPC_trial_movie_heat(window_info, line_parameters, color_values, Trials_num, Run_num, Pathway, data, heat_intensity_table)
 global ip port;
 
 %Assign variables
@@ -29,32 +29,32 @@ PathPrg = load_PathProgram('SEMIC');
 
 
 %% Jittering time and random cue & stimulus parameters 
+
 low_intensity = transpose(heat_intensity_table(:,1));
 high_intensity = transpose(heat_intensity_table(:,2));
-
 
 %% Convert stimulus intensity to Pathway program decimal
 size_Path = size(PathPrg);
 size_low_intensity = size(low_intensity);
 size_high_intensity = size(high_intensity);
 
-low_intensity_program = [];
+low_intensity_program=[];
 high_intensity_program = [];
 
 for i = 1:size_low_intensity(2)
-    for j = 1:size_Path(1)
-        if PathPrg{j,1} == low_intensity(1,i)
-            low_intensity_program = [low_intensity_program; PathPrg{j,4}];
-        end
+for j = 1:size_Path(1)
+    if PathPrg{j,1} == low_intensity(1,i)
+        low_intensity_program = [low_intensity_program; PathPrg{j,4}];
     end
+end
 end
 
 for i = 1:size_high_intensity(2)
-    for j = 1:size_Path(1)
-        if PathPrg{j,1} == high_intensity(1,i)
-            high_intensity_program = [high_intensity_program; PathPrg{j,4}];
-        end
+for j = 1:size_Path(1)
+    if PathPrg{j,1} == high_intensity(1,i)
+        high_intensity_program = [high_intensity_program; PathPrg{j,4}];
     end
+end
 end
 
 
@@ -84,15 +84,17 @@ for trial= 1 : Trials_num
     
     
     %% Interval wait secs
-    jitter = [3,4,5];
+    jitter_1 = [3,4,5];
+    jitter_2 = [5,5,5];
     iti = [5,4,3];
     
-    wait_after_stimulus = 12;
-    wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
-    wait_after_rating = wait_after_jitter + 5;
+    wait_after_movie = 20;
+    wait_after_jitter_1 = wait_after_movie + jitter_1(jitter_index);
+    wait_after_stimulus = wait_after_jitter_1 + 12;
+    wait_after_jitter_2 = wait_after_stimulus + jitter_2(jitter_index);
+    wait_after_rating = wait_after_jitter_2 + 5;
     total_trial_time = wait_after_rating + iti(jitter_index);
     between_trial_time = 1;
-    
     
     %% Adjusting between trial time
     if trial > 1
@@ -106,20 +108,18 @@ for trial= 1 : Trials_num
     data.dat.trial_starttime(trial, Run_num) = GetSecs;
     data.dat.between_run_trial_starttime(trial, Run_num) = data.dat.trial_starttime(trial, Run_num) - data.dat.run_starttime(1, Run_num);
     
-    
     %% Data recording
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
-
-    data.dat.nomovie_jitter_value = jitter;
-    data.dat.nomovie_iti_value = iti;
-    data.dat.high_intensity_value = high_intensity;
-    data.dat.low_intensity_value = low_intensity;
+    
+    data.dat.movie_jitter_1_value = jitter_1;
+    data.dat.movie_jitter_2_value = jitter_2;
+    data.dat.movie_iti_value = iti;
     
     data.dat.stim_prob(trial, Run_num) = prob_rand;
     data.dat.jitter_index(trial, Run_num) = jitter_index;
     data.dat.intensity_index(trial, Run_num) = intensity_index;
 
-    
+
     %% Setting stimulus intensity
     if prob_rand > 0.5
         intensity_program = high_intensity_program(intensity_index);
@@ -137,15 +137,61 @@ for trial= 1 : Trials_num
     end
   
 
-%     %% Jittering1
-%     Screen(theWindow, 'FillRect', bgcolor, window_rect);
-%     DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
-%     Screen('Flip', theWindow);
-%     
+    
+    %% Playing movie
+    moviefile = fullfile(pwd, '/Video_test/1280.mp4');
+
+    playmode = 1;
+
+    data.dat.movie_starttime(trial, Run_num) = GetSecs;
+    
+    movie_start = 5;
+    movie_duration = 20;
+
+    [moviePtr, dura] = Screen('OpenMovie', theWindow, moviefile);
+
+    Screen('SetMovieTimeIndex', moviePtr, movie_start);
+    Screen('PlayMovie', moviePtr, playmode); %Screen('PlayMovie?')% 0 == Stop playback, 1 == Normal speed forward, -1 == Normal speed backward,
+
+    t = GetSecs;
+
+    while GetSecs-t < movie_duration %(~done) %~KbCheck
+        % Wait for next movie frame, retrieve texture handle to it
+        tex = Screen('GetMovieImage', theWindow, moviePtr);
+        Screen('DrawTexture', theWindow, tex);
+        Screen('Flip', theWindow);
+        Screen('Close', tex);
+        % Valid texture returned? A negative value means end of movie reached:
+        if tex<=0
+            % We're done, break out of loop:
+            %done = 1;
+            break;
+        end
+        % Update display:
+
+    end
+
+    Screen('PlayMovie', moviePtr,0);
+    Screen('CloseMovie',moviePtr);
+    Screen('Flip', theWindow);
+    
+    data.dat.movie_endtime(trial, Run_num) = GetSecs;
+    data.dat.movie_duration(trial, Run_num) = GetSecs;
+
+    
+    waitsec_fromstarttime(data.dat.trial_starttime(trial, Run_num), wait_after_movie)
+
+    %% Jittering1
+    Screen(theWindow, 'FillRect', bgcolor, window_rect);
+    DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
+    Screen('Flip', theWindow);
+    
     % -------------Ready for Pathway------------------
     if Pathway
         main(ip,port,2); %ready to pre-start
     end 
+    
+    waitsec_fromstarttime(data.dat.trial_starttime(trial, Run_num), wait_after_jitter_1)
 
     
     %% Heat pain stimulus
@@ -178,8 +224,9 @@ for trial= 1 : Trials_num
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
     DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
     Screen('Flip', theWindow);
-
-    waitsec_fromstarttime(data.dat.trial_starttime(trial, Run_num), wait_after_jitter)
+    
+    % wait_after_jitter_2 = wait_after_stimulus + jitter_2(jitter_index);
+    waitsec_fromstarttime(data.dat.trial_starttime(trial, Run_num), wait_after_jitter_2)
 
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
     Screen('Flip', theWindow);
@@ -250,6 +297,13 @@ for trial= 1 : Trials_num
     waitsec_fromstarttime(data.dat.trial_starttime(trial, Run_num), wait_after_rating)
     
     
+    %% Jittering3
+%     Screen(theWindow, 'FillRect', bgcolor, window_rect);
+%     DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
+%     Screen('Flip', theWindow);
+%     
+%     waitsec_fromstarttime(data.dat.trial_starttime(trial, Run_num), wait_after_jitter_3)
+
     
     %% Adjusting total trial time
     Screen(theWindow, 'FillRect', bgcolor, window_rect);

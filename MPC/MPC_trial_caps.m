@@ -25,6 +25,7 @@ white = color_values.white;
 
 %% Adjusting between trial time
 
+caps_stim_duration = 90;
 caps_stim_start = GetSecs;
 data.dat.caps_stim_start = caps_stim_start;
 
@@ -88,7 +89,7 @@ while true
     
     data.dat.continuous_rating(rec_i,1) = GetSecs;
     data.dat.continuous_rating(rec_i,2) = (x-lb)/(rb-lb);    
-    if GetSecs - start_rating > 15
+    if GetSecs - start_rating > caps_stim_duration
         break
     end
 end
@@ -99,15 +100,15 @@ continuous_rating_duration = continuous_rating_end - continuous_rating_start;
 data.dat.continuous_rating_end = continuous_rating_end;
 data.dat.continuous_rating_duration = continuous_rating_duration;
 
-%% Heat pain stimulus -> Continuous rating
-Screen(theWindow, 'FillRect', bgcolor, window_rect);
-DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
-Screen('Flip', theWindow);
-
-waitsec_fromstarttime(caps_stim_start, 23)
-
-
-Screen(theWindow, 'FillRect', bgcolor, window_rect);
-Screen('Flip', theWindow);
+% %% Heat pain stimulus -> Continuous rating
+% Screen(theWindow, 'FillRect', bgcolor, window_rect);
+% DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
+% Screen('Flip', theWindow);
+% 
+% % waitsec_fromstarttime(caps_stim_start, 23)
+% 
+% 
+% Screen(theWindow, 'FillRect', bgcolor, window_rect);
+% Screen('Flip', theWindow);
 
 end
