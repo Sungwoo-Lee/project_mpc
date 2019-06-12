@@ -14,6 +14,7 @@ screen_mode = 'Testmode';
 heat_intensity_table = [40, 45; 41, 46; 42, 47]; % stimulus intensity
 moviefile = fullfile(pwd, '/Video_test/1111.mp4');
 movie_duration = 20;
+caps_stim_duration = 90;
 
 Trial_nums = 3;
 Run_nums = 2;
@@ -42,7 +43,7 @@ Stimulus_type = {'movie_heat', 'movie_heat'};
 %Stimulus_type = {'no_movie_heat', 'movie_heat', 'CAPS'};
 
 for Run_num = 1:Run_nums
-    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration);
+    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
 end
   
 data = MPC_close(window_info, line_parameters, color_values, data);

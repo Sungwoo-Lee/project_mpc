@@ -22,7 +22,7 @@ function varargout = MPC_GUI(varargin)
 
 % Edit the above text to modify the response to help MPC_GUI
 
-% Last Modified by GUIDE v2.5 12-Jun-2019 18:54:37
+% Last Modified by GUIDE v2.5 12-Jun-2019 19:37:06
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -297,8 +297,9 @@ Run_nums = str2num(get(handles.run_num_edit, 'String'));
 
 heat_intensity_table = get(handles.table1, 'data');
 moviefile = get(handles.movie_dir_edit, 'string');
+caps_stim_duration = str2num(get(handles.caps_dur_edit, 'string'));
 
-if moviefile == 'None'
+if strcmp(moviefile,'None')
     error('Movie directory is None. You have to select movie!')
 end
 movie_duration = str2num(get(handles.movie_dur_edit, 'String'));
@@ -353,11 +354,12 @@ end
 
 
 %% Setting Stimulus type list
-Stimulus_type = {'movie_heat', 'movie_heat'};
+%Stimulus_type = {'no_movie_heat', 'movie_heat', 'movie_heat', 'movie_heat', 'movie_heat', 'movie_heat', 'CAPS'};
+Stimulus_type = {'CAPS'};
 %Stimulus_type = {'no_movie_heat', 'movie_heat', 'CAPS'};
 
 for Run_num = 1:Run_nums
-    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration);
+    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
 end
 
 %% Close the experiment
@@ -460,3 +462,26 @@ end
 handles.movie_dir_edit = hObject;
 % Update handles structure
 guidata(hObject, handles);
+
+
+
+function caps_dur_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to caps_dur_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of caps_dur_edit as text
+%        str2double(get(hObject,'String')) returns contents of caps_dur_edit as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function caps_dur_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to caps_dur_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end

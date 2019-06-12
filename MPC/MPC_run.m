@@ -1,4 +1,4 @@
-function [data] = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration)  
+function [data] = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration)  
 
 %Assign variables
 font = window_info.font ;
@@ -153,7 +153,7 @@ elseif strcmp(Stimulus_type(1,Run_num), 'movie_heat')
         end
     end
 else
-    data = MPC_trial_caps(window_info, line_parameters, color_values, Run_num, data);
+    data = MPC_trial_caps(window_info, line_parameters, color_values, Run_num, data, caps_stim_duration);
 end
 
 

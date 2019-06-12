@@ -1,4 +1,4 @@
-function [data] = MPC_trial_caps(window_info, line_parameters, color_values, Run_num, data)
+function [data] = MPC_trial_caps(window_info, line_parameters, color_values, Run_num, data, caps_stim_duration)
 
 %Assign variables
 font = window_info.font ;
@@ -25,7 +25,7 @@ white = color_values.white;
 
 %% Adjusting between trial time
 
-caps_stim_duration = 90;
+%caps_stim_duration = 90;
 caps_stim_start = GetSecs;
 data.dat.caps_stim_start = caps_stim_start;
 
