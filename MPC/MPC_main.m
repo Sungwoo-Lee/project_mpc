@@ -7,14 +7,16 @@ close all;
 
 basedir = pwd;
 SID = 'sungwoo';
-SubjNum = 005   ; 
+SubjNum = 008   ; 
 screen_mode = 'Testmode';
 %screen_mode = 'Full';
 
 heat_intensity_table = [40, 45; 41, 46; 42, 47]; % stimulus intensity
- 
-Trial_nums = 6;
-Run_nums = 1;
+moviefile = fullfile(pwd, '/Video_test/1111.mp4');
+movie_duration = 20;
+
+Trial_nums = 3;
+Run_nums = 2;
 
 Pathway = false;
 USE_BIOPAC = false;
@@ -36,11 +38,11 @@ data.dat.pilot_start_time = GetSecs;
 MPC_explain(window_info, line_parameters, color_values);
 MPC_practice(window_info, line_parameters, color_values);
 
-Stimulus_type = {'movie_heat'};
+Stimulus_type = {'movie_heat', 'movie_heat'};
 %Stimulus_type = {'no_movie_heat', 'movie_heat', 'CAPS'};
 
 for Run_num = 1:Run_nums
-    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table);
+    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration);
 end
   
 data = MPC_close(window_info, line_parameters, color_values, data);

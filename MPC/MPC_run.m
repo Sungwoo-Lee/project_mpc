@@ -1,4 +1,4 @@
-function [data] = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table)  
+function [data] = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration)  
 
 %Assign variables
 font = window_info.font ;
@@ -147,7 +147,7 @@ if strcmp(Stimulus_type(1,Run_num), 'no_movie_heat')
 elseif strcmp(Stimulus_type(1,Run_num), 'movie_heat')
     for Trial_num = 1:Trial_nums
         if rem(Trial_num, 2) == 1
-            data = MPC_trial_movie_heat(window_info, line_parameters, color_values, Trial_num, Run_num, Pathway, data, heat_intensity_table);
+            data = MPC_trial_movie_heat(window_info, line_parameters, color_values, Trial_num, Run_num, Pathway, data, heat_intensity_table, moviefile, movie_duration);
         else
             data = MPC_trial_heat(window_info, line_parameters, color_values, Trial_num, Run_num, Pathway, data, heat_intensity_table);
         end

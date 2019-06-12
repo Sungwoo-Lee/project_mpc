@@ -1,4 +1,4 @@
-function [data] = MPC_trial_movie_heat(window_info, line_parameters, color_values, Trial_num, Run_num, Pathway, data, heat_intensity_table)
+function [data] = MPC_trial_movie_heat(window_info, line_parameters, color_values, Trial_num, Run_num, Pathway, data, heat_intensity_table, moviefile, movie_duration)
 global ip port;
 
 %Assign variables
@@ -143,19 +143,27 @@ end
 
 
 %% Playing movie
-moviefile = fullfile(pwd, '/Video_test/1280.mp4');
-
 playmode = 1;
-movie_duration = 20;
 
 data.dat.movie_dir(Trial_num, Run_num) = {moviefile};
 data.dat.movie_starttime(Trial_num, Run_num) = GetSecs;
 
+size_time = size(data.dat.movie_starttime);
+movie_count = 0;
+for i = 1:size_time(1)
+    for j = 1:size_time(2)
+        if ~isnan(data.dat.movie_starttime(i,j)) & ~data.dat.movie_starttime(i,j)==0
+            movie_count = movie_count+1;
+        end
+    end
+end
+
 [moviePtr, dura] = Screen('OpenMovie', theWindow, moviefile);
 
-movie_start = (Trial_num-1)*20;
+movie_start = (movie_count-1) * movie_duration;
+
 if dura < (movie_start + movie_duration)
-    movie_start = 5;
+    movie_start = dura - movie_duration -1;
 end
 
 data.dat.movie_start_point(Trial_num, Run_num) = movie_start;

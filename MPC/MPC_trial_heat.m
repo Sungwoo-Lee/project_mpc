@@ -30,6 +30,13 @@ PathPrg = load_PathProgram('SEMIC');
 
 %% Saving trial type
 data.dat.trial_type(Trial_num, Run_num) = {'no_movie'};
+data.dat.movie_dir(Trial_num, Run_num) = {nan};
+data.dat.movie_start_point(Trial_num, Run_num) = nan;
+
+data.dat.movie_starttime(Trial_num, Run_num) = nan;
+data.dat.movie_endtime(Trial_num, Run_num) = nan;
+data.dat.movie_duration(Trial_num, Run_num) = nan;
+
 
 %% Jittering time and random cue & stimulus parameters 
 low_intensity = transpose(heat_intensity_table(:,1));
