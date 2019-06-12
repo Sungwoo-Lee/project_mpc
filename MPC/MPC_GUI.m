@@ -22,7 +22,7 @@ function varargout = MPC_GUI(varargin)
 
 % Edit the above text to modify the response to help MPC_GUI
 
-% Last Modified by GUIDE v2.5 25-Feb-2019 22:22:17
+% Last Modified by GUIDE v2.5 12-Jun-2019 18:54:37
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -288,9 +288,23 @@ basedir = pwd;
 SID = get(handles.sub_name_edit, 'String');
 SubjNum = str2num(get(handles.sub_num_edit, 'String'));
 screen_mode = handles.screen_mode;
-how_many_trials = str2num(get(handles.trial_num_edit, 'String'));
-how_many_runs = str2num(get(handles.run_num_edit, 'String'));
+
+%how_many_trials = str2num(get(handles.trial_num_edit, 'String'));
+%how_many_runs = str2num(get(handles.run_num_edit, 'String'));
+
+Trial_nums = str2num(get(handles.trial_num_edit, 'String'));
+Run_nums = str2num(get(handles.run_num_edit, 'String'));
+
 heat_intensity_table = get(handles.table1, 'data');
+moviefile = get(handles.movie_dir_edit, 'string');
+
+if moviefile == 'None'
+    error('Movie directory is None. You have to select movie!')
+end
+movie_duration = str2num(get(handles.movie_dur_edit, 'String'));
+
+%moviefile = fullfile(pwd, '/Video_test/1111.mp4');
+%movie_duration = 20;
 
 if get(handles.explain_check,'Value'); explain = true; else; explain = false; end
 if get(handles.practice_chack,'Value'); practice = true; else; practice = false; end
@@ -315,9 +329,6 @@ elseif get(handles.testmode_button, 'Value')
 end
 
 
-
-
-
 %% SETTING pathway ip and port
 addpath(genpath(pwd));
 % or, you can load pre-determined information 
@@ -328,6 +339,7 @@ port = 20121;
 
 %% Running experiment
 data = MPC_data_save(SID, SubjNum, basedir);
+data.dat.pilot_start_time = GetSecs; 
 
 [window_info, line_parameters, color_values] = MPC_setscreen(screen_mode);
 
@@ -341,26 +353,11 @@ end
 
 
 %% Setting Stimulus type list
-Stimulus_type = strings(1, how_many_runs);
+Stimulus_type = {'movie_heat', 'movie_heat'};
+%Stimulus_type = {'no_movie_heat', 'movie_heat', 'CAPS'};
 
-for i = 1:how_many_runs-1
-    Stimulus_type(1, i) = "heat";
-end
-
-Stimulus_type(1, how_many_runs) = "caps";
-
-%% Shuffle the stimulus type list
-Stimulus_type = Stimulus_type(randperm(length(Stimulus_type)));
-data.dat.stimulus_type = Stimulus_type;
-
-%% Start runs
-is_finished_caps = false;
-
-if run
-    for Run_num = 1:how_many_runs
-        data = MPC_run(window_info, line_parameters, color_values, how_many_trials, Run_num, Stimulus_type, is_finished_caps, Pathway, USE_BIOPAC, USE_EYELINK, ...
-            dofmri, data, heat_intensity_table);
-    end
+for Run_num = 1:Run_nums
+    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration);
 end
 
 %% Close the experiment
@@ -399,3 +396,67 @@ function fMRI_check_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of fMRI_check
+
+
+
+function movie_dur_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to movie_dur_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of movie_dur_edit as text
+%        str2double(get(hObject,'String')) returns contents of movie_dur_edit as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function movie_dur_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to movie_dur_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in find_dir_push.
+function find_dir_push_Callback(hObject, eventdata, handles)
+% hObject    handle to find_dir_push (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+[movie_file, movie_path] = uigetfile('*.mp4');
+
+full_path = fullfile(movie_path, movie_file);
+set(handles.movie_dir_edit, 'string', full_path);
+
+handles.output = hObject;
+% Update handles structure
+guidata(hObject, handles);
+
+
+function movie_dir_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to movie_dir_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of movie_dir_edit as text
+%        str2double(get(hObject,'String')) returns contents of movie_dir_edit as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function movie_dir_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to movie_dir_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+handles.movie_dir_edit = hObject;
+% Update handles structure
+guidata(hObject, handles);
