@@ -103,7 +103,9 @@ end
 jitter = [3,4,5];
 iti = [5,4,3];
 
-wait_after_stimulus = 12;
+wait_pathway_setup_1 = 1.5;
+wait_pathway_setup_2 = wait_pathway_setup_1 + 1.5;
+wait_after_stimulus = wait_pathway_setup_2 + 12;
 wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
 wait_after_rating = wait_after_jitter + 5;
 total_trial_time = wait_after_rating + iti(jitter_index);
@@ -150,9 +152,8 @@ data.dat.stimulus_intensity(Trial_num) = stimulus_intensity;
 %% -------------Setting Pathway------------------
 if Pathway
     main(ip,port,1, intensity_program);     % select the program
+    waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_pathway_setup_1)
 end
-
-
 %     %% Jittering1
 %     Screen(theWindow, 'FillRect', bgcolor, window_rect);
 %     DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
@@ -161,8 +162,8 @@ end
 % -------------Ready for Pathway------------------
 if Pathway
     main(ip,port,2); %ready to pre-start
+    waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_pathway_setup_2)
 end
-
 
 %% Heat pain stimulus
 if ~Pathway

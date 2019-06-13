@@ -20,7 +20,7 @@ function [window_info, line_parameters, color_values] = MPC_setscreen(screen_mod
             window_rect = [0 0 window_info.width window_info.height]/window_ratio;
             fontsize = 20;
         case 'Testmode'
-            window_rect = [0 0 1440 900];  % 1920 1080]; full screen for window
+            window_rect = [0 0 800 600];  % 1920 1080]; full screen for window
             fontsize = 32;
     end
     

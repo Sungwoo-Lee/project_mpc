@@ -106,15 +106,7 @@ if USE_BIOPAC
     Screen(theWindow,'FillRect',bgcolor, window_rect);
     Screen('Flip', theWindow);
     unix('python3 labjack.py 2')
-    
-%     %data.dat{runNbr}{trial_Number(j)}.biopac_triggertime = bio_t; %BIOPAC timestamp
-%     BIOPAC_trigger(ljHandle, biopac_channel, 'on');
-%     waitsec_fromstarttime(bio_t, 2); % ADJUST THIS
 end
-% 
-% if USE_BIOPAC
-%     BIOPAC_trigger(ljHandle, biopac_channel, 'off');
-% end
 
 if USE_EYELINK
     Eyelink('StartRecording');
@@ -179,18 +171,11 @@ if USE_EYELINK
 end
 
 if USE_BIOPAC %end BIOPAC
-%     bio_t = GetSecs;
-%     data.dat{runNbr}{trial_Number(j)}.biopac_endtime = bio_t;% biopac end timestamp
-%     BIOPAC_trigger(ljHandle, biopac_channel, 'on');
-%     waitsec_fromstarttime(bio_t, 0.1); % it should be adjusted
-%     BIOPAC_trigger(ljHandle, biopac_channel, 'off');
-    
     bio_t = GetSecs;
     data.dat.biopac_endtime = bio_t;
     Screen(theWindow,'FillRect',bgcolor, window_rect);
     Screen('Flip', theWindow);
     unix('python3 labjack.py 2')
-    
 end
 
 
