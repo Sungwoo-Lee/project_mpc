@@ -149,6 +149,7 @@ data.dat.movie_dir(Trial_num) = {moviefile};
 data.dat.movie_starttime(Trial_num) = GetSecs;
 
 movie_count = 1;
+
 if not(ckpt.movie_start_point(1) == 999999999)
     size_ckpt = size(ckpt.movie_start_point);
     for i = 1:size_ckpt(2)

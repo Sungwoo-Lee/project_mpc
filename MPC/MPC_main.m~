@@ -7,7 +7,7 @@ close all;
 
 basedir = pwd;
 Run_name = 'sungwoo';
-Run_Num = 003; 
+Run_Num = 001; 
 screen_mode = 'Testmode';
 %screen_mode = 'Full';
 

@@ -1,4 +1,4 @@
-function [data] = MPC_trial_caps(window_info, line_parameters, color_values, Run_num, data, caps_stim_duration)
+function [data] = MPC_trial_caps(window_info, line_parameters, color_values, data, caps_stim_duration)
 
 %Assign variables
 font = window_info.font ;
@@ -24,10 +24,9 @@ white = color_values.white;
 
 
 %% Adjusting between trial time
-
-%caps_stim_duration = 90;
 caps_stim_start = GetSecs;
 data.dat.caps_stim_start = caps_stim_start;
+
 
 %% Jittering1
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
@@ -99,16 +98,5 @@ continuous_rating_duration = continuous_rating_end - continuous_rating_start;
 
 data.dat.continuous_rating_end = continuous_rating_end;
 data.dat.continuous_rating_duration = continuous_rating_duration;
-
-% %% Heat pain stimulus -> Continuous rating
-% Screen(theWindow, 'FillRect', bgcolor, window_rect);
-% DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
-% Screen('Flip', theWindow);
-% 
-% % waitsec_fromstarttime(caps_stim_start, 23)
-% 
-% 
-% Screen(theWindow, 'FillRect', bgcolor, window_rect);
-% Screen('Flip', theWindow);
 
 end

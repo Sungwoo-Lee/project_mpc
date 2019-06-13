@@ -22,7 +22,7 @@ function varargout = MPC_GUI(varargin)
 
 % Edit the above text to modify the response to help MPC_GUI
 
-% Last Modified by GUIDE v2.5 12-Jun-2019 19:37:06
+% Last Modified by GUIDE v2.5 12-Jun-2019 22:13:32
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -77,18 +77,18 @@ varargout{1} = handles.output;
 
 
 
-function sub_name_edit_Callback(hObject, eventdata, handles)
-% hObject    handle to sub_name_edit (see GCBO)
+function run_name_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to run_name_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of sub_name_edit as text
-%        str2double(get(hObject,'String')) returns contents of sub_name_edit as a double
+% Hints: get(hObject,'String') returns contents of run_name_edit as text
+%        str2double(get(hObject,'String')) returns contents of run_name_edit as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function sub_name_edit_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to sub_name_edit (see GCBO)
+function run_name_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to run_name_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -101,17 +101,17 @@ end
 
 
 function sub_num_edit_Callback(hObject, eventdata, handles)
-% hObject    handle to sub_num_edit (see GCBO)
+% hObject    handle to run_numss_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of sub_num_edit as text
-%        str2double(get(hObject,'String')) returns contents of sub_num_edit as a double
+% Hints: get(hObject,'String') returns contents of run_numss_edit as text
+%        str2double(get(hObject,'String')) returns contents of run_numss_edit as a double
 
 
 % --- Executes during object creation, after setting all properties.
 function sub_num_edit_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to sub_num_edit (see GCBO)
+% hObject    handle to run_numss_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -147,17 +147,17 @@ end
 
 
 function run_num_edit_Callback(hObject, eventdata, handles)
-% hObject    handle to run_num_edit (see GCBO)
+% hObject    handle to run_numss_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of run_num_edit as text
-%        str2double(get(hObject,'String')) returns contents of run_num_edit as a double
+% Hints: get(hObject,'String') returns contents of run_numss_edit as text
+%        str2double(get(hObject,'String')) returns contents of run_numss_edit as a double
 
 
 % --- Executes during object creation, after setting all properties.
 function run_num_edit_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to run_num_edit (see GCBO)
+% hObject    handle to run_numss_edit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -285,15 +285,15 @@ function start_button_Callback(hObject, eventdata, handles)
 
 %% SETTTING parameters
 basedir = pwd;
-SID = get(handles.sub_name_edit, 'String');
-SubjNum = str2num(get(handles.sub_num_edit, 'String'));
+Run_name = get(handles.run_name_edit, 'String');
+Run_Num = str2num(get(handles.run_num_edit, 'String'));
 screen_mode = handles.screen_mode;
 
 %how_many_trials = str2num(get(handles.trial_num_edit, 'String'));
-%how_many_runs = str2num(get(handles.run_num_edit, 'String'));
+%how_many_runs = str2num(get(handles.run_numss_edit, 'String'));
 
 Trial_nums = str2num(get(handles.trial_num_edit, 'String'));
-Run_nums = str2num(get(handles.run_num_edit, 'String'));
+Run_nums = str2num(get(handles.run_numss_edit, 'String'));
 
 heat_intensity_table = get(handles.table1, 'data');
 moviefile = get(handles.movie_dir_edit, 'string');
@@ -339,7 +339,7 @@ port = 20121;
 
 
 %% Running experiment
-data = MPC_data_save(SID, SubjNum, basedir);
+data = MPC_data_save(Run_name, Run_Num, basedir);
 data.dat.pilot_start_time = GetSecs; 
 
 [window_info, line_parameters, color_values] = MPC_setscreen(screen_mode);
@@ -354,13 +354,11 @@ end
 
 
 %% Setting Stimulus type list
-%Stimulus_type = {'no_movie_heat', 'movie_heat', 'movie_heat', 'movie_heat', 'movie_heat', 'movie_heat', 'CAPS'};
-Stimulus_type = {'CAPS'};
+run_type = {'movie_heat'};
 %Stimulus_type = {'no_movie_heat', 'movie_heat', 'CAPS'};
 
-for Run_num = 1:Run_nums
-    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, Run_num, Stimulus_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
-end
+data = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
+
 
 %% Close the experiment
 data = MPC_close(window_info, line_parameters, color_values, data);

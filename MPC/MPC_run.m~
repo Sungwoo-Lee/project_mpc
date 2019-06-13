@@ -130,19 +130,6 @@ if keyCode(KbName('q')) == 1
     abort_experiment('manual');
 end
 
-basedir = pwd;
-ckpt_folderdir = fullfile(basedir, 'Video_ckpt');
-nowtime = clock;
-filename = sprintf('%.2d%.2d%.2d', nowtime(1), nowtime(2), nowtime(3));
-ckpt_filedir = fullfile(ckpt_folderdir, [filename, '.mat']);
-
-if exist(ckpt_filedir, 'file')
-    load(ckpt_filedir);
-else
-    ckpt.ckptfile = ckpt_filedir;
-    ckpt.movie_start_point = 999999999;
-end
-
 waitsec_fromstarttime(data.dat.fmri_start_time, 9); % waitting for 9 second from fmri started time
 
 
@@ -154,14 +141,14 @@ data.dat.between_fmri_run_start_time = data.dat.run_starttime - data.dat.fmri_st
 %% Trial start
 if strcmp(run_type, 'no_movie_heat')
     for Trial_num = 1:Trial_nums
-        data = MPC_trial_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, ckpt, heat_intensity_table);
+        data = MPC_trial_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, heat_intensity_table);
     end
 elseif strcmp(run_type, 'movie_heat')
     for Trial_num = 1:Trial_nums
         if rem(Trial_num, 2) == 1
-            [data, ckpt] = MPC_trial_movie_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, ckpt, heat_intensity_table, moviefile, movie_duration);
+            data = MPC_trial_movie_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, heat_intensity_table, moviefile, movie_duration);
         else
-            [data, ckpt] = MPC_trial_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, ckpt, heat_intensity_table);
+            data = MPC_trial_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, heat_intensity_table);
         end
     end
 else
@@ -189,6 +176,18 @@ data.dat.run_end_time = GetSecs;
 data.dat.run_duration_time = data.dat.run_end_time - data.dat.fmri_start_time;
 
 save(data.datafile, 'data', '-append');
-save(ckpt.ckptfile, 'ckpt');
 
-end    
+nowtime = clock;
+filename = sprintf('%.2d%.2d%.2d', nowtime(1), nowtime(2), nowtime(3));
+basedir = pwd;
+video_ckpt_savedir = fullfile(basedir, 'Video_ckpt');
+ckpt.ckptfile = fullfile(video_ckpt_savedir, filename);
+ckpt.movie_start_point = data.dat.movie_start_point;
+
+if exist(ckpt.ckptfile, 'file')
+    load
+    save(ckpt.ckptfile, 'ckpt', '-append');
+else
+    save(ckpt.ckptfile, 'ckpt');
+end
+end     

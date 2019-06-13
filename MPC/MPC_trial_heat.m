@@ -1,4 +1,4 @@
-function [data] = MPC_trial_heat(window_info, line_parameters, color_values, Trial_num, Run_num, Pathway, data, heat_intensity_table)
+function [data, ckpt] = MPC_trial_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, ckpt, heat_intensity_table)
 global ip port;
 
 %Assign variables
@@ -29,13 +29,19 @@ PathPrg = load_PathProgram('SEMIC');
 
 
 %% Saving trial type
-data.dat.trial_type(Trial_num, Run_num) = {'no_movie'};
-data.dat.movie_dir(Trial_num, Run_num) = {nan};
-data.dat.movie_start_point(Trial_num, Run_num) = nan;
+data.dat.trial_type(Trial_num) = string('no_movie');
+data.dat.movie_dir(Trial_num) = {nan};
+data.dat.movie_start_point(Trial_num) = nan;
 
-data.dat.movie_starttime(Trial_num, Run_num) = nan;
-data.dat.movie_endtime(Trial_num, Run_num) = nan;
-data.dat.movie_duration(Trial_num, Run_num) = nan;
+data.dat.movie_starttime(Trial_num) = nan;
+data.dat.movie_endtime(Trial_num) = nan;
+data.dat.movie_duration(Trial_num) = nan;
+
+if not(ckpt.movie_start_point(1) == 999999999)
+    ckpt.movie_start_point = [ckpt.movie_start_point data.dat.movie_start_point(Trial_num)];
+else 
+    ckpt.movie_start_point = data.dat.movie_start_point(Trial_num);
+end
 
 
 %% Jittering time and random cue & stimulus parameters 
@@ -106,15 +112,15 @@ between_trial_time = 1;
 
 %% Adjusting between trial time
 if Trial_num > 1
-    waitsec_fromstarttime(data.dat.trial_endtime(Trial_num-1, Run_num), between_trial_time)
+    waitsec_fromstarttime(data.dat.trial_endtime(Trial_num-1), between_trial_time)
 else
-    waitsec_fromstarttime(data.dat.run_starttime(Trial_num, Run_num), 1)
+    waitsec_fromstarttime(data.dat.run_starttime(Trial_num), 1)
 end
 
 
 %% Checking trial start time
-data.dat.trial_starttime(Trial_num, Run_num) = GetSecs;
-data.dat.between_run_trial_starttime(Trial_num, Run_num) = data.dat.trial_starttime(Trial_num, Run_num) - data.dat.run_starttime(1, Run_num);
+data.dat.trial_starttime(Trial_num) = GetSecs;
+data.dat.between_run_trial_starttime(Trial_num) = data.dat.trial_starttime(Trial_num) - data.dat.run_starttime(1);
 
 
 %% Data recording
@@ -125,9 +131,9 @@ data.dat.nomovie_iti_value = iti;
 data.dat.high_intensity_value = high_intensity;
 data.dat.low_intensity_value = low_intensity;
 
-data.dat.stim_prob(Trial_num, Run_num) = prob_rand;
-data.dat.jitter_index(Trial_num, Run_num) = jitter_index;
-data.dat.intensity_index(Trial_num, Run_num) = intensity_index;
+data.dat.stim_prob(Trial_num) = prob_rand;
+data.dat.jitter_index(Trial_num) = jitter_index;
+data.dat.intensity_index(Trial_num) = intensity_index;
 
 
 %% Setting stimulus intensity
@@ -138,7 +144,7 @@ else
     intensity_program = low_intensity_program(intensity_index);
     stimulus_intensity = low_intensity(intensity_index);
 end
-data.dat.stimulus_intensity(Trial_num, Run_num) = stimulus_intensity;
+data.dat.stimulus_intensity(Trial_num) = stimulus_intensity;
 
 
 %% -------------Setting Pathway------------------
@@ -177,11 +183,11 @@ if Pathway
     main(ip,port,2);
 end
 
-data.dat.stimulus_time(Trial_num, Run_num) = GetSecs;
+data.dat.stimulus_time(Trial_num) = GetSecs;
 
 
 %% stimulus time adjusting
-waitsec_fromstarttime(data.dat.trial_starttime(Trial_num, Run_num), wait_after_stimulus)
+waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_stimulus)
 
 
 %% Jittering2
@@ -189,7 +195,7 @@ Screen(theWindow, 'FillRect', bgcolor, window_rect);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
 
-waitsec_fromstarttime(data.dat.trial_starttime(Trial_num, Run_num), wait_after_jitter)
+waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_jitter)
 
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 Screen('Flip', theWindow);
@@ -205,7 +211,7 @@ scale = ('overall_int');
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 
 start_t = GetSecs;
-data.dat.rating_starttime(Trial_num, Run_num) = start_t;
+data.dat.rating_starttime(Trial_num) = start_t;
 
 ratetype = strcmp(rating_types_pls.alltypes, scale);
 
@@ -239,7 +245,7 @@ while true
         abort_experiment('manual');
         break
     end
-    if GetSecs - data.dat.rating_starttime(Trial_num, Run_num) > 5
+    if GetSecs - data.dat.rating_starttime(Trial_num) > 5
         break
     end
 end
@@ -248,16 +254,16 @@ end
 %% saving rating result
 end_t = GetSecs;
 
-data.dat.rating(Trial_num, Run_num) = (x-lb)/(rb-lb);
-data.dat.rating_endtime(Trial_num, Run_num) = end_t;
-data.dat.rating_duration(Trial_num, Run_num) = end_t - start_t;
+data.dat.rating(Trial_num) = (x-lb)/(rb-lb);
+data.dat.rating_endtime(Trial_num) = end_t;
+data.dat.rating_duration(Trial_num) = end_t - start_t;
 
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 Screen('Flip', theWindow);
 
 
 %% rating time adjusting
-waitsec_fromstarttime(data.dat.trial_starttime(Trial_num, Run_num), wait_after_rating)
+waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_rating)
 
 
 
@@ -266,17 +272,17 @@ Screen(theWindow, 'FillRect', bgcolor, window_rect);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
 
-waitsec_fromstarttime(data.dat.trial_starttime(Trial_num, Run_num), total_trial_time)
+waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), total_trial_time)
 
 
 %% saving trial end time
-data.dat.trial_endtime(Trial_num, Run_num) = GetSecs;
-data.dat.trial_duration(Trial_num, Run_num) = data.dat.trial_endtime(Trial_num, Run_num) - data.dat.trial_starttime(Trial_num, Run_num);
+data.dat.trial_endtime(Trial_num) = GetSecs;
+data.dat.trial_duration(Trial_num) = data.dat.trial_endtime(Trial_num) - data.dat.trial_starttime(Trial_num);
 %save(data.datafile, 'data', '-append');
 
 if Trial_num >1
-    data.dat.between_trial_time(Trial_num, Run_num) = data.dat.trial_starttime(Trial_num, Run_num) - data.dat.trial_endtime(Trial_num-1, Run_num);
+    data.dat.between_trial_time(Trial_num) = data.dat.trial_starttime(Trial_num) - data.dat.trial_endtime(Trial_num-1);
 else
-    data.dat.between_trial_time(Trial_num, Run_num) = 0;
+    data.dat.between_trial_time(Trial_num) = 0;
 end
 end
