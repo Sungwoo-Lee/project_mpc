@@ -25,7 +25,7 @@ white = color_values.white;
 
 
 %% SETUP: load the pathway program
-PathPrg = load_PathProgram('SEMIC');
+PathPrg = load_PathProgram('MPC');
 
 
 %% Saving trial type

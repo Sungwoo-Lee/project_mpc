@@ -12,6 +12,7 @@ Run_name = 'sungwoo';
 Run_Num = 003; 
 screen_mode = 'Testmode';
 %screen_mode = 'Full';
+eyelink_filename = 'F_NAME'; % Eyelink file name should be equal or less than 8
 
 heat_intensity_table = [40, 45; 41, 46; 42, 47]; % stimulus intensity
 moviefile = fullfile(pwd, '/Video/1111.mp4');
@@ -42,6 +43,6 @@ MPC_practice(window_info, line_parameters, color_values);
 run_type = {'movie_heat'};
 %Stimulus_type = {'no_movie_heat', 'movie_heat', 'CAPS'};
 
-data = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
+data = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, eyelink_filename, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
   
 data = MPC_close(window_info, line_parameters, color_values, data);

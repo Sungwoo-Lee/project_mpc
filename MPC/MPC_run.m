@@ -1,4 +1,4 @@
-function [data] = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration)  
+function [data] = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, eyelink_filename, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration)  
 %Assign variables
 font = window_info.font ;
 fontsize = window_info.fontsize;
@@ -33,9 +33,9 @@ white = color_values.white;
 % need to be revised when the eyelink is here.
 % It located after open screen
 if USE_EYELINK
-    edf_filename = 'FILE_NAME_HERE'; % name should be equal or less than 8
+    eyelink_filename = 'F_NAME'; % name should be equal or less than 8
     %edf_filename = ['M_' new_SID '_' num2str(runNbr)];
-    edfFile = sprintf('%s.EDF', edf_filename);
+    edfFile = sprintf('%s.EDF', eyelink_filename);
     eyelink_main(edfFile, window_info, 'Init');
     
     status = Eyelink('Initialize');

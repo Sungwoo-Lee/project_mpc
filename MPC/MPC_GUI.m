@@ -295,9 +295,8 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     Run_name = get(handles.run_name_edit, 'String');
     Run_Num = str2num(get(handles.run_num_edit, 'String'));
     screen_mode = handles.screen_mode;
-
-    %how_many_trials = str2num(get(handles.trial_num_edit, 'String'));
-    %how_many_runs = str2num(get(handles.run_numss_edit, 'String'));
+    
+    eyelink_filename = 'F_NAME'; % Eyelink file name should be equal or less than 8
 
     Trial_nums = str2num(get(handles.trial_num_edit, 'String'));
     Run_nums = str2num(get(handles.run_num_edit, 'String'));
@@ -362,7 +361,7 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
 
     %% Setting Stimulus type list
 
-    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
+    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, eyelink_filename, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
 
 
     %% Close the experiment
