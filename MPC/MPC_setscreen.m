@@ -7,7 +7,8 @@ function [window_info, line_parameters, color_values] = MPC_setscreen(screen_mod
     
     switch screen_mode
         case 'Full'
-            window_rect = [0 0 window_info.width window_info.height]; % full screen
+            %window_rect = [0 0 window_info.width window_info.height]; % full screen
+            window_rect = [0 0 1440 900]; % full screen
             fontsize = 32;
         case 'Semifull'
             window_rect = [0 0 window_info.width-100 window_info.height-100]; % a little bit distance
@@ -20,7 +21,7 @@ function [window_info, line_parameters, color_values] = MPC_setscreen(screen_mod
             window_rect = [0 0 window_info.width window_info.height]/window_ratio;
             fontsize = 20;
         case 'Testmode'
-            window_rect = [0 0 800 600];  % 1920 1080]; full screen for window
+            window_rect = [0 0 1200 600];  % 1920 1080]; full screen for window
             fontsize = 32;
     end
     
