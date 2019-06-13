@@ -288,6 +288,9 @@ function start_button_Callback(hObject, eventdata, handles)
 %% Running experiment
 if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     %% SETTTING parameters
+    PATH = getenv('PATH');
+    setenv('PATH', [PATH ':/Users/sungwoo320/anaconda3/bin:/Users/sungwoo320/anaconda3/condabin']); %For biopack, you need to add your python3 path
+    
     basedir = pwd;
     Run_name = get(handles.run_name_edit, 'String');
     Run_Num = str2num(get(handles.run_num_edit, 'String'));

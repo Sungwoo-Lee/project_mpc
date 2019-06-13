@@ -4,6 +4,8 @@ clear;
 close all;
 
 %% SETTTING
+PATH = getenv('PATH');
+setenv('PATH', [PATH ':/Users/sungwoo320/anaconda3/bin:/Users/sungwoo320/anaconda3/condabin']); %For biopack, you need to add your python3 path
 
 basedir = pwd;
 Run_name = 'sungwoo';
