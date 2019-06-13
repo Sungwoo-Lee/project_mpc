@@ -1,6 +1,6 @@
 function data = MPC_close(window_info, line_parameters, color_values, data) 
 
-%Assign variables
+%% Assign variables
 font = window_info.font ;
 fontsize = window_info.fontsize;
 theWindow = window_info.theWindow;

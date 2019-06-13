@@ -1,7 +1,7 @@
 function [data, ckpt] = MPC_trial_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, ckpt, heat_intensity_table)
 global ip port;
 
-%Assign variables
+%% Assign variables
 font = window_info.font ;
 fontsize = window_info.fontsize;
 theWindow = window_info.theWindow;
@@ -28,7 +28,7 @@ white = color_values.white;
 PathPrg = load_PathProgram('MPC');
 
 
-%% Saving trial type
+%% Saving trial type and movie parameters
 data.dat.trial_type(Trial_num) = string('no_movie');
 data.dat.movie_dir(Trial_num) = {nan};
 data.dat.movie_start_point(Trial_num) = nan;
@@ -37,14 +37,14 @@ data.dat.movie_starttime(Trial_num) = nan;
 data.dat.movie_endtime(Trial_num) = nan;
 data.dat.movie_duration(Trial_num) = nan;
 
-if not(ckpt.movie_start_point(1) == 999999999)
+if not(ckpt.movie_start_point(1) == 999999999) % it means that ckpt.movie_start_point is not empty
     ckpt.movie_start_point = [ckpt.movie_start_point data.dat.movie_start_point(Trial_num)];
 else 
     ckpt.movie_start_point = data.dat.movie_start_point(Trial_num);
 end
 
 
-%% Jittering time and random cue & stimulus parameters 
+%% Set intensity variable
 low_intensity = transpose(heat_intensity_table(:,1));
 high_intensity = transpose(heat_intensity_table(:,2));
 
@@ -74,8 +74,6 @@ for i = 1:size_high_intensity(2)
 end
 
 
-%% Trial starts
-
 %% Random generation for stimulus parameters and jittering
 rng('shuffle')
 prob_rand = rand();
@@ -99,7 +97,7 @@ else
 end
 
 
-%% Interval wait secs
+%% Wait secs parameters
 jitter = [3,4,5];
 iti = [5,4,3];
 
@@ -154,12 +152,8 @@ if Pathway
     main(ip,port,1, intensity_program);     % select the program
     waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_pathway_setup_1)
 end
-%     %% Jittering1
-%     Screen(theWindow, 'FillRect', bgcolor, window_rect);
-%     DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
-%     Screen('Flip', theWindow);
-%
-% -------------Ready for Pathway------------------
+
+%% -------------Ready for Pathway------------------
 if Pathway
     main(ip,port,2); %ready to pre-start
     waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_pathway_setup_2)
@@ -176,7 +170,7 @@ if ~Pathway
     Screen('Flip', theWindow);
 end
 
-% ------------- start to trigger thermal stimulus------------------
+%% ------------- start to trigger thermal stimulus------------------
 if Pathway
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
     DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
@@ -184,6 +178,7 @@ if Pathway
     main(ip,port,2);
 end
 
+%% Check stimulus time
 data.dat.stimulus_time(Trial_num) = GetSecs;
 
 
@@ -191,7 +186,7 @@ data.dat.stimulus_time(Trial_num) = GetSecs;
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_stimulus)
 
 
-%% Jittering2
+%% Jittering
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
@@ -202,7 +197,7 @@ Screen(theWindow, 'FillRect', bgcolor, window_rect);
 Screen('Flip', theWindow);
 
 
-%% setting for rating
+%% Setting for rating
 rating_types_pls = call_ratingtypes_pls;
 
 all_start_t = GetSecs;
@@ -216,7 +211,7 @@ data.dat.rating_starttime(Trial_num) = start_t;
 
 ratetype = strcmp(rating_types_pls.alltypes, scale);
 
-% Initial position
+%% Initial mouse position
 if start_center
     SetMouse(W/2,H/2); % set mouse at the center
 else
@@ -224,7 +219,7 @@ else
 end
 
 
-%% rating start
+%% Rating start
 while true
     [x,~,button] = GetMouse(theWindow);
     [lb, rb, start_center] = draw_scale_pls(scale, window_info, line_parameters, color_values);
@@ -267,7 +262,6 @@ Screen('Flip', theWindow);
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_rating)
 
 
-
 %% Adjusting total trial time
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
@@ -279,7 +273,6 @@ waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), total_trial_time)
 %% saving trial end time
 data.dat.trial_endtime(Trial_num) = GetSecs;
 data.dat.trial_duration(Trial_num) = data.dat.trial_endtime(Trial_num) - data.dat.trial_starttime(Trial_num);
-%save(data.datafile, 'data', '-append');
 
 if Trial_num >1
     data.dat.between_trial_time(Trial_num) = data.dat.trial_starttime(Trial_num) - data.dat.trial_endtime(Trial_num-1);

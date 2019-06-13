@@ -1,7 +1,7 @@
 function [data, ckpt] = MPC_trial_movie_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, ckpt, heat_intensity_table, moviefile, movie_duration)
 global ip port;
 
-%% Assign variables
+%Assign variables
 font = window_info.font ;
 fontsize = window_info.fontsize;
 theWindow = window_info.theWindow;
@@ -148,34 +148,28 @@ movie_count = 1;
 if not(ckpt.movie_start_point(1) == 999999999) %This means that ckpt.movie_start_point(1) is not empty
     size_ckpt = size(ckpt.movie_start_point);
     for i = 1:size_ckpt(2)
-        if ~isnan(ckpt.movie_start_point(i)) %Check how many not NaN in ckpt.movie_start_point
+        if ~isnan(ckpt.movie_start_point(i)) %Check how many not NaN in 
             movie_count = movie_count+1;
         end
     end
 end
 
-%% Load movie file
 [moviePtr, dura] = Screen('OpenMovie', theWindow, moviefile);
 
-%% Decide the point where movie will start
 movie_start = (movie_count-1) * movie_duration;
 
-%% Error check whether movie_start + movie duration is out of range of movie 
 if dura < (movie_start + movie_duration)
     movie_start = dura - movie_duration -1;
 end
 
-%% Save movie start point
 data.dat.movie_start_point(Trial_num) = movie_start;
 
-%% Append or Initialize Check point
 if not(ckpt.movie_start_point(1) == 999999999)
     ckpt.movie_start_point = [ckpt.movie_start_point data.dat.movie_start_point(Trial_num)];
 else 
     ckpt.movie_start_point = data.dat.movie_start_point(Trial_num);
 end
 
-%% Playing movie
 Screen('SetMovieTimeIndex', moviePtr, movie_start);
 Screen('PlayMovie', moviePtr, playmode); %Screen('PlayMovie?')% 0 == Stop playback, 1 == Normal speed forward, -1 == Normal speed backward,
 
@@ -198,17 +192,14 @@ while GetSecs-t < movie_duration %(~done) %~KbCheck
 end
 
 Screen('PlayMovie', moviePtr,0);
-
-%% Close movie
 Screen('CloseMovie',moviePtr);
 Screen('Flip', theWindow);
 
-%% Saving movie end time
 data.dat.movie_endtime(Trial_num) = GetSecs;
 data.dat.movie_duration(Trial_num) = data.dat.movie_endtime(Trial_num) - data.dat.movie_starttime(Trial_num);
 
-%% Adjusting movie playing time
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_movie)
+
 
 %% -------------Ready for Pathway------------------
 if Pathway

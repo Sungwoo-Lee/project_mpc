@@ -1,6 +1,6 @@
 function [data] = MPC_trial_caps(window_info, line_parameters, color_values, data, caps_stim_duration)
 
-%% Assign variables
+%Assign variables
 font = window_info.font ;
 fontsize = window_info.fontsize;
 theWindow = window_info.theWindow;
@@ -28,16 +28,16 @@ caps_stim_start = GetSecs;
 data.dat.caps_stim_start = caps_stim_start;
 
 
-%% Stimulus will be delivered
+%% Stimulus deliver
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
 
-%% Adjusting Stimulus delivering time
+%% Adjusting Stimulus delivering tim
 waitsec_fromstarttime(caps_stim_start, 10)
 
 
-%% Setting for rating
+%% setting for rating
 rating_types_pls = call_ratingtypes_pls;
 
 all_start_t = GetSecs;
@@ -48,7 +48,7 @@ Screen(theWindow, 'FillRect', bgcolor, window_rect);
 
 ratetype = strcmp(rating_types_pls.alltypes, scale);
 
-%% Initial mouse position
+% Initial position
 if start_center
     SetMouse(W/2,H/2); % set mouse at the center
 else
@@ -61,7 +61,6 @@ rec_i = 0;
 
 continuous_rating_start = GetSecs;
 data.dat.continuous_rating_start = continuous_rating_start;
-
 %% rating start
 while true
     [x,~,button] = GetMouse(theWindow);
@@ -94,7 +93,6 @@ while true
     end
 end
 
-%% Saving rating and time
 continuous_rating_end = GetSecs;
 continuous_rating_duration = continuous_rating_end - continuous_rating_start;
 

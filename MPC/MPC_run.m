@@ -1,5 +1,5 @@
 function [data] = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, eyelink_filename, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration)  
-%Assign variables
+%% Assign variables
 font = window_info.font ;
 fontsize = window_info.fontsize;
 theWindow = window_info.theWindow;
@@ -22,13 +22,6 @@ red = color_values.red;
 white = color_values.white;  
 
 
-%% SETUP: Biopack
-% if USE_BIOPAC
-%     channel_n = 3;
-%     biopac_channel = 0;
-%     ljHandle = BIOPAC_setup(channel_n); % BIOPAC SETUP
-% end
-
 %% SETUP: Eyelink
 % need to be revised when the eyelink is here.
 % It located after open screen
@@ -48,7 +41,7 @@ end
 
 
 %% Ready for start run
-while true % To Start, Push Space
+while true
     msgtxt = '\n모두 준비되었으면, a를 눌러주세요.\n\n (Check Eyelink, Biopack, etc...)\n\n';
     DrawFormattedText(theWindow, double(msgtxt), 'center', 'center', white, [], [], [], 2);
     Screen('Flip', theWindow);
@@ -70,8 +63,8 @@ while (1)
     Screen('Flip', theWindow);
     
     [~,~,keyCode] = KbCheck;
-    % If this is for fMRI experiment, it will start with "s",
-    % But if test time, it will start with "t" key.
+    % If it is for fMRI experiment, it will start with "s",
+    % But if it is test time, it will start with "t" key.
     if dofmri
         if keyCode(KbName('s'))==1
             break
@@ -88,7 +81,7 @@ while (1)
 end
 
 
-%% fMRI
+%% fMRI starts
 data.dat.fmri_start_time = GetSecs;
 if dofmri
     % gap between 5 key push and the first stimuli (disdaqs: data.disdaq_sec)
@@ -125,6 +118,7 @@ if keyCode(KbName('q')) == 1
     abort_experiment('manual');
 end
 
+%% Making or Loading checkpoint of Movie
 basedir = pwd;
 ckpt_folderdir = fullfile(basedir, 'Video_ckpt');
 nowtime = clock;
@@ -135,10 +129,11 @@ if exist(ckpt_filedir, 'file')
     load(ckpt_filedir);
 else
     ckpt.ckptfile = ckpt_filedir;
-    ckpt.movie_start_point = 999999999;
+    ckpt.movie_start_point = 999999999; %This can be any number for initialize which means empty
 end
 
-waitsec_fromstarttime(data.dat.fmri_start_time, 9); % waitting for 9 second from fmri started time
+%% Wating 9 seconds from fmri started
+waitsec_fromstarttime(data.dat.fmri_start_time, 9);
 
 
 %% Saving Run start time
@@ -146,20 +141,22 @@ data.dat.run_starttime = GetSecs;
 data.dat.between_fmri_run_start_time = data.dat.run_starttime - data.dat.fmri_start_time;
 
 
-%% Trial start
-if strcmp(run_type, 'no_movie_heat')
+%% Run start
+if strcmp(run_type, 'no_movie_heat') % No movie heat Run
     for Trial_num = 1:Trial_nums
         data = MPC_trial_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, ckpt, heat_intensity_table);
     end
-elseif strcmp(run_type, 'movie_heat')
-    for Trial_num = 1:Trial_nums
+    
+elseif strcmp(run_type, 'movie_heat') % Movie heat Run
+    for Trial_num = 1:Trial_nums % movie -> no_movie -> movie -> no_movie ... sequence
         if rem(Trial_num, 2) == 1
             [data, ckpt] = MPC_trial_movie_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, ckpt, heat_intensity_table, moviefile, movie_duration);
         else
             [data, ckpt] = MPC_trial_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, ckpt, heat_intensity_table);
         end
     end
-else
+    
+else % CAPS Run
     data = MPC_trial_caps(window_info, line_parameters, color_values, data, caps_stim_duration);
 end
 

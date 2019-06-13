@@ -34,7 +34,7 @@ ip = '192.168.0.3'; %ip = '115.145.189.133'; %ip = '203.252.54.21';
 port = 20121;
 
 data = MPC_data_save(Run_name, Run_Num, basedir);
-data.dat.pilot_start_time = GetSecs; 
+data.dat.experiment_start_time = GetSecs; 
 
 [window_info, line_parameters, color_values] = MPC_setscreen(screen_mode);
 MPC_explain(window_info, line_parameters, color_values);
