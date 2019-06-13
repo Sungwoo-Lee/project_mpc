@@ -12,12 +12,11 @@ screen_mode = 'Testmode';
 %screen_mode = 'Full';
 
 heat_intensity_table = [40, 45; 41, 46; 42, 47]; % stimulus intensity
-moviefile = fullfile(pwd, '/Video_test/1111.mp4');
+moviefile = fullfile(pwd, '/Video/1111.mp4');
 movie_duration = 20;
 caps_stim_duration = 90;
 
 Trial_nums = 3;
-%Run_nums = 2;
 
 Pathway = false;
 USE_BIOPAC = false;

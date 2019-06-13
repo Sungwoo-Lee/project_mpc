@@ -54,8 +54,6 @@ function MPC_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 
 screen_mode = get(handles.testmode_button, 'string');
 handles.screen_mode = screen_mode;
-run_type = {'no_movie_heat'};
-handles.run_type = run_type;
 
 % Choose default command line output for MPC_GUI
 handles.output = hObject;
@@ -285,87 +283,82 @@ function start_button_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%% Running experiment
-if ~exist('basedir', 'var') % In order to make program don't run simultaneously
-    %% SETTTING parameters
-    basedir = pwd;
-    Run_name = get(handles.run_name_edit, 'String');
-    Run_Num = str2num(get(handles.run_num_edit, 'String'));
-    screen_mode = handles.screen_mode;
+%% SETTTING parameters
+basedir = pwd;
+Run_name = get(handles.run_name_edit, 'String');
+Run_Num = str2num(get(handles.run_num_edit, 'String'));
+screen_mode = handles.screen_mode;
 
-    %how_many_trials = str2num(get(handles.trial_num_edit, 'String'));
-    %how_many_runs = str2num(get(handles.run_numss_edit, 'String'));
+%how_many_trials = str2num(get(handles.trial_num_edit, 'String'));
+%how_many_runs = str2num(get(handles.run_numss_edit, 'String'));
 
-    Trial_nums = str2num(get(handles.trial_num_edit, 'String'));
-    Run_nums = str2num(get(handles.run_num_edit, 'String'));
+Trial_nums = str2num(get(handles.trial_num_edit, 'String'));
+Run_nums = str2num(get(handles.run_numss_edit, 'String'));
 
-    heat_intensity_table = get(handles.table1, 'data');
-    moviefile = get(handles.movie_dir_edit, 'string');
-    caps_stim_duration = str2num(get(handles.caps_dur_edit, 'string'));
+heat_intensity_table = get(handles.table1, 'data');
+moviefile = get(handles.movie_dir_edit, 'string');
+caps_stim_duration = str2num(get(handles.caps_dur_edit, 'string'));
 
-    run_type = handles.run_type;
-    %Stimulus_type = {'no_movie_heat', 'movie_heat', 'CAPS'};
-
-    if strcmp(run_type,'movie_heat') & strcmp(moviefile,'None')
-        error('Movie directory is None. You have to select movie!')
-    end
-    movie_duration = str2num(get(handles.movie_dur_edit, 'String'));
-
-    if get(handles.explain_check,'Value'); explain = true; else; explain = false; end
-    if get(handles.practice_chack,'Value'); practice = true; else; practice = false; end
-    if get(handles.run_check,'Value'); run = true; else; run = false; end
-    if get(handles.pathway_check,'Value'); Pathway = true; else; Pathway = false; end
-    if get(handles.biopack_check,'Value'); USE_BIOPAC = true; else; USE_BIOPAC = false; end
-    if get(handles.eyelink_check,'Value'); USE_EYELINK = true; else; USE_EYELINK = false; end
-    if get(handles.fMRI_check,'Value'); dofmri = true; else; dofmri = false; end
-
-    if get(handles.full_button, 'Value')
-        screen_mode = get(handles.full_button, 'string');
-    elseif get(handles.semifull_button, 'Value')
-        screen_mode = get(handles.semifull_button, 'string');
-    elseif get(handles.middle_button, 'Value')
-        screen_mode = get(handles.middle_button, 'string');
-    elseif get(handles.small_button, 'Value')
-        screen_mode = get(handles.small_button, 'string');
-    elseif get(handles.test_button, 'Value')
-        screen_mode = get(handles.test_button, 'string');
-    elseif get(handles.testmode_button, 'Value')
-        screen_mode = get(handles.testmode_button, 'string');
-    end
-
-
-    %% SETTING pathway ip and port
-    addpath(genpath(pwd));
-    % or, you can load pre-determined information 
-    global ip port
-    ip = '192.168.0.3'; %ip = '115.145.189.133'; %ip = '203.252.54.21';
-    port = 20121;
-
-
-    %% Running experiment
-    data = MPC_data_save(Run_name, Run_Num, basedir);
-    data.dat.pilot_start_time = GetSecs; 
-
-    [window_info, line_parameters, color_values] = MPC_setscreen(screen_mode);
-
-    if explain
-    MPC_explain(window_info, line_parameters, color_values);
-    end
-
-    if practice
-    MPC_practice(window_info, line_parameters, color_values);
-    end
-
-
-    %% Setting Stimulus type list
-
-    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
-
-
-    %% Close the experiment
-    data = MPC_close(window_info, line_parameters, color_values, data);
-
+if strcmp(moviefile,'None')
+    error('Movie directory is None. You have to select movie!')
 end
+movie_duration = str2num(get(handles.movie_dur_edit, 'String'));
+
+if get(handles.explain_check,'Value'); explain = true; else; explain = false; end
+if get(handles.practice_chack,'Value'); practice = true; else; practice = false; end
+if get(handles.run_check,'Value'); run = true; else; run = false; end
+if get(handles.pathway_check,'Value'); Pathway = true; else; Pathway = false; end
+if get(handles.biopack_check,'Value'); USE_BIOPAC = true; else; USE_BIOPAC = false; end
+if get(handles.eyelink_check,'Value'); USE_EYELINK = true; else; USE_EYELINK = false; end
+if get(handles.fMRI_check,'Value'); dofmri = true; else; dofmri = false; end
+
+if get(handles.full_button, 'Value')
+    screen_mode = get(handles.full_button, 'string');
+elseif get(handles.semifull_button, 'Value')
+    screen_mode = get(handles.semifull_button, 'string');
+elseif get(handles.middle_button, 'Value')
+    screen_mode = get(handles.middle_button, 'string');
+elseif get(handles.small_button, 'Value')
+    screen_mode = get(handles.small_button, 'string');
+elseif get(handles.test_button, 'Value')
+    screen_mode = get(handles.test_button, 'string');
+elseif get(handles.testmode_button, 'Value')
+    screen_mode = get(handles.testmode_button, 'string');
+end
+
+
+%% SETTING pathway ip and port
+addpath(genpath(pwd));
+% or, you can load pre-determined information 
+global ip port
+ip = '192.168.0.3'; %ip = '115.145.189.133'; %ip = '203.252.54.21';
+port = 20121;
+
+
+%% Running experiment
+data = MPC_data_save(Run_name, Run_Num, basedir);
+data.dat.pilot_start_time = GetSecs; 
+
+[window_info, line_parameters, color_values] = MPC_setscreen(screen_mode);
+
+if explain
+MPC_explain(window_info, line_parameters, color_values);
+end
+
+if practice
+MPC_practice(window_info, line_parameters, color_values);
+end
+
+
+%% Setting Stimulus type list
+run_type = {'movie_heat'};
+%Stimulus_type = {'no_movie_heat', 'movie_heat', 'CAPS'};
+
+data = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
+
+
+%% Close the experiment
+data = MPC_close(window_info, line_parameters, color_values, data);
 
 function uibuttongroup1_SelectionChangedFcn(hObject, eventdata, handles)
 % hObject    handle to the selected object in uibuttongroup1 
@@ -522,13 +515,13 @@ function uibuttongroup2_SelectionChangedFcn(hObject, eventdata, handles)
 
 switch(get(eventdata.NewValue, 'Tag'))
     case 'nomovie_button'
-        run_type = {'no_movie_heat'};
+        run_type = get(handles.full_button, 'string');
     case 'movie_button'
-        run_type = {'movie_heat'};
+        run_type = get(handles.semifull_button, 'string');
     case 'caps_button'
-        run_type = {'caps'};
+        run_type = get(handles.middle_button, 'string');
 end
-handles.run_type = run_type;
+handles.screen_mode = run_type;
 
 handles.output = hObject;
 % Update handles structure

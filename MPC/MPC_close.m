@@ -43,7 +43,7 @@ while true % To finish run, Push Space
         abort_experiment('manual');
         break
     end
-    msgtxt = ['실험이 끝났습니다.\n\n실험을 마치려면, \n\n f 를 눌러주시기 바랍니다.\n\n Push f'];
+    msgtxt = ['실험이 끝났습니다.\n\n실험을 마치려면, \n\n f 를 눌러주시기 바랍니다.'];
     msgtxt = double(msgtxt); % korean to double
     DrawFormattedText(theWindow, msgtxt, 'center', 'center', white, [], [], [], 2);
     Screen('Flip', theWindow); 

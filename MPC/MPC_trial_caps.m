@@ -34,7 +34,7 @@ DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [],
 Screen('Flip', theWindow);
 
 % Adjusting jitter time
-waitsec_fromstarttime(caps_stim_start, 4)
+waitsec_fromstarttime(caps_stim_start, 10)
 
 
 %% setting for rating
