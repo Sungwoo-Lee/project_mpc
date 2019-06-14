@@ -29,7 +29,7 @@ PathPrg = load_PathProgram('MPC');
 
 
 %% Saving trial type and movie parameters
-data.dat.trial_type(Trial_num) = string('no_movie');
+data.dat.trial_type(Trial_num) = {'no_movie'};
 data.dat.movie_dir(Trial_num) = {nan};
 data.dat.movie_start_point(Trial_num) = nan;
 
@@ -101,8 +101,8 @@ end
 jitter = [3,4,5];
 iti = [5,4,3];
 
-wait_pathway_setup_1 = 1.5;
-wait_pathway_setup_2 = wait_pathway_setup_1 + 1.5;
+wait_pathway_setup_1 = 2;
+wait_pathway_setup_2 = wait_pathway_setup_1 + 2;
 wait_after_stimulus = wait_pathway_setup_2 + 12;
 wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
 wait_after_rating = wait_after_jitter + 5;

@@ -29,7 +29,7 @@ PathPrg = load_PathProgram('MPC');
 
 
 %% Saving trial type
-data.dat.trial_type(Trial_num) = string('with_movie');
+data.dat.trial_type(Trial_num) = {'with_movie'};
 
 
 %% Set intensity variable
