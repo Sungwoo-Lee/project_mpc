@@ -86,35 +86,36 @@ end
 
 
 %% Wait secs parameters
-jitter_1 = [3,4,5];
-jitter_2 = [5,5,5];
-iti = [5,4,3];
+pre_state = [4,5,6];
+jitter = [5,4,3];
+iti = 3;
 
 wait_after_movie = 20;
-wait_after_jitter_1 = wait_after_movie + jitter_1(jitter_index);
-wait_after_stimulus = wait_after_jitter_1 + 12;
-wait_after_jitter_2 = wait_after_stimulus + jitter_2(jitter_index);
-wait_after_rating = wait_after_jitter_2 + 5;
-total_trial_time = wait_after_rating + iti(jitter_index);
-between_trial_time = 1;
-
-%% Adjusting between trial time
-if Trial_num > 1
-    waitsec_fromstarttime(data.dat.trial_endtime(Trial_num-1), between_trial_time)
-else
-    waitsec_fromstarttime(data.dat.run_starttime(Trial_num), 1)
-end
-
+wait_after_pre_state = wait_after_movie + pre_state(jitter_index);
+wait_after_stimulus = wait_after_pre_state + 12;
+wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
+wait_after_rating = wait_after_jitter + 5;
+total_trial_time = wait_after_rating + iti;
+%between_trial_time = 1;
 
 %% Checking trial start time
 data.dat.trial_starttime(Trial_num) = GetSecs;
 data.dat.between_run_trial_starttime(Trial_num) = data.dat.trial_starttime(Trial_num) - data.dat.run_starttime(1);
 
+
+%% Adjusting between trial time
+if Trial_num > 1
+    waitsec_fromstarttime(data.dat.trial_endtime(Trial_num-1), 1)
+else
+    waitsec_fromstarttime(data.dat.run_starttime(Trial_num), 1)
+end
+
+
 %% Data recording
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 
-data.dat.movie_jitter_1_value = jitter_1;
-data.dat.movie_jitter_2_value = jitter_2;
+data.dat.movie_jitter_1_value = pre_state;
+data.dat.movie_jitter_2_value = jitter;
 data.dat.movie_iti_value = iti;
 
 data.dat.stim_prob(Trial_num) = prob_rand;
@@ -220,7 +221,7 @@ Screen(theWindow, 'FillRect', bgcolor, window_rect);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
 
-waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_jitter_1)
+waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_pre_state)
 
 
 %% Heat pain stimulus
@@ -255,7 +256,7 @@ Screen(theWindow, 'FillRect', bgcolor, window_rect);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
 
-waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_jitter_2)
+waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_jitter)
 
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 Screen('Flip', theWindow);
@@ -344,4 +345,5 @@ if Trial_num >1
 else
     data.dat.between_trial_time(Trial_num) = 0;
 end
+
 end

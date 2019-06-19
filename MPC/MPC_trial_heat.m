@@ -99,23 +99,23 @@ end
 
 %% Wait secs parameters
 jitter = [3,4,5];
-iti = [5,4,3];
+pre_state = [6,5,4];
 
-wait_pathway_setup_1 = 2;
-wait_pathway_setup_2 = wait_pathway_setup_1 + 2;
-wait_after_stimulus = wait_pathway_setup_2 + 12;
+% wait_pathway_setup_1 = 2;
+% wait_pathway_setup_2 = wait_pathway_setup_1 + 2;
+% wait_after_stimulus = wait_pathway_setup_2 + 12;
+% wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
+% wait_after_rating = wait_after_jitter + 5;
+% total_trial_time = wait_after_rating + iti(jitter_index);
+% between_trial_time = 1;
+
+
+wait_pre_state = pre_state(jitter_index);
+wait_after_stimulus = wait_pre_state + 12;
 wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
 wait_after_rating = wait_after_jitter + 5;
-total_trial_time = wait_after_rating + iti(jitter_index);
-between_trial_time = 1;
-
-
-%% Adjusting between trial time
-if Trial_num > 1
-    waitsec_fromstarttime(data.dat.trial_endtime(Trial_num-1), between_trial_time)
-else
-    waitsec_fromstarttime(data.dat.run_starttime(Trial_num), 1)
-end
+total_trial_time = wait_after_rating + 3;
+%between_trial_time = 1;
 
 
 %% Checking trial start time
@@ -123,11 +123,19 @@ data.dat.trial_starttime(Trial_num) = GetSecs;
 data.dat.between_run_trial_starttime(Trial_num) = data.dat.trial_starttime(Trial_num) - data.dat.run_starttime(1);
 
 
+%% Adjusting between trial time
+if Trial_num > 1
+    waitsec_fromstarttime(data.dat.trial_endtime(Trial_num-1), 1)
+else
+    waitsec_fromstarttime(data.dat.run_starttime(Trial_num), 1)
+end
+
+
 %% Data recording
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 
 data.dat.nomovie_jitter_value = jitter;
-data.dat.nomovie_iti_value = iti;
+data.dat.nomovie_iti_value = pre_state;
 data.dat.high_intensity_value = high_intensity;
 data.dat.low_intensity_value = low_intensity;
 
@@ -150,14 +158,14 @@ data.dat.stimulus_intensity(Trial_num) = stimulus_intensity;
 %% -------------Setting Pathway------------------
 if Pathway
     main(ip,port,1, intensity_program);     % select the program
-    waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_pathway_setup_1)
 end
+waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_pre_state-2) 
 
 %% -------------Ready for Pathway------------------
 if Pathway
     main(ip,port,2); %ready to pre-start
-    waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_pathway_setup_2)
 end
+waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_pre_state) % Because of wait_pathway_setup-2, this will be 2 seconds
 
 %% Heat pain stimulus
 if ~Pathway
