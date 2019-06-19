@@ -110,7 +110,7 @@ pre_state = [6,5,4];
 % between_trial_time = 1;
 
 
-wait_pre_state = pre_state(jitter_index);
+wait_pre_state = pre_state(jitter_index) + 1;
 wait_after_stimulus = wait_pre_state + 12;
 wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
 wait_after_rating = wait_after_jitter + 5;

@@ -3,6 +3,7 @@ clear;
 close all;
 
 %% SETTTING
+addpath(genpath(pwd));
 PATH = getenv('PATH');
 setenv('PATH', [PATH ':/Users/sungwoo320/anaconda3/bin:/Users/sungwoo320/anaconda3/condabin']); %For biopack, you need to add your python3 path
 %setenv('PATH', [PATH ':/Library/Frameworks/Python.framework/Versions/3.7/bin']);
@@ -28,7 +29,6 @@ dofmri = false;
 
 
 %% SETTING
-addpath(genpath(pwd));
 % or, you can load pre-determined information 
 global ip port
 ip = '192.168.0.3'; %ip = '115.145.189.133'; %ip = '203.252.54.21';

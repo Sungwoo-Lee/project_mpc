@@ -90,7 +90,7 @@ pre_state = [4,5,6];
 jitter = [5,4,3];
 iti = 3;
 
-wait_after_movie = 20;
+wait_after_movie = 20 + 1;
 wait_after_pre_state = wait_after_movie + pre_state(jitter_index);
 wait_after_stimulus = wait_after_pre_state + 12;
 wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
