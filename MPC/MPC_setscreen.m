@@ -1,11 +1,11 @@
-function [window_info, line_parameters, color_values] = MPC_setscreen(screen_mode)
+function screen_param = MPC_setscreen(expt_param)
 
     screens = Screen('Screens');
     window_num = screens(1);
     Screen('Preference', 'SkipSyncTests', 1);
     window_info = Screen('Resolution', window_num);
     
-    switch screen_mode
+    switch expt_param.screen_mode
         case 'Full'
             %window_rect = [0 0 window_info.width window_info.height]; % full screen
             window_rect = [0 0 1440 900]; % full screen
@@ -61,8 +61,8 @@ function [window_info, line_parameters, color_values] = MPC_setscreen(screen_mod
     HideCursor;
     
     %Making dictionary for return variables
-    window_info = struct('W',W, 'H',H, 'window_num',window_num, 'window_rect',window_rect, 'theWindow',theWindow, 'fontsize',fontsize, 'font',font);
-    line_parameters = struct('lb1',lb1, 'rb1',rb1, 'lb2',lb2, 'rb2',rb2, 'scale_W',scale_W, 'scale_H',scale_H, 'anchor_lms',anchor_lms);
-    color_values = struct('bgcolor',bgcolor, 'white',white, 'orange',orange, 'red',red);
+    screen_param.window_info = struct('W',W, 'H',H, 'window_num',window_num, 'window_rect',window_rect, 'theWindow',theWindow, 'fontsize',fontsize, 'font',font);
+    screen_param.line_parameters = struct('lb1',lb1, 'rb1',rb1, 'lb2',lb2, 'rb2',rb2, 'scale_W',scale_W, 'scale_H',scale_H, 'anchor_lms',anchor_lms);
+    screen_param.color_values = struct('bgcolor',bgcolor, 'white',white, 'orange',orange, 'red',red);
         
 end

@@ -9,23 +9,23 @@ setenv('PATH', [PATH ':/Users/sungwoo320/anaconda3/bin:/Users/sungwoo320/anacond
 %setenv('PATH', [PATH ':/Library/Frameworks/Python.framework/Versions/3.7/bin']);
 
 basedir = pwd;
-Run_name = 'sungwoo';
-Run_Num = 002;f
-screen_mode = 'Testmode'; %{'Testmode','Full'}
-eyelink_filename = 'F_NAME'; % Eyelink file name should be equal or less than 8
+expt_param.Run_name = 'movie';
+expt_param.Run_Num = 003;
+expt_param.screen_mode = 'Testmode'; %{'Testmode','Full'}
+expt_param.eyelink_filename = 'F_NAME'; % Eyelink file name should be equal or less than 8
 
-heat_intensity_table = [40, 45; 41, 46; 42, 47]; % stimulus intensity
-moviefile = fullfile(pwd, '/Video/1111.mp4');
-movie_duration = 20;
-caps_stim_duration = 90;
+expt_param.Pathway = false;
+expt_param.USE_BIOPAC = false;
+expt_param.USE_EYELINK = false;
+expt_param.dofmri = false;
 
-Trial_nums = 12;
-run_type = {'movie_heat'}; % {'no_movie_heat', 'movie_heat', 'CAPS'}
+expt_param.heat_intensity_table = [43, 44, 45, 46, 47, 48]; % stimulus intensity
+expt_param.moviefile = fullfile(pwd, '/Video/2222.mp4');
+expt_param.movie_duration = 20;
+expt_param.caps_stim_duration = 90;
 
-Pathway = false;
-USE_BIOPAC = false;
-USE_EYELINK = false;
-dofmri = false;
+expt_param.Trial_nums = 12;
+expt_param.run_type = {'movie_heat'}; % {'no_movie_heat', 'movie_heat', 'CAPS'}
 
 
 %% SETTING
@@ -36,15 +36,16 @@ port = 20121;
 
 
 %% Start experiment
-data = MPC_data_save(Run_name, Run_Num, basedir);
+data = MPC_data_save(expt_param, basedir);
+data.expt_param = expt_param;
 data.dat.experiment_start_time = GetSecs; 
 
-[window_info, line_parameters, color_values] = MPC_setscreen(screen_mode);
+screen_param = MPC_setscreen(expt_param);
 
-MPC_explain(window_info, line_parameters, color_values);
+MPC_explain(screen_param);
 
-MPC_practice(window_info, line_parameters, color_values);
+MPC_practice(screen_param);
 
-data = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, eyelink_filename, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
+data = MPC_run(screen_param, expt_param, data);
   
-data = MPC_close(window_info, line_parameters, color_values, data);
+data = MPC_close(screen_param, data);

@@ -1,31 +1,27 @@
-function [data, ckpt] = MPC_trial_heat(window_info, line_parameters, color_values, Trial_num, Pathway, data, ckpt, heat_intensity_table)
+function [data, ckpt] = MPC_trial_heat(screen_param, expt_param, Trial_num, data, ckpt, heat_param)
 global ip port;
 
 %% Assign variables
-font = window_info.font ;
-fontsize = window_info.fontsize;
-theWindow = window_info.theWindow;
-window_num = window_info.window_num ;
-window_rect = window_info.window_rect;
-H = window_info.H ;
-W = window_info.W;
+font = screen_param.window_info.font ;
+fontsize = screen_param.window_info.fontsize;
+theWindow = screen_param.window_info.theWindow;
+window_num = screen_param.window_info.window_num ;
+window_rect = screen_param.window_info.window_rect;
+H = screen_param.window_info.H ;
+W = screen_param.window_info.W;
 
-lb1 = line_parameters.lb1 ;
-lb2 = line_parameters.lb2 ;
-rb1 = line_parameters.rb1;
-rb2 = line_parameters.rb2;
-scale_H = line_parameters.scale_H ;
-scale_W = line_parameters.scale_W;
-anchor_lms = line_parameters.anchor_lms;
+lb1 = screen_param.line_parameters.lb1 ;
+lb2 = screen_param.line_parameters.lb2 ;
+rb1 = screen_param.line_parameters.rb1;
+rb2 = screen_param.line_parameters.rb2;
+scale_H = screen_param.line_parameters.scale_H ;
+scale_W = screen_param.line_parameters.scale_W;
+anchor_lms = screen_param.line_parameters.anchor_lms;
 
-bgcolor = color_values.bgcolor;
-orange = color_values.orange;
-red = color_values.red;
-white = color_values.white;   
-
-
-%% SETUP: load the pathway program
-PathPrg = load_PathProgram('MPC');
+bgcolor = screen_param.color_values.bgcolor;
+orange = screen_param.color_values.orange;
+red = screen_param.color_values.red;
+white = screen_param.color_values.white;   
 
 
 %% Saving trial type and movie parameters
@@ -44,39 +40,8 @@ else
 end
 
 
-%% Set intensity variable
-low_intensity = transpose(heat_intensity_table(:,1));
-high_intensity = transpose(heat_intensity_table(:,2));
-
-
-%% Convert stimulus intensity to Pathway program decimal
-size_Path = size(PathPrg);
-size_low_intensity = size(low_intensity);
-size_high_intensity = size(high_intensity);
-
-low_intensity_program = [];
-high_intensity_program = [];
-
-for i = 1:size_low_intensity(2)
-    for j = 1:size_Path(1)
-        if PathPrg{j,1} == low_intensity(1,i)
-            low_intensity_program = [low_intensity_program; PathPrg{j,4}];
-        end
-    end
-end
-
-for i = 1:size_high_intensity(2)
-    for j = 1:size_Path(1)
-        if PathPrg{j,1} == high_intensity(1,i)
-            high_intensity_program = [high_intensity_program; PathPrg{j,4}];
-        end
-    end
-end
-
-
 %% Random generation for stimulus parameters and jittering
 rng('shuffle')
-prob_rand = rand();
 jitter_index_rand = rand();
 intensity_index_rand = rand();
 
@@ -88,34 +53,16 @@ else
     jitter_index = 3;
 end
 
-if intensity_index_rand < 0.333
-    intensity_index = 1;
-elseif intensity_index_rand < 0.666
-    intensity_index = 2;
-else
-    intensity_index = 3;
-end
-
 
 %% Wait secs parameters
 jitter = [3,4,5];
 pre_state = [6,5,4];
-
-% wait_pathway_setup_1 = 2;
-% wait_pathway_setup_2 = wait_pathway_setup_1 + 2;
-% wait_after_stimulus = wait_pathway_setup_2 + 12;
-% wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
-% wait_after_rating = wait_after_jitter + 5;
-% total_trial_time = wait_after_rating + iti(jitter_index);
-% between_trial_time = 1;
-
 
 wait_pre_state = pre_state(jitter_index) + 1;
 wait_after_stimulus = wait_pre_state + 12;
 wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
 wait_after_rating = wait_after_jitter + 5;
 total_trial_time = wait_after_rating + 3;
-%between_trial_time = 1;
 
 
 %% Checking trial start time
@@ -136,50 +83,30 @@ Screen(theWindow, 'FillRect', bgcolor, window_rect);
 
 data.dat.nomovie_jitter_value = jitter;
 data.dat.nomovie_iti_value = pre_state;
-data.dat.high_intensity_value = high_intensity;
-data.dat.low_intensity_value = low_intensity;
-
-data.dat.stim_prob(Trial_num) = prob_rand;
 data.dat.jitter_index(Trial_num) = jitter_index;
-data.dat.intensity_index(Trial_num) = intensity_index;
-
-
-%% Setting stimulus intensity
-if prob_rand > 0.5
-    intensity_program = high_intensity_program(intensity_index);
-    stimulus_intensity = high_intensity(intensity_index);
-else
-    intensity_program = low_intensity_program(intensity_index);
-    stimulus_intensity = low_intensity(intensity_index);
-end
-data.dat.stimulus_intensity(Trial_num) = stimulus_intensity;
 
 
 %% -------------Setting Pathway------------------
-if Pathway
-    main(ip,port,1, intensity_program);     % select the program
+if expt_param.Pathway
+    main(ip,port,1, heat_param.program);     % select the program
 end
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_pre_state-2) 
 
 %% -------------Ready for Pathway------------------
-if Pathway
+if expt_param.Pathway
     main(ip,port,2); %ready to pre-start
 end
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_pre_state) % Because of wait_pathway_setup-2, this will be 2 seconds
 
 %% Heat pain stimulus
-if ~Pathway
+if ~expt_param.Pathway
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
-    if prob_rand > 0.5
-        DrawFormattedText(theWindow, double('High Stimulus'), 'center', 'center', white, [], [], [], 1.2);
-    else
-        DrawFormattedText(theWindow, double('Low Stimulus'), 'center', 'center', white, [], [], [], 1.2);
-    end
+    DrawFormattedText(theWindow, double(num2str(heat_param.intensity)), 'center', 'center', white, [], [], [], 1.2);
     Screen('Flip', theWindow);
 end
 
 %% ------------- start to trigger thermal stimulus------------------
-if Pathway
+if expt_param.Pathway
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
     DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
     Screen('Flip', theWindow);
@@ -211,7 +138,7 @@ rating_types_pls = call_ratingtypes_pls;
 all_start_t = GetSecs;
 
 scale = ('overall_int');
-[lb, rb, start_center] = draw_scale_pls(scale, window_info, line_parameters, color_values);
+[lb, rb, start_center] = draw_scale_pls(scale, screen_param.window_info, screen_param.line_parameters, screen_param.color_values);
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 
 start_t = GetSecs;
@@ -230,7 +157,7 @@ end
 %% Rating start
 while true
     [x,~,button] = GetMouse(theWindow);
-    [lb, rb, start_center] = draw_scale_pls(scale, window_info, line_parameters, color_values);
+    [lb, rb, start_center] = draw_scale_pls(scale, screen_param.window_info, screen_param.line_parameters, screen_param.color_values);
     if x < lb; x = lb; elseif x > rb; x = rb; end
     
     DrawFormattedText(theWindow, double(rating_types_pls.prompts{ratetype}), 'center', H*(1/4), white, [], [], [], 2);

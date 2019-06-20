@@ -62,47 +62,47 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     eyelink_filename = 'F_NAME'; % Eyelink file name should be equal or less than 8
 
     %% Experiment tag
-    Run_name = get(handles.run_name_edit, 'String');
-    Run_Num = str2num(get(handles.run_num_edit, 'String'));
+    expt_param.Run_name = get(handles.run_name_edit, 'String');
+    expt_param.Run_Num = str2num(get(handles.run_num_edit, 'String'));
     
     %% Experiment design
-    Trial_nums = str2num(get(handles.trial_num_edit, 'String'));
-    Run_nums = str2num(get(handles.run_num_edit, 'String'));
+    expt_param.Trial_nums = str2num(get(handles.trial_num_edit, 'String'));
+    expt_param.Run_nums = str2num(get(handles.run_num_edit, 'String'));
   
     if get(handles.explain_check,'Value'); explain = true; else; explain = false; end
     if get(handles.practice_chack,'Value'); practice = true; else; practice = false; end
     if get(handles.run_check,'Value'); run = true; else; run = false; end
-    if get(handles.pathway_check,'Value'); Pathway = true; else; Pathway = false; end
-    if get(handles.biopack_check,'Value'); USE_BIOPAC = true; else; USE_BIOPAC = false; end
-    if get(handles.eyelink_check,'Value'); USE_EYELINK = true; else; USE_EYELINK = false; end
-    if get(handles.fMRI_check,'Value'); dofmri = true; else; dofmri = false; end
+    if get(handles.pathway_check,'Value'); expt_param.Pathway = true; else; expt_param.Pathway = false; end
+    if get(handles.biopack_check,'Value'); expt_param.USE_BIOPAC = true; else; expt_param.USE_BIOPAC = false; end
+    if get(handles.eyelink_check,'Value'); expt_param.USE_EYELINK = true; else; expt_param.USE_EYELINK = false; end
+    if get(handles.fMRI_check,'Value'); expt_param.dofmri = true; else; expt_param.dofmri = false; end
 
     %% Experiment parameters
-    heat_intensity_table = get(handles.table1, 'data');
-    moviefile = get(handles.movie_dir_edit, 'string');
-    movie_duration = str2num(get(handles.movie_dur_edit, 'String'));
-    caps_stim_duration = str2num(get(handles.caps_dur_edit, 'string'));
+    expt_param.heat_intensity_table = get(handles.table1, 'data');
+    expt_param.moviefile = get(handles.movie_dir_edit, 'string');
+    expt_param.movie_duration = str2num(get(handles.movie_dur_edit, 'String'));
+    expt_param.caps_stim_duration = str2num(get(handles.caps_dur_edit, 'string'));
     
     %% Error check for movie directory
-    run_type = handles.run_type;
-    if strcmp(run_type,'movie_heat') & strcmp(moviefile,'None')
+    expt_param.run_type = handles.run_type;
+    if strcmp(expt_param.run_type,'movie_heat') & strcmp(expt_param.moviefile,'None')
         error('Movie directory is None. You have to select movie!')
     end
 
     %% Screen setting
-    screen_mode = handles.screen_mode;
+    expt_param.screen_mode = handles.screen_mode;
     if get(handles.full_button, 'Value')
-        screen_mode = get(handles.full_button, 'string');
+        expt_param.screen_mode = get(handles.full_button, 'string');
     elseif get(handles.semifull_button, 'Value')
-        screen_mode = get(handles.semifull_button, 'string');
+        expt_param.screen_mode = get(handles.semifull_button, 'string');
     elseif get(handles.middle_button, 'Value')
-        screen_mode = get(handles.middle_button, 'string');
+        expt_param.screen_mode = get(handles.middle_button, 'string');
     elseif get(handles.small_button, 'Value')
-        screen_mode = get(handles.small_button, 'string');
+        expt_param.screen_mode = get(handles.small_button, 'string');
     elseif get(handles.test_button, 'Value')
-        screen_mode = get(handles.test_button, 'string');
+        expt_param.screen_mode = get(handles.test_button, 'string');
     elseif get(handles.testmode_button, 'Value')
-        screen_mode = get(handles.testmode_button, 'string');
+        expt_param.screen_mode = get(handles.testmode_button, 'string');
     end
 
     %% SETTING pathway ip and port
@@ -112,28 +112,28 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
 
     %% Make Data struct
     basedir = pwd;
-    data = MPC_data_save(Run_name, Run_Num, basedir);
+    data.expt_param = expt_param;
+    data = MPC_data_save(expt_param, basedir);
     
     %% Check experiment start time
     data.dat.experiment_start_time = GetSecs; 
 
-    [window_info, line_parameters, color_values] = MPC_setscreen(screen_mode);
+    screen_param = MPC_setscreen(expt_param);
     %% Explain and Practice Experiment
     if explain
-    MPC_explain(window_info, line_parameters, color_values);
+        MPC_explain(screen_param);
     end
 
     if practice
-    MPC_practice(window_info, line_parameters, color_values);
+        MPC_practice(screen_param);
     end
 
     %% Start Run
-    data = MPC_run(window_info, line_parameters, color_values, Trial_nums, run_type, Pathway, USE_BIOPAC, USE_EYELINK, eyelink_filename, dofmri, data, heat_intensity_table, moviefile, movie_duration, caps_stim_duration);
-
-
+    if run
+        data = MPC_run(screen_param, expt_param, data);
+    end
     %% Close Experiment
-    data = MPC_close(window_info, line_parameters, color_values, data);
-
+    data = MPC_close(screen_param, data);
 end
 
 
