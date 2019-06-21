@@ -39,6 +39,10 @@ if expt_param.USE_EYELINK
     waitsec_fromstarttime(GetSecs, .5);
 end
 
+
+% Keyboard input setting
+% device(1).product = 'Apple Keyboard';   % imac scanner (full keyboard)
+% device(1).vendorID= 1452;
 %% Ready for start run
 while true
     msgtxt = '\n모두 준비되었으면, a를 눌러주세요.\n\n (Check Eyelink, Biopack, etc...)\n\n';
@@ -55,12 +59,18 @@ while true
 end
 
 
+% ===== Scanner trigger setting
+% device(3).product = 'KeyWarrior8 Flex';
+% device(3).vendorID= 1984;
+% scanner = IDkeyboards(device(3));
+
 %% Waitting for 's' or 't' key
 while true
     msgtxt = '\n스캔(s) \n\n 테스트(t)';
     DrawFormattedText(theWindow, double(msgtxt), 'center', 'center', white, [], [], [], 2);
     Screen('Flip', theWindow);
     
+%   [~,~,keyCode] = KbCheck(scanner);
     [~,~,keyCode] = KbCheck;
     % If it is for fMRI experiment, it will start with "s",
     % But if it is test time, it will start with "t" key.
