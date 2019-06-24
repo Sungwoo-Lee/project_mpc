@@ -175,7 +175,7 @@ PathPrg = load_PathProgram('MPC');
 
 for mm = 1:length(shuffled_heat_list)
     index = find([PathPrg{:,1}] == shuffled_heat_list(mm));
-    heat_param(mm).program = {PathPrg{index, 2}};
+    heat_param(mm).program = PathPrg{index, 4};
     heat_param(mm).intensity = shuffled_heat_list(mm);
 end
 

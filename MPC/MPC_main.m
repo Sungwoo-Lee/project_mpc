@@ -31,7 +31,7 @@ expt_param.run_type = {'movie_heat'}; % {'no_movie_heat', 'movie_heat', 'CAPS'}
 %% SETTING
 % or, you can load pre-determined information 
 global ip port
-ip = '192.168.0.3'; %ip = '115.145.189.133'; %ip = '203.252.54.21';
+ip = '192.168.0.2'; %ip = '115.145.189.133'; %ip = '203.252.54.21';
 port = 20121;
 
 
