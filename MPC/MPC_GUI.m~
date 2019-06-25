@@ -22,7 +22,7 @@ function varargout = MPC_GUI(varargin)
 
 % Edit the above text to modify the response to help MPC_GUI
 
-% Last Modified by GUIDE v2.5 25-Jun-2019 17:56:53
+% Last Modified by GUIDE v2.5 13-Jun-2019 14:33:22
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -82,7 +82,6 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     expt_param.moviefile = get(handles.movie_dir_edit, 'string');
     expt_param.movie_duration = str2num(get(handles.movie_dur_edit, 'String'));
     expt_param.caps_stim_duration = str2num(get(handles.caps_dur_edit, 'string'));
-    expt_param.resting_duration = str2num(get(handles.resting_edit, 'string'));
     
     %% Error check for movie directory
     expt_param.run_type = handles.run_type;
@@ -92,15 +91,25 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     
     %% Run type setting
     if get(handles.nomovie_button, 'Value')
-        expt_param.run_type = {'no_movie_heat'};
+        expt_param.run_type = get(handles.nomovie_button, 'string');
     elseif get(handles.movie_button, 'Value')
-        expt_param.run_type = {'movie_heat'};
+                expt_param.run_type = get(handles.movie_button, 'string');
     elseif  get(handles.caps_button, 'Value')
-        expt_param.run_type = {'caps'};
-    elseif   get(handles.resting_button, 'Value')
-        expt_param.run_type = {'resting'};
+                        expt_param.run_type = get(handles.caps_button, 'string');
+    elseif   get(handles.caps_button, 'Value')
+        
+        
+    switch(get(eventdata.NewValue, 'Tag'))
+        case 'nomovie_button'
+            run_type = {'no_movie_heat'};
+        case 'movie_button'
+            run_type = {'movie_heat'};
+        case 'caps_button'
+            run_type = {'caps'};
+        case 'resting_button'
+            run_type = {'resting'};
     end
-    
+    handles.run_type = run_type;
 
     %% Screen setting
     expt_param.screen_mode = handles.screen_mode;
@@ -384,24 +393,3 @@ handles.run_type = run_type;
 handles.output = hObject;
 % Update handles structure
 guidata(hObject, handles);
-
-function resting_edit_Callback(hObject, eventdata, handles)
-% hObject    handle to resting_edit (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of resting_edit as text
-%        str2double(get(hObject,'String')) returns contents of resting_edit as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function resting_edit_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to resting_edit (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end

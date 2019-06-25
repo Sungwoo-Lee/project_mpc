@@ -26,7 +26,7 @@ expt_param.caps_stim_duration = 90;
 expt_param.resting_duration = 90;
 
 expt_param.Trial_nums = 12;
-expt_param.run_type = {'resting'}; % {'no_movie_heat', 'movie_heat', 'caps', 'resting'}
+expt_param.run_type = {'resting'}; % {'no_movie_heat', 'movie_heat', 'CAPS', 'resting'}
 
 
 %% SETTING

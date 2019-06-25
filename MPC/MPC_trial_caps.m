@@ -1,5 +1,4 @@
 function [data] = MPC_trial_caps(screen_param, expt_param, data)
-
 %% Assign variables
 font = screen_param.window_info.font ;
 fontsize = screen_param.window_info.fontsize;
@@ -43,7 +42,7 @@ DrawFormattedText(theWindow, double('자극을 전달하세요'), 'center', 'center', wh
 Screen('Flip', theWindow);
 
 %% Adjusting Stimulus delivering time
-waitsec_fromstarttime(caps_stim_start, 20)
+waitsec_fromstarttime(caps_stim_start, 30)
 
 %% Setting for rating
 rating_types_pls = call_ratingtypes_pls;

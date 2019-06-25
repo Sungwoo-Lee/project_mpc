@@ -57,25 +57,27 @@ end
 %% Wait secs parameters
 jitter = [3,4,5];
 pre_state = [6,5,4];
+iti = 1;
 
-wait_pre_state = pre_state(jitter_index) + 1;
+wait_after_iti = iti;
+wait_pre_state = pre_state(jitter_index);
 wait_after_stimulus = wait_pre_state + 12;
 wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
 wait_after_rating = wait_after_jitter + 5;
 total_trial_time = wait_after_rating + 3;
 
 
+%% Adjusting between trial time
+if Trial_num > 1
+    waitsec_fromstarttime(data.dat.trial_endtime(Trial_num-1), wait_after_iti)
+else
+    waitsec_fromstarttime(data.dat.run_starttime(Trial_num), wait_after_iti)
+end
+
+
 %% Checking trial start time
 data.dat.trial_starttime(Trial_num) = GetSecs;
 data.dat.between_run_trial_starttime(Trial_num) = data.dat.trial_starttime(Trial_num) - data.dat.run_starttime(1);
-
-
-%% Adjusting between trial time
-if Trial_num > 1
-    waitsec_fromstarttime(data.dat.trial_endtime(Trial_num-1), 1)
-else
-    waitsec_fromstarttime(data.dat.run_starttime(Trial_num), 1)
-end
 
 
 %% Data recording
@@ -153,7 +155,6 @@ else
     SetMouse(lb,H/2); % set mouse at the left
 end
 
-
 %% Rating start
 while true
     [x,~,button] = GetMouse(theWindow);
@@ -181,7 +182,6 @@ while true
     end
 end
 
-
 %% saving rating result
 end_t = GetSecs;
 
@@ -192,10 +192,8 @@ data.dat.rating_duration(Trial_num) = end_t - start_t;
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 Screen('Flip', theWindow);
 
-
 %% rating time adjusting
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_rating)
-
 
 %% Adjusting total trial time
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
@@ -203,7 +201,6 @@ DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [],
 Screen('Flip', theWindow);
 
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), total_trial_time)
-
 
 %% saving trial end time
 data.dat.trial_endtime(Trial_num) = GetSecs;

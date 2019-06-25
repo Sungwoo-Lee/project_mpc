@@ -41,16 +41,24 @@ end
 
 
 % Keyboard input setting
-device(1).product = 'Apple Keyboard';
-device(1).vendorID= 1452;
-apple = IDkeyboards(device(1));
+if expt_param.dofmri
+    device(1).product = 'Apple Internal Keyboard / Trackpad';
+    device(1).vendorID= 1452;
+    apple = IDkeyboards(device(1));
+end 
+
 %% Ready for start run
 while true
     msgtxt = '\n모두 준비되었으면, a를 눌러주세요.\n\n (Check Eyelink, Biopack, etc...)\n\n';
     DrawFormattedText(theWindow, double(msgtxt), 'center', 'center', white, [], [], [], 2);
     Screen('Flip', theWindow);
     
-    [~,~,keyCode] = KbCheck(apple);
+    if expt_param.dofmri
+        [~,~,keyCode] = KbCheck(apple);
+    else
+        [~,~,keyCode] = KbCheck;
+    end
+    
     if keyCode(KbName('a')) == 1
         break
     elseif keyCode(KbName('q')) == 1
@@ -61,9 +69,11 @@ end
 
 
 % ===== Scanner trigger setting
-device(2).product = 'KeyWarrior8 Flex'; 
-device(2).vendorID= 1984;
-scanner = IDkeyboards(device(2));
+if expt_param.dofmri
+    device(2).product = 'KeyWarrior8 Flex';
+    device(2).vendorID= 1984;
+    scanner = IDkeyboards(device(2));
+end
 
 %% Waitting for 's' or 't' key
 while true
@@ -71,8 +81,12 @@ while true
     DrawFormattedText(theWindow, double(msgtxt), 'center', 'center', white, [], [], [], 2);
     Screen('Flip', theWindow);
     
-    [~,~,keyCode] = KbCheck(scanner);
-    [~,~,keyCode2] = KbCheck(apple);
+    if expt_param.dofmri
+        [~,~,keyCode] = KbCheck(scanner);
+        [~,~,keyCode2] = KbCheck(apple);
+    else
+        [~,~,keyCode] = KbCheck;
+    end
     % If it is for fMRI experiment, it will start with "s",
     % But if it is test time, it will start with "t" key.
     if expt_param.dofmri
@@ -82,9 +96,9 @@ while true
             abort_experiment;
         end
     else
-        if keyCode2(KbName('t'))==1
+        if keyCode(KbName('t'))==1
             break
-        elseif keyCode2(KbName('q'))==1
+        elseif keyCode(KbName('q'))==1
             abort_experiment;
         end
     end
@@ -216,9 +230,11 @@ elseif strcmp(expt_param.run_type, 'movie_heat') % Movie heat Run
             [data, ckpt] = MPC_trial_heat(screen_param, expt_param, Trial_num, data, ckpt, heat_param(Trial_num));
         end
     end
-    
-else % CAPS Run
+elseif strcmp(expt_param.run_type, 'caps') % CAPS Run
     data = MPC_trial_caps(screen_param, expt_param, data);
+    
+else % Resting Run
+    data = MPC_trial_resting(screen_param, expt_param, data);
 end
 
 

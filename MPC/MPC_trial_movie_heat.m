@@ -46,26 +46,27 @@ end
 pre_state = [4,5,6];
 jitter = [5,4,3];
 iti = 3;
+iti2 = 1;
 
-wait_after_movie = 20 + 1;
+wait_after_iti2 = iti2;
+wait_after_movie = expt_param.movie_duration;
 wait_after_pre_state = wait_after_movie + pre_state(jitter_index);
 wait_after_stimulus = wait_after_pre_state + 12;
 wait_after_jitter = wait_after_stimulus + jitter(jitter_index);
 wait_after_rating = wait_after_jitter + 5;
 total_trial_time = wait_after_rating + iti;
 
+%% Adjusting between trial time
+if Trial_num > 1
+    waitsec_fromstarttime(data.dat.trial_endtime(Trial_num-1), wait_after_iti2)
+else
+    waitsec_fromstarttime(data.dat.run_starttime(Trial_num), wait_after_iti2)
+end
+
 
 %% Checking trial start time
 data.dat.trial_starttime(Trial_num) = GetSecs;
 data.dat.between_run_trial_starttime(Trial_num) = data.dat.trial_starttime(Trial_num) - data.dat.run_starttime(1);
-
-
-%% Adjusting between trial time
-if Trial_num > 1
-    waitsec_fromstarttime(data.dat.trial_endtime(Trial_num-1), 1)
-else
-    waitsec_fromstarttime(data.dat.run_starttime(Trial_num), 1)
-end
 
 
 %% Data recording
@@ -242,7 +243,7 @@ while true
     
     [~,~,keyCode] = KbCheck;
     if keyCode(KbName('q')) == 1
-        abort_experiment('manual');
+        abort_experiment;
         break
     end
     if GetSecs - data.dat.rating_starttime(Trial_num) > 5
