@@ -41,15 +41,16 @@ end
 
 
 % Keyboard input setting
-% device(1).product = 'Apple Keyboard';   % imac scanner (full keyboard)
-% device(1).vendorID= 1452;
+device(1).product = 'Apple Keyboard';
+device(1).vendorID= 1452;
+apple = IDkeyboards(device(1));
 %% Ready for start run
 while true
     msgtxt = '\n모두 준비되었으면, a를 눌러주세요.\n\n (Check Eyelink, Biopack, etc...)\n\n';
     DrawFormattedText(theWindow, double(msgtxt), 'center', 'center', white, [], [], [], 2);
     Screen('Flip', theWindow);
     
-    [~,~,keyCode] = KbCheck;
+    [~,~,keyCode] = KbCheck(apple);
     if keyCode(KbName('a')) == 1
         break
     elseif keyCode(KbName('q')) == 1
@@ -60,9 +61,9 @@ end
 
 
 % ===== Scanner trigger setting
-% device(3).product = 'KeyWarrior8 Flex';
-% device(3).vendorID= 1984;
-% scanner = IDkeyboards(device(3));
+device(2).product = 'KeyWarrior8 Flex'; 
+device(2).vendorID= 1984;
+scanner = IDkeyboards(device(2));
 
 %% Waitting for 's' or 't' key
 while true
@@ -70,20 +71,20 @@ while true
     DrawFormattedText(theWindow, double(msgtxt), 'center', 'center', white, [], [], [], 2);
     Screen('Flip', theWindow);
     
-%   [~,~,keyCode] = KbCheck(scanner);
-    [~,~,keyCode] = KbCheck;
+    [~,~,keyCode] = KbCheck(scanner);
+    [~,~,keyCode2] = KbCheck(apple);
     % If it is for fMRI experiment, it will start with "s",
     % But if it is test time, it will start with "t" key.
     if expt_param.dofmri
         if keyCode(KbName('s'))==1
             break
-        elseif keyCode(KbName('q'))==1
+        elseif keyCode2(KbName('q'))==1
             abort_experiment;
         end
     else
-        if keyCode(KbName('t'))==1
+        if keyCode2(KbName('t'))==1
             break
-        elseif keyCode(KbName('q'))==1
+        elseif keyCode2(KbName('q'))==1
             abort_experiment;
         end
     end
