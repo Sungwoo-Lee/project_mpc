@@ -203,7 +203,7 @@ Screen('Flip', theWindow);
 
 
 %% Setting for rating
-rating_types_pls = call_ratingtypes_pls;
+rating_types_pls = call_ratingtypes_pls('temp');
 
 all_start_t = GetSecs;
 

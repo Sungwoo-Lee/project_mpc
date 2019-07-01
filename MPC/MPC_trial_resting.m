@@ -27,11 +27,41 @@ resting_start = GetSecs;
 data.dat.resting_start = resting_start;
 
 
+
+%% Setting for rating
+all_start_t = GetSecs;
+
+scale = ('resting_int');
+[lb, rb, start_center] = draw_scale_pls(scale, screen_param.window_info, screen_param.line_parameters, screen_param.color_values);
+Screen(theWindow, 'FillRect', bgcolor, window_rect);
+
+
+%% Initial mouse position
+if start_center
+    SetMouse(W/2,H/2); % set mouse at the center
+else
+    SetMouse(lb,H/2); % set mouse at the left
+end
+
+start_rating = GetSecs;
+
+rec_i = 0;
+
+continuous_rating_start = GetSecs;
+data.dat.continuous_rating_start = continuous_rating_start;
+
+
 %% Fixation
 while true
-    Screen(theWindow, 'FillRect', bgcolor, window_rect);
-    DrawFormattedText(theWindow, double('resting'), 'center', 'center', white, [], [], [], 1.2);
+    [x,~,button] = GetMouse(theWindow);
+    [lb, rb, start_center] = draw_scale_pls(scale, screen_param.window_info, screen_param.line_parameters, screen_param.color_values);
+    if x < lb; x = lb; elseif x > rb; x = rb; end
+    
+    rating_types_pls = call_ratingtypes_pls('resting');
+    DrawFormattedText(theWindow, double(rating_types_pls.prompts{1}), 'center', H*(1/4), white, [], [], [], 2);
+    Screen('DrawLine', theWindow, orange, x, H*(1/2)-scale_H/3, x, H*(1/2)+scale_H/3, 6); %rating bar
     Screen('Flip', theWindow);
+    data.dat.caps_stim_deliver = GetSecs;
     
     [~,~,keyCode] = KbCheck;
     if keyCode(KbName('q')) == 1

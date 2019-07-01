@@ -29,7 +29,7 @@ if expt_param.USE_EYELINK
     %eyelink_filename = 'F_NAME'; % name should be equal or less than 8
     %edf_filename = ['M_' new_SID '_' num2str(runNbr)];
     edfFile = sprintf('%s.EDF', expt_param.eyelink_filename);
-    eyelink_main(edfFile, window_info, 'Init');
+    eyelink_main(edfFile, screen_param.window_info, 'Init');
     
     status = Eyelink('Initialize');
     if status
@@ -126,7 +126,7 @@ end
 
 if expt_param.USE_EYELINK
     Eyelink('StartRecording');
-    %data.dat{runNbr}{trial_Number(j)}.eyetracker_starttime = GetSecs; % eyelink timestamp
+    data.dat.eyetracker_starttime = GetSecs; % eyelink timestamp
     Eyelink('Message','Run start');
 end
 
@@ -242,6 +242,7 @@ end
 if expt_param.USE_EYELINK
     Eyelink('Message','Run ends');
     eyelink_main(edfFile, window_info, 'Shutdown');
+    data.dat.eyelink_endtime = GetSecs;
 end
 
 if expt_param.USE_BIOPAC %end BIOPAC

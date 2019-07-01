@@ -1,4 +1,4 @@
-function rating_types_pls = call_ratingtypes_pls
+function rating_types_pls = call_ratingtypes_pls(type)
 %call_ratingtypes
 %This function can call dictionary of rating types and prompts.
 %its output is rating_types, and it has 3 substructure.
@@ -11,17 +11,63 @@ function rating_types_pls = call_ratingtypes_pls
 % YOU CAN ADD TYPES AND PROMPTS HERE. "cont_" AND "overall_" ARE IMPORTANT.
 % * CRUCIAL: THE ORDER BETWEEN alltypes AND prompts SHOULD BE THE SAME.*
 
-
-temp_rating_types_pls = {
-    'overall_int', '통증이 얼마나 강했나요?';...
-    };
-
-rating_types_pls.alltypes = temp_rating_types_pls(:,1);
-rating_types_pls.prompts = temp_rating_types_pls(:,2);
-
-rating_types_pls.postallstims = {'REST'};
-rating_types_pls.postalltypes{1} = ...
-    {'overall_int'};
-
+switch type
+    case 'temp'
+        temp_rating_types_pls = {
+            'overall_int', '통증이 얼마나 강했나요?';...
+            };
+        
+        rating_types_pls.alltypes = temp_rating_types_pls(:,1);
+        rating_types_pls.prompts = temp_rating_types_pls(:,2);
+        
+        rating_types_pls.postallstims = {'REST'};
+        rating_types_pls.postalltypes{1} = ...
+            {'overall_int'};
+    case 'continue'
+        temp_rating_types_pls = {
+            'overall_int', '통증이 얼마나 강한가요?';...
+            };
+        
+        rating_types_pls.alltypes = temp_rating_types_pls(:,1);
+        rating_types_pls.prompts = temp_rating_types_pls(:,2);
+        
+        rating_types_pls.postallstims = {'REST'};
+        rating_types_pls.postalltypes{1} = ...
+            {'overall_int'};
+    case 'deliver'
+        temp_rating_types_pls = {
+            'overall_int', '통증이 얼마나 강한가요?\n자극을 전달하세요';...
+            };
+        
+        rating_types_pls.alltypes = temp_rating_types_pls(:,1);
+        rating_types_pls.prompts = temp_rating_types_pls(:,2);
+        
+        rating_types_pls.postallstims = {'REST'};
+        rating_types_pls.postalltypes{1} = ...
+            {'overall_int'};
+    case 'remove'
+        temp_rating_types_pls = {
+            'overall_int', '통증이 얼마나 강한가요?\n자극을 제거하세요';...
+            };
+        
+        rating_types_pls.alltypes = temp_rating_types_pls(:,1);
+        rating_types_pls.prompts = temp_rating_types_pls(:,2);
+        
+        rating_types_pls.postallstims = {'REST'};
+        rating_types_pls.postalltypes{1} = ...
+            {'overall_int'};
+        
+        
+    case 'resting'
+        temp_rating_types_pls = {
+            'resting_int', 'resting';...
+            };
+        
+        rating_types_pls.alltypes = temp_rating_types_pls(:,1);
+        rating_types_pls.prompts = temp_rating_types_pls(:,2);
+        
+        rating_types_pls.postallstims = {'REST'};
+        rating_types_pls.postalltypes{1} = ...
+            {'resting_int'};
 
 end
