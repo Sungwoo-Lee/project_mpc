@@ -55,8 +55,8 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     
     %% Biopack Python setting
     PATH = getenv('PATH');
-    %setenv('PATH', [PATH ':/Users/sungwoo320/anaconda3/bin:/Users/sungwoo320/anaconda3/condabin']); %For biopack, you need to add your python3 enviroment path
-    setenv('PATH', [PATH ':/Library/Frameworks/Python.framework/Versions/3.7/bin']);
+    setenv('PATH', [PATH ':/Users/sungwoo320/anaconda3/bin:/Users/sungwoo320/anaconda3/condabin']); %For biopack, you need to add your python3 enviroment path
+    %setenv('PATH', [PATH ':/Library/Frameworks/Python.framework/Versions/3.7/bin']);
     
     %% Eyelink file name
     expt_param.eyelink_filename = 'F_NAME'; % Eyelink file name should be equal or less than 8
@@ -106,14 +106,14 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     expt_param.screen_mode = handles.screen_mode;
     if get(handles.full_button, 'Value')
         expt_param.screen_mode = get(handles.full_button, 'string');
-    elseif get(handles.semifull_button, 'Value')
-        expt_param.screen_mode = get(handles.semifull_button, 'string');
-    elseif get(handles.middle_button, 'Value')
-        expt_param.screen_mode = get(handles.middle_button, 'string');
-    elseif get(handles.small_button, 'Value')
-        expt_param.screen_mode = get(handles.small_button, 'string');
-    elseif get(handles.test_button, 'Value')
-        expt_param.screen_mode = get(handles.test_button, 'string');
+%     elseif get(handles.semifull_button, 'Value')
+%         expt_param.screen_mode = get(handles.semifull_button, 'string');
+%     elseif get(handles.middle_button, 'Value')
+%         expt_param.screen_mode = get(handles.middle_button, 'string');
+%     elseif get(handles.small_button, 'Value')
+%         expt_param.screen_mode = get(handles.small_button, 'string');
+%     elseif get(handles.test_button, 'Value')
+%         expt_param.screen_mode = get(handles.test_button, 'string');
     elseif get(handles.testmode_button, 'Value')
         expt_param.screen_mode = get(handles.testmode_button, 'string');
     end

@@ -7,8 +7,8 @@ function screen_param = MPC_setscreen(expt_param)
     
     switch expt_param.screen_mode
         case 'Full'
-            window_rect = [0 0 window_info.width window_info.height]; % full screen
-            %window_rect = [0 0 1440 900]; % full screen
+            %window_rect = [0 0 window_info.width window_info.height]; % full screen
+            window_rect = [0 0 1440 900]; % full screen
             fontsize = 50;
         case 'Semifull'
             window_rect = [0 0 window_info.width-100 window_info.height-100]; % a little bit distance
