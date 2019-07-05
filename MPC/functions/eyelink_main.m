@@ -1,8 +1,10 @@
-function eyelink_main(edfFile, window_info, varargin)
+function eyelink_main(edfFile, varargin)
+global theWindow
+% theWindow = window_info.theWindow;
+% H = window_info.H ;
+% W = window_info.W;
 
-theWindow = window_info.theWindow;
-H = window_info.H ;
-W = window_info.W;
+
 % eyelink_main(savefilename, varargin)
 % 
 % varargin: 'Init', 'Shutdown'

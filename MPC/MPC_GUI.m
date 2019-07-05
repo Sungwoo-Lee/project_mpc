@@ -3,7 +3,7 @@ function varargout = MPC_GUI(varargin)
 %      MPC_GUI, by itself, creates a new MPC_GUI or raises the existing
 %      singleton*.
 %
-%      H = MPC_GUI returns the handle to a new MPC_GUI or the handle to
+%      H = MPC_GUI returns the handle to a new MPC_GUI312 or the handle to
 %      the existing singleton*.
 %
 %      MPC_GUI('CALLBACK',hObject,eventData,handles,...) calls the local
@@ -55,11 +55,11 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     
     %% Biopack Python setting
     PATH = getenv('PATH');
-    setenv('PATH', [PATH ':/Users/sungwoo320/anaconda3/bin:/Users/sungwoo320/anaconda3/condabin']); %For biopack, you need to add your python3 enviroment path
-    %setenv('PATH', [PATH ':/Library/Frameworks/Python.framework/Versions/3.7/bin']);
+    %setenv('PATH', [PATH ':/Users/sungwoo320/anaconda3/bin:/Users/sungwoo320/anaconda3/condabin']); %For biopack, you need to add your python3 enviroment path
+    setenv('PATH', [PATH ':/Library/Frameworks/Python.framework/Versions/3.7/bin']);
     
     %% Eyelink file name
-    eyelink_filename = 'F_NAME'; % Eyelink file name should be equal or less than 8
+    expt_param.eyelink_filename = 'F_NAME'; % Eyelink file name should be equal or less than 8
 
     %% Experiment tag
     expt_param.Run_name = get(handles.run_name_edit, 'String');
@@ -120,7 +120,7 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
 
     %% SETTING pathway ip and port
     global ip port
-    ip = '192.168.0.2'; %ip = '115.145.189.133'; %ip = '203.252.54.21';
+    ip = '192.168.0.3'; %ip = '115.145.189.133'; %ip = '203.252.54.21';
     port = 20121;
 
     %% Make Data struct
@@ -134,7 +134,7 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     screen_param = MPC_setscreen(expt_param);
     %% Explain and Practice Experiment
     if explain
-        MPC_explain(screen_param);
+        MPC_explain(screen_param, expt_param);
     end
 
     if practice

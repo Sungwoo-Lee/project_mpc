@@ -1,5 +1,6 @@
 function [data] = MPC_run(screen_param, expt_param, data)  
 %% Assign variables
+global edfFile
 font = screen_param.window_info.font ;
 fontsize = screen_param.window_info.fontsize;
 theWindow = screen_param.window_info.theWindow;
@@ -25,24 +26,24 @@ white = screen_param.color_values.white;
 %% SETUP: Eyelink
 % need to be revised when the eyelink is here.
 % It located after open screen
-if expt_param.USE_EYELINK
-    %eyelink_filename = 'F_NAME'; % name should be equal or less than 8
-    %edf_filename = ['M_' new_SID '_' num2str(runNbr)];
-    edfFile = sprintf('%s.EDF', expt_param.eyelink_filename);
-    eyelink_main(edfFile, screen_param.window_info, 'Init');
-    
-    status = Eyelink('Initialize');
-    if status
-        error('Eyelink is not communicating with PC. Its okay baby.');
-    end
-    Eyelink('Command', 'set_idle_mode');
-    waitsec_fromstarttime(GetSecs, .5);
-end
+% if expt_param.USE_EYELINK
+%     %eyelink_filename = 'F_NAME'; % name should be equal or less than 8
+%     %edf_filename = ['M_' new_SID '_' num2str(runNbr)];
+%     edfFile = sprintf('%s.EDF', expt_param.eyelink_filename);
+%     eyelink_main(edfFile, screen_param, 'Init');
+%     
+%     status = Eyelink('Initialize');
+%     if status
+%         error('Eyelink is not communicating with PC. Its okay baby.');
+%     end
+%     Eyelink('Command', 'set_idle_mode');
+%     waitsec_fromstarttime(GetSecs, 0.5);
+% end
 
 
 % Keyboard input setting
 if expt_param.dofmri
-    device(1).product = 'Apple Internal Keyboard / Trackpad';
+    device(1).product = 'Apple Keyboard';
     device(1).vendorID= 1452;
     apple = IDkeyboards(device(1));
 end 
@@ -241,7 +242,7 @@ end
 %% Shutdown eyelink, Saving Biopack end time
 if expt_param.USE_EYELINK
     Eyelink('Message','Run ends');
-    eyelink_main(edfFile, window_info, 'Shutdown');
+    eyelink_main(edfFile, 'Shutdown');
     data.dat.eyelink_endtime = GetSecs;
 end
 

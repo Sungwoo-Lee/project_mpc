@@ -1,7 +1,7 @@
-function MPC_explain(screen_param)     
+function MPC_explain(screen_param, expt_param)     
  % (Explain) Continuous & Overall
  % Explain bi-directional scale with visualization 
- 
+ global theWindow edfFile
  %Assign variables
  font = screen_param.window_info.font ;
  fontsize = screen_param.window_info.fontsize;
@@ -24,6 +24,21 @@ function MPC_explain(screen_param)
  red = screen_param.color_values.red;
  white = screen_param.color_values.white;
  
+ 
+if expt_param.USE_EYELINK
+    %eyelink_filename = 'F_NAME'; % name should be equal or less than 8
+    %edf_filename = ['M_' new_SID '_' num2str(runNbr)];
+    edfFile = sprintf('%s.EDF', expt_param.eyelink_filename);
+    eyelink_main(edfFile, 'Init');
+    
+    status = Eyelink('Initialize');
+    if status
+        error('Eyelink is not communicating with PC. Its okay baby.');
+    end
+    Eyelink('Command', 'set_idle_mode');
+    waitsec_fromstarttime(GetSecs, 0.5);
+end
+
  
 %%
 while true % Button

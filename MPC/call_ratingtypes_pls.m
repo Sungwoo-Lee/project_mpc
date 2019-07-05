@@ -36,7 +36,7 @@ switch type
             {'overall_int'};
     case 'deliver'
         temp_rating_types_pls = {
-            'overall_int', '통증이 얼마나 강한가요?\n자극을 전달하세요';...
+            'overall_int', '통증이 얼마나 강한가요?\n\n*자극을 전달하세요*';...
             };
         
         rating_types_pls.alltypes = temp_rating_types_pls(:,1);
@@ -47,7 +47,7 @@ switch type
             {'overall_int'};
     case 'remove'
         temp_rating_types_pls = {
-            'overall_int', '통증이 얼마나 강한가요?\n자극을 제거하세요';...
+            'overall_int', '통증이 얼마나 강한가요?\n\n!자극을 제거하세요!';...
             };
         
         rating_types_pls.alltypes = temp_rating_types_pls(:,1);
@@ -60,7 +60,7 @@ switch type
         
     case 'resting'
         temp_rating_types_pls = {
-            'resting_int', 'resting';...
+            'resting_int', '+';...
             };
         
         rating_types_pls.alltypes = temp_rating_types_pls(:,1);

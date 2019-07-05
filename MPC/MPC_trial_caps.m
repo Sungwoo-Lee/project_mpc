@@ -32,7 +32,7 @@ data.dat.caps_trial_start = caps_trial_start;
 
 %% Stimulus will be delivered
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
-DrawFormattedText(theWindow, double('+++'), 'center', 'center', white, [], [], [], 1.2);
+DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
 
 
