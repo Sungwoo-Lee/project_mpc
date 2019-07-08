@@ -128,7 +128,7 @@ Screen(theWindow, 'FillRect', bgcolor, window_rect);
 Screen('TextSize', theWindow, 60);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
-Screen('TextSize', theWindow, fontsize);
+Screen('TextSize', theWindow, 60);
 
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_jitter)
 
@@ -202,7 +202,6 @@ Screen(theWindow, 'FillRect', bgcolor, window_rect);
 Screen('TextSize', theWindow, 60);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
-Screen('TextSize', theWindow, fontsize);
 
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), total_trial_time)
 

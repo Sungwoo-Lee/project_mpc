@@ -60,7 +60,7 @@ switch type
         
     case 'resting'
         temp_rating_types_pls = {
-            'resting_int', '\n\n+';...
+            'resting_int', '\n+';...
             };
         
         rating_types_pls.alltypes = temp_rating_types_pls(:,1);

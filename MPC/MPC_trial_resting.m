@@ -58,7 +58,9 @@ while true
     if x < lb; x = lb; elseif x > rb; x = rb; end
     
     rating_types_pls = call_ratingtypes_pls('resting');
+    Screen('TextSize', theWindow, 60);
     DrawFormattedText(theWindow, double(rating_types_pls.prompts{1}), 'center', H*(1/4), white, [], [], [], 2);
+    Screen('TextSize', theWindow, fontsize);
     Screen('DrawLine', theWindow, orange, x, H*(1/2)-scale_H/3, x, H*(1/2)+scale_H/3, 6); %rating bar
     Screen('Flip', theWindow);
     data.dat.caps_stim_deliver = GetSecs;
