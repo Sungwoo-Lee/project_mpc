@@ -44,7 +44,8 @@ function screen_param = MPC_setscreen(expt_param)
     % color
     bgcolor = 50;
     white = 255;
-    red = [158 1 66];
+    %red = [158 1 66];
+    red = [255 051 051];
     orange = [255 164 0];
     
     % font

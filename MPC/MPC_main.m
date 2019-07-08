@@ -22,7 +22,7 @@ expt_param.dofmri = false;
 expt_param.heat_intensity_table = [43, 44, 45, 46, 47, 48]; % stimulus intensity
 expt_param.moviefile = fullfile(pwd, '/Video/2222.mp4');
 expt_param.movie_duration = 20;
-expt_param.caps_stim_duration = 90;
+expt_param.caps_duration = 90;
 expt_param.resting_duration = 90;
 
 expt_param.Trial_nums = 12;

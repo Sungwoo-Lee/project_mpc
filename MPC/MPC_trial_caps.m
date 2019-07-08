@@ -74,6 +74,7 @@ while true
     if GetSecs - continuous_rating_start < caps_stim_deliver
         rating_types_pls = call_ratingtypes_pls('deliver');
         DrawFormattedText(theWindow, double(rating_types_pls.prompts{1}), 'center', H*(1/4), white, [], [], [], 2);
+        DrawFormattedText(theWindow, double('자극을 전달하세요'), 'center', H*(4/10), red, [], [], [], 2);
         Screen('DrawLine', theWindow, orange, x, H*(1/2)-scale_H/3, x, H*(1/2)+scale_H/3, 6); %rating bar
         Screen('Flip', theWindow);
         data.dat.caps_stim_deliver = GetSecs;
@@ -82,6 +83,7 @@ while true
     elseif GetSecs - continuous_rating_start < caps_stim_remove
         rating_types_pls = call_ratingtypes_pls('remove');
         DrawFormattedText(theWindow, double(rating_types_pls.prompts{1}), 'center', H*(1/4), white, [], [], [], 2);
+        DrawFormattedText(theWindow, double('자극을 제거하세요'), 'center', H*(4/10), orange, [], [], [], 2);
         Screen('DrawLine', theWindow, orange, x, H*(1/2)-scale_H/3, x, H*(1/2)+scale_H/3, 6); %rating bar
         Screen('Flip', theWindow);
         data.dat.caps_stim_remove = GetSecs;
@@ -110,7 +112,7 @@ while true
     
     data.dat.continuous_rating(rec_i,1) = GetSecs;
     data.dat.continuous_rating(rec_i,2) = (x-lb)/(rb-lb);    
-    if GetSecs - data.dat.caps_trial_start > expt_param.caps_stim_duration
+    if GetSecs - data.dat.caps_trial_start > expt_param.caps_duration
         break
     end
 end

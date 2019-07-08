@@ -81,7 +81,7 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     expt_param.heat_intensity_table = get(handles.table1, 'data');
     expt_param.moviefile = get(handles.movie_dir_edit, 'string');
     expt_param.movie_duration = str2num(get(handles.movie_dur_edit, 'String'));
-    expt_param.caps_stim_duration = str2num(get(handles.caps_dur_edit, 'string'));
+    expt_param.caps_duration = str2num(get(handles.caps_dur_edit, 'string'));
     expt_param.resting_duration = str2num(get(handles.resting_edit, 'string'));
     
     %% Error check for movie directory
