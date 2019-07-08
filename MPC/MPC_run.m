@@ -199,8 +199,10 @@ data.dat.heat_param = heat_param;
 
 %% Adjusting time from fmri started.
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
+Screen('TextSize', theWindow, 60);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
+Screen('TextSize', theWindow, fontsize);
 
 [~,~,keyCode] = KbCheck;
 if keyCode(KbName('q')) == 1

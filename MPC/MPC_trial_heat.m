@@ -110,8 +110,10 @@ end
 %% ------------- start to trigger thermal stimulus------------------
 if expt_param.Pathway
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
+    Screen('TextSize', theWindow, 60);
     DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
     Screen('Flip', theWindow);
+    Screen('TextSize', theWindow, fontsize);
     main(ip,port,2);
 end
 

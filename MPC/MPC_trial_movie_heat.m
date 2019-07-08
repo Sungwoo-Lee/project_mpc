@@ -162,8 +162,10 @@ end
 
 %% Jittering1
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
+Screen('TextSize', theWindow, 60);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
+Screen('TextSize', theWindow, fontsize);
 
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_pre_state)
 
@@ -171,15 +173,19 @@ waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_pre_state)
 %% Heat pain stimulus
 if ~expt_param.Pathway
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
+    Screen('TextSize', theWindow, 60);
     DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
     Screen('Flip', theWindow);
+    Screen('TextSize', theWindow, fontsize);
 end
 
 %% ------------- start to trigger thermal stimulus------------------
 if expt_param.Pathway
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
+    Screen('TextSize', theWindow, 60);
     DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
     Screen('Flip', theWindow);
+    Screen('TextSize', theWindow, fontsize);
     main(ip,port,2);
 end
 
@@ -193,8 +199,10 @@ waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_stimulus)
 
 %% Jittering2
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
+Screen('TextSize', theWindow, 60);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
+Screen('TextSize', theWindow, fontsize);
 
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_jitter)
 
@@ -269,8 +277,10 @@ waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_rating)
 
 %% Adjusting total trial time
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
+Screen('TextSize', theWindow, 60);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
+Screen('TextSize', theWindow, fontsize);
 
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), total_trial_time)
 

@@ -32,8 +32,10 @@ data.dat.caps_trial_start = caps_trial_start;
 
 %% Stimulus will be delivered
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
+Screen('TextSize', theWindow, 60);
 DrawFormattedText(theWindow, double('+'), 'center', 'center', white, [], [], [], 1.2);
 Screen('Flip', theWindow);
+Screen('TextSize', theWindow, fontsize);
 
 
 %% Adjusting Pre-Stimulus time
