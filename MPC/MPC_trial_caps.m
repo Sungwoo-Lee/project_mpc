@@ -24,7 +24,7 @@ white = screen_param.color_values.white;
 
 %% Adjusting between trial time
 caps_trial_start = GetSecs;
-caps_wait_stim = 5;
+caps_wait_stim = 60;
 caps_stim_deliver = 20;
 caps_stim_remove = caps_stim_deliver + 20;
 
