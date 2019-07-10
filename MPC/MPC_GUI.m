@@ -120,7 +120,7 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
 
     %% SETTING pathway ip and port
     global ip port
-    ip = '192.168.0.3'; %ip = '115.145.189.133'; %ip = '203.252.54.21';
+    ip = '192.168.0.2'; %ip = '115.145.189.133'; %ip = '203.252.54.21';
     port = 20121;
 
     %% Make Data struct

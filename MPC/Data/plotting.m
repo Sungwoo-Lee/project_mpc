@@ -1,5 +1,5 @@
 pathname = pwd;
-filename = '20190710_001_nomovie_MPC.mat';
+filename = uigetfile;
 
 fullpathname = strcat(pathname,'/', filename);
 
@@ -15,14 +15,19 @@ end
 
 y = data.dat.rating;
 
-figure
-suptitle('MPC callibration result')
+% figure
+% suptitle('MPC callibration result')
+
 scatter(x,y)
 axis([min(x)-1 max(x)+1 0 max(y)+0.1]);
-xlabel('Demends', 'FontSize', 10, 'Color', 'w');
+xlabel('Heat intensity', 'FontSize', 10, 'Color', 'w');
 ylabel('Rating', 'FontSize', 10, 'Color', 'w');
+
 hold on
 
 mdl = fitlm(x,y)
-plotAdded(mdl)
+h = plot(mdl);
+delete(h(1))
 
+legend(filename)
+hold on
