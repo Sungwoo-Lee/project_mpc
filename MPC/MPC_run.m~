@@ -142,7 +142,7 @@ ckpt_filedir = fullfile(ckpt_folderdir, [filename, '.mat']);
 if exist(ckpt_filedir, 'file')
     load(ckpt_filedir);
 else
-%     ckpt.ckptfile = ckpt_filedir;
+    ckpt.ckptfile = ckpt_filedir;
     ckpt.movie_start_point = 999999999; %This can be any number for initialize which means empty
 end
 
