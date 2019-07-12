@@ -65,8 +65,6 @@ while true
     if x < lb; x = lb; elseif x > rb; x = rb; end
     
     %% Adjusting Pre-Stimulus time
-
-    data.dat.caps_wait_stim = GetSecs - caps_trial_start;
     if GetSecs - continuous_rating_start < caps_wait_stim
         rating_types_pls = call_ratingtypes_pls('resting');
         Screen('TextSize', theWindow, 60);

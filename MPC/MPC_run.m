@@ -253,7 +253,7 @@ if expt_param.USE_BIOPAC %end BIOPAC
     data.dat.biopac_endtime = bio_t;
     Screen(theWindow,'FillRect',bgcolor, window_rect);
     Screen('Flip', theWindow);
-    unix('python3 labjack.py 2')
+    unix('python3 labjack.py 0.5')
 end
 
 

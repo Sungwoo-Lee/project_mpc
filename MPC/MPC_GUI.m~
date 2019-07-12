@@ -43,24 +43,6 @@ else
 end
 % End initialization code - DO NOT EDIT
 
-% --- Executes just before MPC_GUI is made visible.
-function MPC_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
-% This function has no output args, see OutputFcn.
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to MPC_GUI (see VARARGIN)
-
-screen_mode = get(handles.testmode_button, 'string');
-handles.screen_mode = screen_mode;
-run_type = {'no_movie_heat'};
-handles.run_type = run_type;
-
-% Choose default command line output for MPC_GUI
-handles.output = hObject;
-
-% Update handles structure
-guidata(hObject, handles);
 
 % --- Executes on button press in start_button.
 function start_button_Callback(hObject, eventdata, handles)
@@ -75,11 +57,11 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     %setenv('PATH', [PATH ':/Library/Frameworks/Python.framework/Versions/3.7/bin']);
     
     %% Eyelink file name
-    expt_param.eyelink_filename = char(get(handles.eye_file_edit, 'String'));
+    expt_param.eyelink_filename = get(handles.eye_file_edit, 'String');
     
-    if length(expt_param.eyelink_filename) >= 8
-       error('Eyelink file name is too long! \nEyelink file name have to be less than 8 char which is now %d (%s)', ...
-        length(expt_param.eyelink_filename), expt_param.eyelink_filename) 
+    if length(char(expt_param.eyelink_filename)) >= 8
+       error('Eyelink file name is too long! \nEyelink file name have to be less then 8 char which is now mod(%d, 2) = %d', ...
+        quotient, mod(quotient, 2)) 
     end
     %expt_param.eyelink_filename = 'F_NAME'; % Eyelink file name should be equal or less than 8
 
@@ -128,6 +110,14 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     expt_param.screen_mode = handles.screen_mode;
     if get(handles.full_button, 'Value')
         expt_param.screen_mode = get(handles.full_button, 'string');
+%     elseif get(handles.semifull_button, 'Value')
+%         expt_param.screen_mode = get(handles.semifull_button, 'string');
+%     elseif get(handles.middle_button, 'Value')
+%         expt_param.screen_mode = get(handles.middle_button, 'string');
+%     elseif get(handles.small_button, 'Value')
+%         expt_param.screen_mode = get(handles.small_button, 'string');
+%     elseif get(handles.test_button, 'Value')
+%         expt_param.screen_mode = get(handles.test_button, 'string');
     elseif get(handles.testmode_button, 'Value')
         expt_param.screen_mode = get(handles.testmode_button, 'string');
     end
@@ -165,49 +155,28 @@ if ~exist('basedir', 'var') % In order to make program don't run simultaneously
     data = MPC_close(screen_param, data);
 end
 
-% --- Executes on button press in find_dir_push.
-function find_dir_push_Callback(hObject, eventdata, handles)
-[movie_file, movie_path] = uigetfile('*.mp4');
 
-full_path = fullfile(movie_path, movie_file);
-set(handles.movie_dir_edit, 'string', full_path);
 
-handles.output = hObject;
-% Update handles structure
-guidata(hObject, handles);
 
-% --- Executes when selected object is changed in uibuttongroup2.
-function uibuttongroup2_SelectionChangedFcn(hObject, eventdata, handles)
-switch(get(eventdata.NewValue, 'Tag'))
-    case 'nomovie_button'
-        run_type = {'no_movie_heat'};
-    case 'movie_button'
-        run_type = {'movie_heat'};
-    case 'caps_button'
-        run_type = {'caps'};
-    case 'resting_button'
-        run_type = {'resting'};
-end
+
+% --- Executes just before MPC_GUI is made visible.
+function MPC_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to MPC_GUI (see VARARGIN)
+
+screen_mode = get(handles.testmode_button, 'string');
+handles.screen_mode = screen_mode;
+run_type = {'no_movie_heat'};
 handles.run_type = run_type;
 
+% Choose default command line output for MPC_GUI
 handles.output = hObject;
+
 % Update handles structure
 guidata(hObject, handles);
-
-function uibuttongroup1_SelectionChangedFcn(hObject, eventdata, handles)
-
-switch(get(eventdata.NewValue, 'Tag'))
-    case 'full_button'
-        screen_mode = get(handles.full_button, 'string');
-    case 'testmode_button'
-        screen_mode = get(handles.testmode_button, 'string');
-end
-handles.screen_mode = screen_mode;
-
-handles.output = hObject;
-% Update handles structure
-guidata(hObject, handles);
-
 
 % UIWAIT makes MPC_GUI wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
@@ -293,9 +262,49 @@ function eyelink_check_Callback(hObject, eventdata, handles)
 function full_button_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of full_button
 
+% --- Executes on button press in semifull_button.
+function semifull_button_Callback(hObject, eventdata, handles)
+% Hint: get(hObject,'Value') returns toggle state of semifull_button
+
+% --- Executes on button press in middle_button.
+function middle_button_Callback(hObject, eventdata, handles)
+% Hint: get(hObject,'Value') returns toggle state of middle_button
+
+% --- Executes on button press in small_button.
+function small_button_Callback(hObject, eventdata, handles)
+% Hint: get(hObject,'Value') returns toggle state of small_button
+
+
+% --- Executes on button press in test_button.
+function test_button_Callback(hObject, eventdata, handles)
+% Hint: get(hObject,'Value') returns toggle state of test_button
+
+
 % --- Executes on button press in testmode_button.
 function testmode_button_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of testmode_button
+
+function uibuttongroup1_SelectionChangedFcn(hObject, eventdata, handles)
+
+switch(get(eventdata.NewValue, 'Tag'))
+    case 'full_button'
+        screen_mode = get(handles.full_button, 'string');
+    case 'semifull_button'
+        screen_mode = get(handles.semifull_button, 'string');
+    case 'middle_button'
+        screen_mode = get(handles.middle_button, 'string');
+    case 'small_button'
+        screen_mode = get(handles.small_button, 'string');
+    case 'test_button'
+        screen_mode = get(handles.test_button, 'string');
+    case 'testmode_button'
+        screen_mode = get(handles.testmode_button, 'string');
+end
+handles.screen_mode = screen_mode;
+
+handles.output = hObject;
+% Update handles structure
+guidata(hObject, handles);
 
 % --- Executes on button press in fMRI_check.
 function fMRI_check_Callback(hObject, eventdata, handles)
@@ -313,16 +322,16 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-% % --- Executes on button press in find_dir_push.
-% function find_dir_push_Callback(hObject, eventdata, handles)
-% [movie_file, movie_path] = uigetfile('*.mp4');
-% 
-% full_path = fullfile(movie_path, movie_file);
-% set(handles.movie_dir_edit, 'string', full_path);
-% 
-% handles.output = hObject;
-% % Update handles structure
-% guidata(hObject, handles);
+% --- Executes on button press in find_dir_push.
+function find_dir_push_Callback(hObject, eventdata, handles)
+[movie_file, movie_path] = uigetfile('*.mp4');
+
+full_path = fullfile(movie_path, movie_file);
+set(handles.movie_dir_edit, 'string', full_path);
+
+handles.output = hObject;
+% Update handles structure
+guidata(hObject, handles);
 
 function movie_dir_edit_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of movie_dir_edit as text
@@ -364,6 +373,23 @@ function movie_button_Callback(hObject, eventdata, handles)
 function caps_button_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of caps_button
 
+% --- Executes when selected object is changed in uibuttongroup2.
+function uibuttongroup2_SelectionChangedFcn(hObject, eventdata, handles)
+switch(get(eventdata.NewValue, 'Tag'))
+    case 'nomovie_button'
+        run_type = {'no_movie_heat'};
+    case 'movie_button'
+        run_type = {'movie_heat'};
+    case 'caps_button'
+        run_type = {'caps'};
+    case 'resting_button'
+        run_type = {'resting'};
+end
+handles.run_type = run_type;
+
+handles.output = hObject;
+% Update handles structure
+guidata(hObject, handles);
 
 function resting_edit_Callback(hObject, eventdata, handles)
 % hObject    handle to resting_edit (see GCBO)
