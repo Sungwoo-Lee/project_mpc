@@ -1,6 +1,6 @@
 function [data] = MPC_run(screen_param, expt_param, data)  
 %% Assign variables
-global edfFile
+global theWindow edfFile
 font = screen_param.window_info.font ;
 fontsize = screen_param.window_info.fontsize;
 theWindow = screen_param.window_info.theWindow;
@@ -26,19 +26,19 @@ white = screen_param.color_values.white;
 %% SETUP: Eyelink
 % need to be revised when the eyelink is here.
 % It located after open screen
-% if expt_param.USE_EYELINK
-%     %eyelink_filename = 'F_NAME'; % name should be equal or less than 8
-%     %edf_filename = ['M_' new_SID '_' num2str(runNbr)];
-%     edfFile = sprintf('%s.EDF', expt_param.eyelink_filename);
-%     eyelink_main(edfFile, screen_param, 'Init');
-%     
-%     status = Eyelink('Initialize');
-%     if status
-%         error('Eyelink is not communicating with PC. Its okay baby.');
-%     end
-%     Eyelink('Command', 'set_idle_mode');
-%     waitsec_fromstarttime(GetSecs, 0.5);
-% end
+if expt_param.USE_EYELINK
+    %eyelink_filename = 'F_NAME'; % name should be equal or less than 8
+    %edf_filename = ['M_' new_SID '_' num2str(runNbr)];
+    edfFile = sprintf('%s.EDF', expt_param.eyelink_filename);
+    eyelink_main(edfFile, 'Init');
+    
+    status = Eyelink('Initialize');
+    if status
+        error('Eyelink is not communicating with PC. Its okay baby.');
+    end
+    Eyelink('Command', 'set_idle_mode');
+    waitsec_fromstarttime(GetSecs, 0.5);
+end
 
 
 % Keyboard input setting

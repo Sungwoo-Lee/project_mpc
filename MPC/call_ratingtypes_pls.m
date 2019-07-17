@@ -69,5 +69,18 @@ switch type
         rating_types_pls.postallstims = {'REST'};
         rating_types_pls.postalltypes{1} = ...
             {'resting_int'};
+        
+        
+    case 'post_movie_rating'
+        temp_rating_types_pls = {
+            'resting_int', '\n+';...
+            };
+        
+        rating_types_pls.alltypes = temp_rating_types_pls(:,1);
+        rating_types_pls.prompts = temp_rating_types_pls(:,2);
+        
+        rating_types_pls.postallstims = {'REST'};
+        rating_types_pls.postalltypes{1} = ...
+            {'overall_glms'};
 
 end

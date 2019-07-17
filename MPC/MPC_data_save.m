@@ -9,7 +9,7 @@ function [data]= MPC_data_save(expt_param, basedir)
 
     data.run_name = expt_param.Run_name;
     data.datafile = fullfile(savedir, [SubjDate, '_', sprintf('%.3d', expt_param.Run_Num), '_', expt_param.Run_name, '_MPC', '.mat']);
-    data.version = 'MPC_06-12-2019_Cocoanlab';  % month-date-year
+    data.version = 'MPC_07-17-2019_Cocoanlab';  % month-date-year
     data.starttime = datestr(clock, 0);
     data.dat.experiment_start_time = GetSecs;
     

@@ -1,17 +1,17 @@
 addpath(genpath(pwd));
 
-device(1).product = 'Magic Keyboard'; 
+device(1).product = 'Apple Keyboard'; 
 device(1).vendorID= 1452;
 
-device(2).product = 'Apple Internal Keyboard / Trackpad'; 
+device(2).product = 'KeyWarrior8 Flex'; 
 device(2).vendorID= 1452;
 
-magic = IDkeyboards(device(1));
-internal = IDkeyboards(device(2));
+apple = IDkeyboards(device(1));
+sync_box = IDkeyboards(device(2));
 
 while true
-    [~,~,keyCode] = KbCheck(magic);
-    [~,~,keyCode2] = KbCheck(internal);
+    [~,~,keyCode] = KbCheck(sync_box);
+    [~,~,keyCode2] = KbCheck(apple);
     
     if keyCode(KbName('s'))==1
         break
