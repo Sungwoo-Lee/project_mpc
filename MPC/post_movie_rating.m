@@ -100,7 +100,7 @@ playmode = 1;
 [moviePtr, dura, fps, width, height] = Screen('OpenMovie', theWindow, movie_dir);
 
 scale_movie_w = width*(width/W);
-scale_movie_h = height*(height/H);
+scale_movie_h = height*(height/H)*(1.5);
 
 Screen('SetMovieTimeIndex', moviePtr, 0);
 Screen('PlayMovie', moviePtr, playmode); %Screen('PlayMovie?')% 0 == Stop playback, 1 == Normal speed forward, -1 == Normal speed backward,
@@ -139,7 +139,7 @@ rec_i = 0;
 t = GetSecs;
 data.dat.continuous_rating_start = t;
 
-while GetSecs-t < dura %(~done) %~KbCheckq
+while GetSecs-t < 790 %(~done) %~KbCheckq
     % Wait for next movie frame, retrieve texture handle to it
     tex = Screen('GetMovieImage', theWindow, moviePtr);
     Screen('DrawTexture', theWindow, tex, [ ], [W/2-scale_movie_w*(1/2) H*(1/4)-scale_movie_h*(1/4) W/2+scale_movie_w*(1/2) H*(1/4)+scale_movie_h*(3/4)]);

@@ -22,4 +22,4 @@ def main(sleep_time):
 	bioback_triger(sleep_time)
 
 if __name__ == '__main__':
-	main(int(sys.argv[1]))
+	main(float(sys.argv[1]))

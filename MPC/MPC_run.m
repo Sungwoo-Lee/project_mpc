@@ -118,11 +118,17 @@ end
 
 %% SETUP: BIOPAC and EYELINK
 if expt_param.USE_BIOPAC
-    bio_t = GetSecs;
-    data.dat.biopac_triggertime = bio_t;
+    bio_trigger_range = num2str(data.expt_param.Run_Num * 0.2 + 4);
+    command = 'python3 labjack.py ';
+    full_command = [command bio_trigger_range];
+    data.dat.biopac_start_trigger_s = GetSecs;
+    
     Screen(theWindow,'FillRect',bgcolor, window_rect);
     Screen('Flip', theWindow);
-    unix('python3 labjack.py 2')
+    unix(full_command)
+%     unix('python3 labjack.py 3')
+    data.dat.biopac_start_trigger_e = GetSecs;
+    data.dat.biopac_start_trigger_dur = data.dat.biopac_start_trigger_e - data.dat.biopac_start_trigger_s;
 end
 
 if expt_param.USE_EYELINK
@@ -249,11 +255,18 @@ if expt_param.USE_EYELINK
 end
 
 if expt_param.USE_BIOPAC %end BIOPAC
-    bio_t = GetSecs;
-    data.dat.biopac_endtime = bio_t;
+    bio_trigger_range = num2str(data.expt_param.Run_Num * 0.2 + 1);
+    command = 'python3 labjack.py ';
+    full_command = [command bio_trigger_range];
+    
+    data.dat.biopac_end_trigger_s = GetSecs;
     Screen(theWindow,'FillRect',bgcolor, window_rect);
     Screen('Flip', theWindow);
-    unix('python3 labjack.py 0.5')
+    unix(full_command)
+%     unix('python3 labjack.py 1')
+
+    data.dat.biopac_end_trigger_e = GetSecs;
+    data.dat.biopac_end_trigger_dur = data.dat.biopac_end_trigger_e - data.dat.biopac_end_trigger_s;
 end
 
 
