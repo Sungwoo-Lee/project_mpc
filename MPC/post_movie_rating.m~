@@ -118,7 +118,7 @@ while true
     DrawFormattedText(theWindow, double('부정'), lb-scale_H*(0.3), H*(8.8/10)+scale_H/1.2, white,[],[],[],1.2);
     DrawFormattedText(theWindow, double('몰입'), W*(1/2)-scale_H*(0.3), H*(5.7/10), white,[],[],[],1.2);
     DrawFormattedText(theWindow, double('준비하세요'), W*(1/2)-scale_H*(0.7), H*(5/10), white,[],[],[],1.2);
-    DrawFormattedText(theWindow, double('스캔실에서의 감정과 몰입을 떠올려주세요'), W*(1/2)-scale_H*(2.6), H*(9.6/10), white,[],[],[],1.2);
+    DrawFormattedText(theWindow, double('스캔실에서의 감정 상태를 떠올려주세요'), W*(1/2)-scale_H*(2.4), H*(9.6/10), white,[],[],[],1.2);
     Screen('TextSize', theWindow, fontsize);
 
     if x < lb; x = lb; elseif x > rb; x = rb; end
@@ -159,7 +159,7 @@ while GetSecs-t < 20 %(~done) %~KbCheckq
     DrawFormattedText(theWindow, double('긍정'), rb-scale_H*(0.3),H*(8.8/10)+scale_H/1.2, white,[],[],[],1.2);
     DrawFormattedText(theWindow, double('부정'), lb-scale_H*(0.3), H*(8.8/10)+scale_H/1.2, white,[],[],[],1.2);
     DrawFormattedText(theWindow, double('몰입'), W*(1/2)-scale_H*(0.3), H*(5.7/10), white,[],[],[],1.2);
-    %DrawFormattedText(theWindow, double('스캔실에서의 감정과 몰입을 떠올려주세요'), W*(1/2)-scale_H*(2.2), H*(9.6/10), white,[],[],[],1.2);
+    DrawFormattedText(theWindow, double('스캔실에서의 감정과 몰입를 떠올려주세요'), W*(1/2)-scale_H*(2.4), H*(9.6/10), white,[],[],[],1.2);
     Screen('TextSize', theWindow, fontsize);
     
     if x < lb; x = lb; elseif x > rb; x = rb; end
