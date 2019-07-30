@@ -8,7 +8,7 @@ savedir = fullfile(basedir, 'Data');
 nowtime = clock;
 SubjDate = sprintf('%.2d%.2d%.2d', nowtime(1), nowtime(2), nowtime(3));
 
-data.sub_name = 'test7';
+data.sub_name = 'tttttteeeeessssstt';
 data.datafile = fullfile(savedir, [SubjDate, '_', data.sub_name, '_MPC_post_movie_rating', '.mat']);
 data.version = 'MPC_07-30-2019_Cocoanlab';  % month-date-year
 data.starttime = datestr(clock, 0);
@@ -110,19 +110,20 @@ Screen('PlayMovie', moviePtr, playmode); %Screen('PlayMovie?')% 0 == Stop playba
 while true
     [x,y,button] = GetMouse(theWindow);
     Screen('TextSize', theWindow, 25);
-    Screen('DrawLine', theWindow, white, lb, H*(9/10), rb, H*(9/10), 4); % penWidth: 0.125~7.000
-    Screen('DrawLine', theWindow, white, lb, H*(9/10)-scale_H/3, lb, H*(9/10)+scale_H/3, 6);
-    Screen('DrawLine', theWindow, white, rb, H*(9/10)-scale_H/3, rb, H*(9/10)+scale_H/3, 6);
-    Screen('DrawLine', theWindow, white, W/2, H*(9/10)-(rb-lb)/2, W/2, H*(9/10)+scale_H/3, 4);
-    DrawFormattedText(theWindow, double('긍정'), rb-scale_H*(0.3),H*(8.8/10)+scale_H/1.2, white,[],[],[],1.2);
-    DrawFormattedText(theWindow, double('부정'), lb-scale_H*(0.3), H*(8.8/10)+scale_H/1.2, white,[],[],[],1.2);
-    DrawFormattedText(theWindow, double('몰입'), W*(1/2)-scale_H*(0.3), H*(5.7/10), white,[],[],[],1.2);
+    Screen('DrawLine', theWindow, white, lb, H*(9.8/10), rb, H*(9.8/10), 4); % penWidth: 0.125~7.000
+    Screen('DrawLine', theWindow, white, lb, H*(9.8/10)-(rb-lb)/2, rb, H*(9.8/10)-(rb-lb)/2, 4);
+    Screen('DrawLine', theWindow, white, lb, H*(9.8/10)-(rb-lb)/2, lb, H*(9.8/10), 6);
+    Screen('DrawLine', theWindow, white, rb, H*(9.8/10)-(rb-lb)/2, rb, H*(9.8/10), 6);
+    Screen('DrawLine', theWindow, white, W/2, H*(9.8/10)-(rb-lb)/2, W/2, H*(9.8/10), 4);
+    DrawFormattedText(theWindow, double('긍정'), rb+scale_H*(0.1),H*(9.8/10), white,[],[],[],1.2);
+    DrawFormattedText(theWindow, double('부정'), lb-scale_H*(0.7), H*(9.8/10), white,[],[],[],1.2);
+    DrawFormattedText(theWindow, double('몰입'), W*(1/2)-scale_H*(0.2), H*(6.5/10), white,[],[],[],1.2);
     DrawFormattedText(theWindow, double('준비하세요'), W*(1/2)-scale_H*(0.7), H*(5/10), white,[],[],[],1.2);
-    DrawFormattedText(theWindow, double('스캔실에서의 감정과 몰입을 떠올려주세요'), W*(1/2)-scale_H*(2.6), H*(9.6/10), white,[],[],[],1.2);
+    DrawFormattedText(theWindow, double('스캔실에서의 감정과 몰입을 떠올려주세요'), W*(1/2)-scale_H*(2.6), H*(4.5/10), white,[],[],[],1.2);
     Screen('TextSize', theWindow, fontsize);
 
     if x < lb; x = lb; elseif x > rb; x = rb; end
-    if y < H*(9/10)-(rb-lb)/2; y = H*(9/10)-(rb-lb)/2; elseif y > H*(9/10); y = H*(9/10); end
+    if y < H*(9.8/10)-(rb-lb)/2; y = H*(9.8/10)-(rb-lb)/2; elseif y > H*(9.8/10); y = H*(9.8/10); end
     Screen('DrawDots', theWindow, [x, y], 10, orange, [0 0], 1); %x, H*(4/5)-scale_H/3, x, H*(4/5)+scale_H/3
     %Screen('DrawLine', theWindow, orange, x, y, x+scale_H/5, y+scale_H/5, 6); %rqating bar x, H*(4/5)-scale_H/3, x, H*(4/5)+scale_H/3
     Screen('Flip', theWindow);
@@ -148,22 +149,22 @@ data.dat.continuous_rating_start = t;
 while GetSecs-t < 20 %(~done) %~KbCheckq
     % Wait for next movie frame, retrieve texture handle to it
     tex = Screen('GetMovieImage', theWindow, moviePtr);
-    Screen('DrawTexture', theWindow, tex, [ ], [W/2-scale_movie_w*(4/10) H*(0.5/10)-scale_movie_h*(1/10) W/2+scale_movie_w*(4/10) H*(1/10)+scale_movie_h*(6.5/10)]);
+    Screen('DrawTexture', theWindow, tex, [ ], [W/2-scale_movie_w*(4.5/10) H*(0.5/10)-scale_movie_h*(1/10) W/2+scale_movie_w*(4.5/10) H*(1/10)+scale_movie_h*(8/10)]);
     
     [x,y,button] = GetMouse(theWindow);
     Screen('TextSize', theWindow, 25);
-    Screen('DrawLine', theWindow, white, lb, H*(9/10), rb, H*(9/10), 4); % penWidth: 0.125~7.000
-    Screen('DrawLine', theWindow, white, lb, H*(9/10)-scale_H/3, lb, H*(9/10)+scale_H/3, 6);
-    Screen('DrawLine', theWindow, white, rb, H*(9/10)-scale_H/3, rb, H*(9/10)+scale_H/3, 6);
-    Screen('DrawLine', theWindow, white, W/2, H*(9/10)-(rb-lb)/2, W/2, H*(9/10)+scale_H/3, 4);
-    DrawFormattedText(theWindow, double('긍정'), rb-scale_H*(0.3),H*(8.8/10)+scale_H/1.2, white,[],[],[],1.2);
-    DrawFormattedText(theWindow, double('부정'), lb-scale_H*(0.3), H*(8.8/10)+scale_H/1.2, white,[],[],[],1.2);
-    DrawFormattedText(theWindow, double('몰입'), W*(1/2)-scale_H*(0.3), H*(5.7/10), white,[],[],[],1.2);
-    %DrawFormattedText(theWindow, double('스캔실에서의 감정과 몰입을 떠올려주세요'), W*(1/2)-scale_H*(2.2), H*(9.6/10), white,[],[],[],1.2);
+    Screen('DrawLine', theWindow, white, lb, H*(9.8/10), rb, H*(9.8/10), 4); % penWidth: 0.125~7.000
+    Screen('DrawLine', theWindow, white, lb, H*(9.8/10)-(rb-lb)/2, rb, H*(9.8/10)-(rb-lb)/2, 4);
+    Screen('DrawLine', theWindow, white, lb, H*(9.8/10)-(rb-lb)/2, lb, H*(9.8/10), 6);
+    Screen('DrawLine', theWindow, white, rb, H*(9.8/10)-(rb-lb)/2, rb, H*(9.8/10), 6);
+    Screen('DrawLine', theWindow, white, W/2, H*(9.8/10)-(rb-lb)/2, W/2, H*(9.8/10), 4);
+    DrawFormattedText(theWindow, double('긍정'), rb+scale_H*(0.1),H*(9.8/10), white,[],[],[],1.2);
+    DrawFormattedText(theWindow, double('부정'), lb-scale_H*(0.7), H*(9.8/10), white,[],[],[],1.2);
+    DrawFormattedText(theWindow, double('몰입'), W*(1/2)-scale_H*(0.2), H*(6.5/10), white,[],[],[],1.2);
     Screen('TextSize', theWindow, fontsize);
     
     if x < lb; x = lb; elseif x > rb; x = rb; end
-    if y < H*(9/10)-(rb-lb)/2; y = H*(9/10)-(rb-lb)/2; elseif y > H*(9/10); y = H*(9/10); end
+    if y < H*(9.8/10)-(rb-lb)/2; y = H*(9.8/10)-(rb-lb)/2; elseif y > H*(9.8/10); y = H*(9.8/10); end
     Screen('DrawDots', theWindow, [x, y], 10, orange, [0 0], 1);
     Screen('Flip', theWindow);
     Screen('Close', tex);
@@ -173,7 +174,7 @@ while GetSecs-t < 20 %(~done) %~KbCheckq
     data.dat.continuous_rating(rec_i,1) = GetSecs;
     data.dat.continuous_rating(rec_i,2) = data.dat.continuous_rating(rec_i,1) - t;
     data.dat.continuous_rating(rec_i,3) = (x-lb)/(rb-lb);
-    data.dat.continuous_rating(rec_i,4) = abs(1 - (y - (H*(9/10)-(rb-lb)/2))/(H*(9/10) - (H*(9/10)-(rb-lb)/2)));
+    data.dat.continuous_rating(rec_i,4) = abs(1 - (y - (H*(9.8/10)-(rb-lb)/2))/(H*(9.8/10) - (H*(9.8/10)-(rb-lb)/2)));
     
     % Valid texture returned? A negative value means end of movie reached:
     if tex<=0
