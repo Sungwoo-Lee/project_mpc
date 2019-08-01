@@ -70,6 +70,11 @@ while true
         abort_experiment;
         break
     end
+    
+    rec_i = rec_i + 1;
+    
+    data.dat.continuous_rating(rec_i,1) = GetSecs;
+    data.dat.continuous_rating(rec_i,2) = (x-lb)/(rb-lb);   
   
     if GetSecs - resting_start > expt_param.resting_duration
         break

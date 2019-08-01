@@ -6,9 +6,9 @@ basedir = pwd;
 savedir = fullfile(basedir, 'Data');
 
 nowtime = clock;
-SubjDate = sprintf('%.2d%.2d%.2d', nowtime(1), nowtime(2), nowtime(3));
+SubjDate = sprintf('%.2d%.2qd%.2d', nowtime(1), nowtime(2), nowtime(3));
 
-data.sub_name = 'tttttteeeeessssstt';
+data.sub_name = 'MPC_wani_20190731';
 data.datafile = fullfile(savedir, [SubjDate, '_', data.sub_name, '_MPC_post_movie_rating', '.mat']);
 data.version = 'MPC_07-30-2019_Cocoanlab';  % month-date-year
 data.starttime = datestr(clock, 0);
@@ -117,7 +117,7 @@ while true
     Screen('DrawLine', theWindow, white, W/2, H*(9.8/10)-(rb-lb)/2, W/2, H*(9.8/10), 4);
     DrawFormattedText(theWindow, double('긍정'), rb+scale_H*(0.1),H*(9.8/10), white,[],[],[],1.2);
     DrawFormattedText(theWindow, double('부정'), lb-scale_H*(0.7), H*(9.8/10), white,[],[],[],1.2);
-    DrawFormattedText(theWindow, double('몰입'), W*(1/2)-scale_H*(0.2), H*(6.5/10), white,[],[],[],1.2);
+    DrawFormattedText(theWindow, double('몰입도'), W*(1/2)-scale_H*(0.3), H*(6.5/10), white,[],[],[],1.2);
     DrawFormattedText(theWindow, double('준비하세요'), W*(1/2)-scale_H*(0.7), H*(5/10), white,[],[],[],1.2);
     DrawFormattedText(theWindow, double('스캔실에서의 감정과 몰입을 떠올려주세요'), W*(1/2)-scale_H*(2.6), H*(4.5/10), white,[],[],[],1.2);
     Screen('TextSize', theWindow, fontsize);
@@ -146,7 +146,7 @@ rec_i = 0;
 t = GetSecs;
 data.dat.continuous_rating_start = t;
 
-while GetSecs-t < 20 %(~done) %~KbCheckq
+while GetSecs-t < 740 %(~done) %~KbCheckq
     % Wait for next movie frame, retrieve texture handle to it
     tex = Screen('GetMovieImage', theWindow, moviePtr);
     Screen('DrawTexture', theWindow, tex, [ ], [W/2-scale_movie_w*(4.5/10) H*(0.5/10)-scale_movie_h*(1/10) W/2+scale_movie_w*(4.5/10) H*(1/10)+scale_movie_h*(8/10)]);
@@ -160,7 +160,7 @@ while GetSecs-t < 20 %(~done) %~KbCheckq
     Screen('DrawLine', theWindow, white, W/2, H*(9.8/10)-(rb-lb)/2, W/2, H*(9.8/10), 4);
     DrawFormattedText(theWindow, double('긍정'), rb+scale_H*(0.1),H*(9.8/10), white,[],[],[],1.2);
     DrawFormattedText(theWindow, double('부정'), lb-scale_H*(0.7), H*(9.8/10), white,[],[],[],1.2);
-    DrawFormattedText(theWindow, double('몰입'), W*(1/2)-scale_H*(0.2), H*(6.5/10), white,[],[],[],1.2);
+    DrawFormattedText(theWindow, double('몰입도'), W*(1/2)-scale_H*(0.3), H*(6.5/10), white,[],[],[],1.2);
     Screen('TextSize', theWindow, fontsize);
     
     if x < lb; x = lb; elseif x > rb; x = rb; end
