@@ -135,65 +135,11 @@ end
 continuous_rating_end = GetSecs;
 continuous_rating_duration = continuous_rating_end - continuous_rating_start;
 
-% data.dat.caps_stim_deliver_dur = data.dat.caps_stim_deliver_end - data.dat.caps_stim_deliver_start;
-% data.dat.caps_stim_removie_dur = data.dat.caps_stim_remove_end - data.dat.caps_stim_remove_start;
+data.dat.caps_stim_deliver_dur = data.dat.caps_stim_deliver_end - data.dat.caps_stim_deliver_start;
+data.dat.caps_stim_removie_dur = data.dat.caps_stim_remove_end - data.dat.caps_stim_remove_start;
 
 data.dat.continuous_rating_end = continuous_rating_end;
 data.dat.continuous_rating_duration = continuous_rating_duration;
-
-Screen(theWindow, 'FillRect', bgcolor, window_rect);
-Screen('Flip', theWindow);
-Screen('TextSize', theWindow, fontsize);
-
-waitsec_fromstarttime(GetSecs, 2);
-
-%% Post Rating
-scale = {'overall_alertness' 'overall_relaxed' 'overall_attention' 'overall_resting_positive' 'overall_resting_negative' ...
-    'overall_resting_myself' 'overall_resting_others' 'overall_resting_imagery' 'overall_resting_present' 'overall_resting_past' ...
-    'overall_resting_future' 'overall_resting_capsai_int' 'overall_resting_capsai_glms'};
-
-scale_size = size(scale);
-
-data.dat.post_rating_start = GetSecs;
-
-for i = 1:scale_size(2)
-    while true
-        [x,~,button] = GetMouse(theWindow);
-        [lb, rb, start_center] = draw_scale_pls(scale{i}, screen_param.window_info, screen_param.line_parameters, screen_param.color_values);
-        if x < lb; x = lb; elseif x > rb; x = rb; end
-
-        rating_types_pls = call_ratingtypes_pls(scale{i});
-        DrawFormattedText(theWindow, double(rating_types_pls.prompts{1}), 'center', H*(1/4), white, [], [], [], 2);
-        Screen('DrawLine', theWindow, orange, x, H*(1/2)-scale_H/3, x, H*(1/2)+scale_H/3, 6); %rating bar
-        Screen('Flip', theWindow);
-
-        if button(1)
-            while button(1)
-                [~,~,button] = GetMouse(theWindow);
-            end
-            eval(['data.dat.post_rating.' scale{i} '= (x-lb)/(rb-lb);']);
-            break
-        end
-
-        [~,~,keyCode] = KbCheck;
-        if keyCode(KbName('q')) == 1
-            abort_experiment('manual');
-            break
-        end
-    %     if GetSecs - data.dat.rating_starttime(Trial_num) > 5
-    %         break
-    %     end
-    end
-    
-    Screen(theWindow, 'FillRect', bgcolor, window_rect);
-    Screen('Flip', theWindow);
-    Screen('TextSize', theWindow, fontsize);
-    
-    waitsec_fromstarttime(GetSecs, 0.3);
-
-end
-data.dat.post_rating_end = GetSecs;
-data.dat.post_rating_dur = data.dat.post_rating_end - data.dat.post_rating_start;
 
 
 end
