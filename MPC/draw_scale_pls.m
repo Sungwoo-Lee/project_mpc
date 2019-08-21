@@ -114,14 +114,60 @@ switch scale
         DrawFormattedText(theWindow, double('매우 집중\n   잘 됨'), rb-scale_H/1.4, H*(1/2)+scale_H/1.2, white,[],[],[],1.2);
         Screen('DrawLine', theWindow, white, rb, H*(1/2)-scale_H/3, rb, H*(1/2)+scale_H/3, 6);
         
+    case 'overall_resting_valence'
+        Screen('DrawLine', theWindow, white, lb, H*(1/2), rb, H*(1/2), 4); % penWidth: 0.125~7.000
+        Screen('DrawLine', theWindow, white, W/2, H*(1/2)-scale_H/3, W/2, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double(' 부정'), lb-scale_H/1.3, H*(1/2)+scale_H/1.2, white,[],[],[],1.2);
+        Screen('DrawLine', theWindow, white, lb, H*(1/2)-scale_H/3, lb, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double('중립'), W/2-scale_W/5, H*(1/2)+scale_H/1.2, white);
+        Screen('DrawLine', theWindow, white, W/2, H*(1/2)-scale_H/3, W/2, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double(' 긍정'), rb-scale_H/1.4, H*(1/2)+scale_H/1.2, white,[],[],[],1.2);
+        Screen('DrawLine', theWindow, white, rb, H*(1/2)-scale_H/3, rb, H*(1/2)+scale_H/3, 6);  
+        
+    case 'overall_resting_self'
+        Screen('DrawLine', theWindow, white, lb, H*(1/2), rb, H*(1/2), 4); % penWidth: 0.125~7.000
+        Screen('DrawLine', theWindow, white, W/2, H*(1/2)-scale_H/3, W/2, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double('관련없음'), lb-scale_H/1.3, H*(1/2)+scale_H/1.2, white,[],[],[],1.2);
+        Screen('DrawLine', theWindow, white, lb, H*(1/2)-scale_H/3, lb, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double('관련있음'), rb-scale_H/1.5, H*(1/2)+scale_H/1.2, white);
+        Screen('DrawLine', theWindow, white, rb, H*(1/2)-scale_H/3, rb, H*(1/2)+scale_H/3, 6);
+        
+    case 'overall_resting_vivid'
+        Screen('DrawLine', theWindow, white, lb, H*(1/2), rb, H*(1/2), 4); % penWidth: 0.125~7.000
+        Screen('DrawLine', theWindow, white, W/2, H*(1/2)-scale_H/3, W/2, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double(' 전혀'), lb-scale_H/1.3, H*(1/2)+scale_H/1.2, white,[],[],[],1.2);
+        Screen('DrawLine', theWindow, white, lb, H*(1/2)-scale_H/3, lb, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double(' 생생'), rb-scale_H/1.5, H*(1/2)+scale_H/1.2, white);
+        Screen('DrawLine', theWindow, white, rb, H*(1/2)-scale_H/3, rb, H*(1/2)+scale_H/3, 6);     
+          
+    case 'overall_resting_time'
+        Screen('DrawLine', theWindow, white, lb, H*(1/2), rb, H*(1/2), 4); % penWidth: 0.125~7.000
+        Screen('DrawLine', theWindow, white, W/2, H*(1/2)-scale_H/3, W/2, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double(' 과거'), lb-scale_H/1.3, H*(1/2)+scale_H/1.2, white,[],[],[],1.2);
+        Screen('DrawLine', theWindow, white, lb, H*(1/2)-scale_H/3, lb, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double('현재'), W/2-scale_W/5, H*(1/2)+scale_H/1.2, white);
+        Screen('DrawLine', theWindow, white, W/2, H*(1/2)-scale_H/3, W/2, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double(' 미래'), rb-scale_H/1.4, H*(1/2)+scale_H/1.2, white,[],[],[],1.2);
+        Screen('DrawLine', theWindow, white, rb, H*(1/2)-scale_H/3, rb, H*(1/2)+scale_H/3, 6); 
+        
+    case 'overall_resting_safethreat'
+        Screen('DrawLine', theWindow, white, lb, H*(1/2), rb, H*(1/2), 4); % penWidth: 0.125~7.000
+        Screen('DrawLine', theWindow, white, W/2, H*(1/2)-scale_H/3, W/2, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double('위협적'), lb-scale_H/1.3, H*(1/2)+scale_H/1.2, white,[],[],[],1.2);
+        Screen('DrawLine', theWindow, white, lb, H*(1/2)-scale_H/3, lb, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double('중립'), W/2-scale_W/5, H*(1/2)+scale_H/1.2, white);
+        Screen('DrawLine', theWindow, white, W/2, H*(1/2)-scale_H/3, W/2, H*(1/2)+scale_H/3, 6);
+        DrawFormattedText(theWindow, double(' 안전'), rb-scale_H/1.4, H*(1/2)+scale_H/1.2, white,[],[],[],1.2);
+        Screen('DrawLine', theWindow, white, rb, H*(1/2)-scale_H/3, rb, H*(1/2)+scale_H/3, 6);             
+        
+        
     case 'overall_resting_positive'
         Screen('DrawLine', theWindow, white, lb, H*(1/2), rb, H*(1/2), 4); % penWidth: 0.125~7.000
         Screen('DrawLine', theWindow, white, W/2, H*(1/2)-scale_H/3, W/2, H*(1/2)+scale_H/3, 6);
         DrawFormattedText(theWindow, double('전혀 그렇지\n     않다'), lb-scale_H/1.3, H*(1/2)+scale_H/1.2, white,[],[],[],1.2);
         Screen('DrawLine', theWindow, white, lb, H*(1/2)-scale_H/3, lb, H*(1/2)+scale_H/3, 6);
         DrawFormattedText(theWindow, double('매우 그렇다'), rb-scale_H/1.5, H*(1/2)+scale_H/1.2, white);
-        Screen('DrawLine', theWindow, white, rb, H*(1/2)-scale_H/3, rb, H*(1/2)+scale_H/3, 6);
-        
+        Screen('DrawLine', theWindow, white, rb, H*(1/2)-scale_H/3, rb, H*(1/2)+scale_H/3, 6);        
         
     case 'overall_resting_negative'
         Screen('DrawLine', theWindow, white, lb, H*(1/2), rb, H*(1/2), 4); % penWidth: 0.125~7.000

@@ -8,7 +8,7 @@ savedir = fullfile(basedir, 'Data');
 nowtime = clock;
 SubjDate = sprintf('%.2d%.2qd%.2d', nowtime(1), nowtime(2), nowtime(3));
 
-data.sub_name = 'MPC_wani_20190731';
+data.sub_name = 'MPC_test';
 data.datafile = fullfile(savedir, [SubjDate, '_', data.sub_name, '_MPC_post_movie_rating', '.mat']);
 data.version = 'MPC_07-30-2019_Cocoanlab';  % month-date-year
 data.starttime = datestr(clock, 0);

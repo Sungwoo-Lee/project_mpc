@@ -281,13 +281,11 @@ if strcmp(expt_param.run_type, 'caps') | strcmp(expt_param.run_type, 'resting') 
     %% Post Rating
     
     if strcmp(expt_param.run_type, 'resting')
-        scale = {'overall_alertness' 'overall_relaxed' 'overall_attention' 'overall_resting_positive' 'overall_resting_negative' ...
-            'overall_resting_myself' 'overall_resting_others' 'overall_resting_imagery' 'overall_resting_present' 'overall_resting_past' ...
-            'overall_resting_future'};
+        scale = {'overall_alertness' ...
+            'overall_resting_valence' 'overall_resting_self' 'overall_resting_vivid' 'overall_resting_time' ...
+            'overall_resting_safethreat'};
     elseif strcmp(expt_param.run_type, 'caps')
-        scale = {'overall_alertness' 'overall_relaxed' 'overall_attention' 'overall_resting_positive' 'overall_resting_negative' ...
-                'overall_resting_myself' 'overall_resting_others' 'overall_resting_imagery' 'overall_resting_present' 'overall_resting_past' ...
-                'overall_resting_future' 'overall_resting_capsai_int' 'overall_resting_capsai_glms'};
+        scale = {'overall_alertness'};
     end
     
     scale_size = size(scale);
@@ -295,9 +293,10 @@ if strcmp(expt_param.run_type, 'caps') | strcmp(expt_param.run_type, 'resting') 
     data.dat.post_rating_start = GetSecs;
 
     for i = 1:scale_size(2)
+        SetMouse(lb1+(rb1-lb1)/2,0,theWindow);
         while true
             [x,~,button] = GetMouse(theWindow);
-            [lb, rb, start_center] = draw_scale_pls(scale{i}, screen_param.window_info, screen_param.line_parameters, screen_param.color_values);
+            [lb, rb, ~] = draw_scale_pls(scale{i}, screen_param.window_info, screen_param.line_parameters, screen_param.color_values);
             if x < lb; x = lb; elseif x > rb; x = rb; end
 
             rating_types_pls = call_ratingtypes_pls(scale{i});

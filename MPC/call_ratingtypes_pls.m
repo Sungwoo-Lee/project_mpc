@@ -243,5 +243,66 @@ switch type
         rating_types_pls.postallstims = {'REST'};
         rating_types_pls.postalltypes{1} = ...
             {'overall_resting_capsai_glms'};
+        
+    case 'overall_resting_valence'
+        temp_rating_types_pls = {
+            'resting_int', '방금 세션동안 했던 생각이 긍정적 혹은 부정적이었나요?';...
+            };
+        
+        rating_types_pls.alltypes = temp_rating_types_pls(:,1);
+        rating_types_pls.prompts = temp_rating_types_pls(:,2);
+        
+        rating_types_pls.postallstims = {'REST'};
+        rating_types_pls.postalltypes{1} = ...
+            {'overall_resting_capsai_glms'};
+        
+    case 'overall_resting_self'
+        temp_rating_types_pls = {
+            'resting_int', '방금 세션동안 했던 생각이 얼마나 나 자신과 관련된 것이었나요?';...
+            };
+        
+        rating_types_pls.alltypes = temp_rating_types_pls(:,1);
+        rating_types_pls.prompts = temp_rating_types_pls(:,2);
+        
+        rating_types_pls.postallstims = {'REST'};
+        rating_types_pls.postalltypes{1} = ...
+            {'overall_resting_capsai_glms'};
 
+    case 'overall_resting_vivid'
+        temp_rating_types_pls = {
+            'resting_int', '방금 세션동안 했던 생각이 주로 생생한 이미지를 포함하고 있었나요?';...
+            };
+        
+        rating_types_pls.alltypes = temp_rating_types_pls(:,1);
+        rating_types_pls.prompts = temp_rating_types_pls(:,2);
+        
+        rating_types_pls.postallstims = {'REST'};
+        rating_types_pls.postalltypes{1} = ...
+            {'overall_resting_capsai_glms'};
+        
+    case 'overall_resting_time'
+        temp_rating_types_pls = {
+            'resting_int', '방금 세션동안 주로 했던 생각이 과거 혹은 미래에 대한 것이었나요?';...
+            };
+        
+        rating_types_pls.alltypes = temp_rating_types_pls(:,1);
+        rating_types_pls.prompts = temp_rating_types_pls(:,2);
+        
+        rating_types_pls.postallstims = {'REST'};
+        rating_types_pls.postalltypes{1} = ...
+            {'overall_resting_capsai_glms'};
+        
+     case 'overall_resting_safethreat'
+        temp_rating_types_pls = {
+            'resting_int', '방금 세션동안 주로 했던 생각이 위협적인 혹은 안전한 생각이었나요?';...
+            };
+        
+        rating_types_pls.alltypes = temp_rating_types_pls(:,1);
+        rating_types_pls.prompts = temp_rating_types_pls(:,2);
+        
+        rating_types_pls.postallstims = {'REST'};
+        rating_types_pls.postalltypes{1} = ...
+            {'overall_resting_capsai_glms'};
+               
+        
 end
