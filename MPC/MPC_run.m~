@@ -216,6 +216,77 @@ if keyCode(KbName('q')) == 1
 end
 
 
+
+
+
+
+%%
+if strcmp(expt_param.run_type, 'movie_heat')
+
+    Screen(theWindow, 'FillRect', bgcolor, window_rect);
+    Screen('Flip', theWindow);
+    Screen('TextSize', theWindow, fontsize);
+    
+    lb = lb2;
+    rb = rb2;
+    
+    waitsec_fromstarttime(GetSecs, 2);
+    
+    %% Post Rating
+%     scale_size = size(scale);
+    data.dat.post_rating_start = GetSecs;
+    
+    while true
+        [x,y,button] = GetMouse(theWindow);
+        Screen('TextSize', theWindow, 25);
+        Screen('DrawLine', theWindow, white, lb, H*(9.8/10), rb, H*(9.8/10), 4); % penWidth: 0.125~7.000
+        Screen('DrawLine', theWindow, white, lb, H*(9.8/10)-(rb-lb)/2, rb, H*(9.8/10)-(rb-lb)/2, 4);
+        Screen('DrawLine', theWindow, white, lb, H*(9.8/10)-(rb-lb)/2, lb, H*(9.8/10), 6);
+        Screen('DrawLine', theWindow, white, rb, H*(9.8/10)-(rb-lb)/2, rb, H*(9.8/10), 6);
+        Screen('DrawLine', theWindow, white, W/2, H*(9.8/10)-(rb-lb)/2, W/2, H*(9.8/10), 4);
+        DrawFormattedText(theWindow, double('긍정'), rb+scale_H*(0.1),H*(9.8/10), white,[],[],[],1.2);
+        DrawFormattedText(theWindow, double('부정'), lb-scale_H*(0.7), H*(9.8/10), white,[],[],[],1.2);
+        DrawFormattedText(theWindow, double('몰입도'), W*(1/2)-scale_H*(0.3), H*(6.5/10), white,[],[],[],1.2);
+        DrawFormattedText(theWindow, double('영화를 볼때 감정과 몰입은 어떠셨나요?'), W*(1/2)-scale_H*(0.7), H*(5/10), white,[],[],[],1.2);
+        Screen('TextSize', theWindow, fontsize);
+        
+        if x < lb; x = lb; elseif x > rb; x = rb; end
+        if y < H*(9.8/10)-(rb-lb)/2; y = H*(9.8/10)-(rb-lb)/2; elseif y > H*(9.8/10); y = H*(9.8/10); end
+        Screen('DrawDots', theWindow, [x, y], 10, orange, [0 0], 1); %x, H*(4/5)-scale_H/3, x, H*(4/5)+scale_H/3
+        %Screen('DrawLine', theWindow, orange, x, y, x+scale_H/5, y+scale_H/5, 6); %rqating bar x, H*(4/5)-scale_H/3, x, H*(4/5)+scale_H/3
+        Screen('Flip', theWindow);
+        
+        if button(1)
+            while button(1)
+                [~,~,button] = GetMouse(theWindow);
+            end
+            data.dat.post_rating.overal_movie_rating= (x-lb)/(rb-lb);
+            break
+        end
+        
+        [~,~,keyCode] = KbCheck;
+        if keyCode(KbName('q')) == 1
+            abort_experiment('manual');
+            break
+        end
+    end
+    data.dat.post_rating_end = GetSecs;
+    data.dat.post_rating_dur = data.dat.post_rating_end - data.dat.post_rating_start;
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
 %% Wating 13 seconds from fmri started
 waitsec_fromstarttime(data.dat.fmri_start_time, 13);
 
@@ -334,60 +405,7 @@ if strcmp(expt_param.run_type, 'caps') | strcmp(expt_param.run_type, 'resting') 
 
 end
 
-if strcmp(expt_param.run_type, 'movie_heat')
 
-    Screen(theWindow, 'FillRect', bgcolor, window_rect);
-    Screen('Flip', theWindow);
-    Screen('TextSize', theWindow, fontsize);
-    
-    lb = lb2;
-    rb = rb2;
-    
-    waitsec_fromstarttime(GetSecs, 2);
-    
-    %% Post Rating
-%     scale_size = size(scale);
-    data.dat.post_rating_start = GetSecs;
-    
-    while true
-        [x,y,button] = GetMouse(theWindow);
-        Screen('TextSize', theWindow, 25);
-        Screen('DrawLine', theWindow, white, lb, H*(9.8/10), rb, H*(9.8/10), 4); % penWidth: 0.125~7.000
-        Screen('DrawLine', theWindow, white, lb, H*(9.8/10)-(rb-lb)/2, rb, H*(9.8/10)-(rb-lb)/2, 4);
-        Screen('DrawLine', theWindow, white, lb, H*(9.8/10)-(rb-lb)/2, lb, H*(9.8/10), 6);
-        Screen('DrawLine', theWindow, white, rb, H*(9.8/10)-(rb-lb)/2, rb, H*(9.8/10), 6);
-        Screen('DrawLine', theWindow, white, W/2, H*(9.8/10)-(rb-lb)/2, W/2, H*(9.8/10), 4);
-        DrawFormattedText(theWindow, double('긍정'), rb+scale_H*(0.1),H*(9.8/10), white,[],[],[],1.2);
-        DrawFormattedText(theWindow, double('부정'), lb-scale_H*(0.7), H*(9.8/10), white,[],[],[],1.2);
-        DrawFormattedText(theWindow, double('몰입도'), W*(1/2)-scale_H*(0.3), H*(5.5/10), white,[],[],[],1.2);
-        DrawFormattedText(theWindow, double('영화를 볼때 감정과 몰입은 어떠셨나요?'), W*(1/2)-scale_H*(2.5), H*(4.5/10), white,[],[],[],1.2);
-        Screen('TextSize', theWindow, fontsize);
-        
-        if x < lb; x = lb; elseif x > rb; x = rb; end
-        if y < H*(9.8/10)-(rb-lb)/2; y = H*(9.8/10)-(rb-lb)/2; elseif y > H*(9.8/10); y = H*(9.8/10); end
-        Screen('DrawDots', theWindow, [x, y], 10, orange, [0 0], 1); %x, H*(4/5)-scale_H/3, x, H*(4/5)+scale_H/3
-        %Screen('DrawLine', theWindow, orange, x, y, x+scale_H/5, y+scale_H/5, 6); %rqating bar x, H*(4/5)-scale_H/3, x, H*(4/5)+scale_H/3
-        Screen('Flip', theWindow);
-        
-        if button(1)
-            while button(1)
-                [~,~,button] = GetMouse(theWindow);
-            end
-            data.dat.post_rating.overal_movie_rating_valence = (x-lb)/(rb-lb);
-            data.dat.post_rating.overal_movie_rating_attention = abs(1 - (y - (H*(9.8/10)-(rb-lb)/2))/(H*(9.8/10) - (H*(9.8/10)-(rb-lb)/2)));
-            break
-        end
-        
-        [~,~,keyCode] = KbCheck;
-        if keyCode(KbName('q')) == 1
-            abort_experiment('manual');
-            break
-        end
-    end
-    data.dat.post_rating_end = GetSecs;
-    data.dat.post_rating_dur = data.dat.post_rating_end - data.dat.post_rating_start;
-
-end
 
 
 %% Saving Data
