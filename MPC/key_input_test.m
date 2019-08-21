@@ -1,10 +1,12 @@
 addpath(genpath(pwd));
 
+PsychHID('Devices')
+
 device(1).product = 'Apple Keyboard'; 
 device(1).vendorID= 1452;
 
 device(2).product = 'KeyWarrior8 Flex'; 
-device(2).vendorID= 1452;
+device(2).vendorID= 1984;
 
 apple = IDkeyboards(device(1));
 sync_box = IDkeyboards(device(2));

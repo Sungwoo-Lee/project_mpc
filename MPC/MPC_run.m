@@ -360,7 +360,7 @@ if strcmp(expt_param.run_type, 'movie_heat')
         DrawFormattedText(theWindow, double('긍정'), rb+scale_H*(0.1),H*(9.8/10), white,[],[],[],1.2);
         DrawFormattedText(theWindow, double('부정'), lb-scale_H*(0.7), H*(9.8/10), white,[],[],[],1.2);
         DrawFormattedText(theWindow, double('몰입도'), W*(1/2)-scale_H*(0.3), H*(5.5/10), white,[],[],[],1.2);
-        DrawFormattedText(theWindow, double('영화를 볼때 감정과 몰입은 어떠셨나요?'), W*(1/2)-scale_H*(2.5), H*(4.5/10), white,[],[],[],1.2);
+        DrawFormattedText(theWindow, double('영화를 볼때 감정과 몰입은 어떠셨나요?'), W*(1/2)-scale_H*(1.5), H*(4.5/10), white,[],[],[],1.2);
         Screen('TextSize', theWindow, fontsize);
         
         if x < lb; x = lb; elseif x > rb; x = rb; end
