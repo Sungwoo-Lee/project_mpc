@@ -348,6 +348,7 @@ if strcmp(expt_param.run_type, 'movie_heat')
     %% Post Rating
 %     scale_size = size(scale);
     data.dat.post_rating_start = GetSecs;
+    SetMouse((rb+lb)/2,H*(9.8/10),theWindow);
     
     while true
         [x,y,button] = GetMouse(theWindow);
