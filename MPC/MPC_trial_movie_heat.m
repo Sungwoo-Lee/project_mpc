@@ -160,6 +160,12 @@ if expt_param.Pathway
     main(ip,port,2); %ready to pre-start
 end
 
+
+
+%% Check Jitter time
+data.dat.jitter_starttime(Trial_num) = GetSecs;
+
+
 %% Jittering1
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 Screen('TextSize', theWindow, 60);
@@ -168,6 +174,10 @@ Screen('Flip', theWindow);
 Screen('TextSize', theWindow, fontsize);
 
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_pre_state)
+
+%% Check Jitter end time
+data.dat.jitter_endtime(Trial_num) = GetSecs;
+data.dat.jitter_duration(Trial_num) = data.dat.jitter_endtime(Trial_num) - data.dat.jitter_starttime(Trial_num);
 
 
 %% Heat pain stimulus
@@ -179,6 +189,10 @@ if ~expt_param.Pathway
     Screen('TextSize', theWindow, fontsize);
 end
 
+
+%% Check stimulus start time
+data.dat.stimulus_starttime(Trial_num) = GetSecs;
+
 %% ------------- start to trigger thermal stimulus------------------
 if expt_param.Pathway
     Screen(theWindow, 'FillRect', bgcolor, window_rect);
@@ -189,12 +203,23 @@ if expt_param.Pathway
     main(ip,port,2);
 end
 
+
 %% Check stimulus time
 data.dat.stimulus_time(Trial_num) = GetSecs;
 
 
 %% stimulus time adjusting
 waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_stimulus)
+
+
+%% Check stimulus end time
+data.dat.stimulus_endtime(Trial_num) = GetSecs;
+data.dat.stimulus_duration(Trial_num) = data.dat.stimulus_endtime(Trial_num) - data.dat.stimulus_time(Trial_num);
+
+
+
+%% Check Jitter_2 time
+data.dat.jitter_2_starttime(Trial_num) = GetSecs;
 
 
 %% Jittering2
@@ -208,6 +233,11 @@ waitsec_fromstarttime(data.dat.trial_starttime(Trial_num), wait_after_jitter)
 
 Screen(theWindow, 'FillRect', bgcolor, window_rect);
 Screen('Flip', theWindow);
+
+
+%% Check Jitter end time
+data.dat.jitter_2_endtime(Trial_num) = GetSecs;
+data.dat.jitter_2_duration(Trial_num) = data.dat.jitter_2_endtime(Trial_num) - data.dat.jitter_2_starttime(Trial_num);
 
 
 %% Setting for rating

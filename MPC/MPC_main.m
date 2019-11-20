@@ -5,8 +5,8 @@ close all;
 %% SETTTING
 addpath(genpath(pwd));
 PATH = getenv('PATH');
-setenv('PATH', [PATH ':/Users/sungwoo320/anaconda3/bin:/Users/sungwoo320/anaconda3/condabin']); %For biopack, you need to add your python3 path
-%setenv('PATH', [PATH ':/Library/Frameworks/Python.framework/Versions/3.7/bin']);
+%setenv('PATH', [PATH ':/Users/sungwoo320/anaconda3/bin:/Users/sungwoo320/anaconda3/condabin']); %For biopack, you need to add your python3 path
+setenv('PATH', [PATH ':/Library/Frameworks/Python.framework/Versions/3.7/bin']);
 
 basedir = pwd;
 expt_param.Run_name = 'movie';
@@ -32,7 +32,7 @@ expt_param.run_type = {'resting'}; % {'no_movie_heat', 'movie_heat', 'caps', 're
 %% SETTING
 % or, you can load pre-determined information 
 global ip port
-ip = '192.168.0.2'; %ip = '115.145.189.133'; %ip = '203.252.54.21';
+ip = '192.168.0.3'; %ip = '115.145.189.133'; %ip = '203.252.54.21';
 port = 20121;
 
 
